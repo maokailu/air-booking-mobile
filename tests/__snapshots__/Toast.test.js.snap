@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`A suite Should render Toast with correct DOM structure 1`] = `null`;
+
+exports[`A suite Should render Toast with correct DOM structure 2`] = `null`;

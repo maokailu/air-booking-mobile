@@ -1,0 +1,167 @@
+.info {
+    text-align: center;
+    padding: 8px 0;
+    font-size: 12px;
+    color: #1899f2;
+    background: #f2f9ff;
+}
+.box {
+    padding: 15px 16px;
+    background: #fff;
+    margin-bottom: 8px;
+    .flight-list {
+        padding: 8px;
+        display: flex;
+        font-size: 18px;
+        .time,
+        .city {
+            display: flex;
+            flex-direction: column;
+            margin-right: 20px;
+            span {
+                flex: 1;
+            }
+            :first-child {
+                margin-bottom: 10px;
+            }
+        }
+    }
+    .row1 {
+        display: flex;
+        justify-content: space-between;
+        .policy {
+            font-size: 17px;
+            color: #333;
+            line-height: 21px;
+            font-weight: 700;
+        }
+        .details {
+            font-size: 12px;
+            color: #1899f2;
+        }
+    }
+    .row2 {
+        padding-top: 8px;
+        padding-bottom: 10px;
+        font-size: 12px;
+        color: #1da38a;
+        line-height: 15px;
+        border-bottom: 1px solid #d8d8d8;
+        .icon {
+            margin-right: 4px;
+        }
+    }
+    ul {
+        list-style: none;
+        padding-top: 8px;
+        li {
+            list-style: disc inside;
+        }
+    }
+    .change-flight {
+        font-size: 12px;
+        color: #1899f2;
+        margin-top: 4px;
+    }
+    .remind {
+        font-size: 12px;
+        color: #999999;
+        line-height: 15px;
+        margin-top: 2px;
+    }
+    .insurance-logo {
+        width: 35px;
+        height: 35px;
+        margin-right: 8px;
+        background: url("../resources/img/C2C.png") no-repeat scroll 0 0;
+        background-size: 100% 100%;
+        display: inline-block;
+    }
+    .row {
+        display: flex;
+        justify-content: space-between;
+        .right {
+        }
+    }
+    .border {
+        border-top: 1px solid #d8d8d8;
+    }
+    .btn {
+        background-image: linear-gradient(90deg, #ffb300 7%, #f57c00 92%);
+        box-shadow: 0 6px 6px 0 rgba(255, 143, 0, 0.3);
+        border-radius: 100px;
+        font-size: 20px;
+        color: #fff;
+        letter-spacing: 0;
+        line-height: 24px;
+        text-align: center;
+        padding: 10px 0;
+    }
+}
+.insurance {
+    padding: 12px 15px;
+    background: #fff6e1;
+    position: relative;
+    overflow: hidden;
+    .tit {
+        font-size: 17px;
+        color: #223344;
+        letter-spacing: 0;
+        line-height: 21px;
+        margin-bottom: 4px;
+        font-weight: bold;
+        display: block;
+    }
+    .status {
+        font-size: 12px;
+        color: #ffb300;
+        line-height: 15px;
+    }
+}
+.insurance-box {
+    display: flex;
+    span {
+        display: block;
+        font-size: 12px;
+    }
+    .column1 {
+        color: #223344;
+        line-height: 15px;
+        margin-bottom: 2px;
+    }
+    .column2 {
+        color: #999999;
+        line-height: 15px;
+        margin-bottom: 4px;
+    }
+    .column3 {
+        color: #999999;
+        line-height: 15px;
+    }
+    .column4 {
+        color: #223344;
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
+.footer {
+    margin: 20px 0;
+    text-align: center;
+    .flight-logo {
+        width: 25px;
+        height: 25px;
+        margin-right: 8px;
+        background: url("../resources/img/flight.png") no-repeat scroll 0 0;
+        background-size: 100% 100%;
+        display: inline-block;
+    }
+    .member {
+        font-size: 17px;
+        color: #777777;
+        line-height: 21px;
+        font-weight: bold;
+        margin-top: 4px;
+        margin-bottom: 2px;
+    }
+}

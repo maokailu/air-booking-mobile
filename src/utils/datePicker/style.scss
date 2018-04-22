@@ -1,0 +1,63 @@
+@import "../Adaptation/style.scss";
+
+.datePicker {
+  .fullcalender-header {    
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    select{
+      color: #0288d1;
+      border-radius:2px;
+      border-color: #0288d1;
+      padding: 0 10px;
+      margin-right: 10px;
+      // /*for firefox*/
+      // -moz-appearance: none;
+      // /*for chrome*/
+      // -webkit-appearance:none;
+      // /*for IE10*/
+      // ::-ms-expand {
+      //     display: none;
+      // }
+      // 默认箭头更改
+      // 选中时边框更改
+      // 选中背景圆圈变小，否则挨着边框
+      // 解决方案：1.添加背景图 2.不用select
+    }
+  }
+  table{
+    font-size: 15px;
+    background-color: #0288d1;
+    color: rgb(247, 244, 244);
+    margin: auto;
+    border-style:none none dotted;
+    border-collapse: collapse;
+    thead{
+      th{
+        font-size: 10px;
+        font-weight: lighter;
+        border-bottom: 2px solid rgba(204,204,204,.5);
+      }
+    }
+    tbody{
+      td {
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        box-sizing: border-box;
+        padding: 0 10px;
+      }
+  
+      .fadeOut {
+        color: rgba(255,255,255,.2);
+      }
+  
+      .currentIndex {
+        background: rgba(255,255,255,1);
+        border-radius: 20px;
+        color: rgba(0,0,0,.87);
+      }
+    }
+  }
+}
+
