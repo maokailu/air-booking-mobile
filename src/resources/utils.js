@@ -23,7 +23,7 @@ let isMobile = (val) => {
     let reg = /^1[3|4|5|7|8][0-9]\d{8}$/;
     return reg.test(val);
 };
-const getPromise = url => {
+const getPromise = (url, params) => {
     const promise = new Promise(function(resolve, reject) {
         const handler = function() {
             if (this.readyState !== 4) {
@@ -40,6 +40,8 @@ const getPromise = url => {
         client.onreadystatechange = handler;
         client.responseType = 'json';
         client.setRequestHeader('Accept', 'application/json');
+       
+        // client.setRequestHeader('content-type', 'application/json');
         client.send();
     });
     return promise;

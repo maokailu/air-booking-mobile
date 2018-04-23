@@ -6,7 +6,6 @@ import {
     BrowserRouter as Router,
     Route,
     Switch
-    // Link
 } from 'react-router-dom';
 import List from './list';
 import utils from '../resources/utils';
@@ -14,37 +13,41 @@ class Search extends React.Component {
     constructor() {
         super();
         this.state = {
-            fromCity: ''
+            departCity: {},
+            arriveCity: {}
         };
     }
     static contextTypes = {
-        router: PropTypes.isRequired
+        router: PropTypes.object.isRequired
     }
     componentDidMount() {
-        this.initFromCity();
+        this.initDepartCity();
     }
-    initFromCity = () => {
-        utils.getPromise('http://localhost:8080/getLocation').then(json => {
+    initDepartCity = () => {
+        utils.getPromise('http://localhost:8080/getLocationFlight').then(json => {
             console.log('Contents: ' + json.city);
             if (json.city) {
                 this.setState({
-                    fromCity: json.city.name
+                    departCity: json.city
                 });
             }
         }, error => {
             console.error('出错了', error);
         });
     }
-    selectFromCity = () => {
+    selectDepartCity = () => {
         this.setState({
-            fromCity: 'ShangHai'
         });
     }
     search = () => {
-        if (this.state.fromCity) {
-            this.context.router.history.push('./detail');
+        if (this.state.departCity) {
+            const path = {
+                pathname: '/list',
+                departCityCode: this.state.departCity.id
+            };
+            this.context.router.history.push(path);
         } else {
-            console.log('please input fromCity');
+            console.log('please input departCity');
         }
     }
     render() {
@@ -71,9 +74,9 @@ class Search extends React.Component {
                         <div className="round_trip">Round Trip</div>
                         <div className="one_way">One-Way</div>
                     </div>
-                    <div className="box" onClick={this.selectFromCity}>
+                    <div className="box" onClick={this.selectDepartCity}>
                         <span className="tit">From</span>
-                        <div className="content">{this.state.fromCity}</div>
+                        <div className="content">{this.state.departCity.name}</div>
                         <span className="code">All Airports</span>
                     </div>
                     <div className="box">
@@ -125,7 +128,7 @@ const Home = () => (
     <Router>
         <Switch>
             <Route exact path="/" component={Search} />
-            <Route path="/detail" component={List} />
+            <Route path="/list" component={List} />
         </Switch>
     </Router>
 );
