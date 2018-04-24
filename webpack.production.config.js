@@ -4,17 +4,16 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-    entry: __dirname + '/src/main.js', // 已多次提及的唯一入口文件
+    devtool: 'none',
+    entry: __dirname + '/src/main.jsx', // 已多次提及的唯一入口文件
     output: {
         path: __dirname + '/build',
         filename: 'bundle-[hash].js'
     },
-    devtool: 'none',
     devServer: {
-        contentBase: './public', // 本地服务器所加载的页面所在的目录
+        contentBase: './build', // 本地服务器所加载的页面所在的目录
         historyApiFallback: true, // 不跳转
-        inline: true,
-        // hot: true
+        inline: true
     },
     module: {
         rules: [{
@@ -23,24 +22,21 @@ module.exports = {
                 loader: 'babel-loader'
             },
             exclude: /node_modules/
-        }, {
-            test: /(\.css|\.scss)$/,
+        },
+        {
+            test: /\.scss$/,
             use: ExtractTextPlugin.extract({
                 fallback: 'style-loader',
-                use: [
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            modules: true
-                        }
-                    }, {
-                        loader: 'sass-loader' //  compiles Sass to CSS
-                    }, {
-                        loader: 'postcss-loader'
-                    }
-                ]
+                use: ExtractTextPlugin.extract({ fallback: 'style-loader', use: ['css-loader', 'sass-loader'] })
             })
-        }]
+        },
+        {
+            test: /\.(png|jpg|gif|eot|woff|woff2|svg|ttf)$/,
+            use: [
+                'file-loader'
+            ]
+        }
+        ]
     },
     plugins: [
         new webpack.BannerPlugin('版权所有，翻版必究'),

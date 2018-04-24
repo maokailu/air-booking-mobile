@@ -36,13 +36,12 @@ const getPromise = (url, params) => {
             }
         };
         const client = new XMLHttpRequest();
-        client.open('GET', url);
+        client.open('POST', url);
         client.onreadystatechange = handler;
         client.responseType = 'json';
         client.setRequestHeader('Accept', 'application/json');
-       
         // client.setRequestHeader('content-type', 'application/json');
-        client.send();
+        client.send(JSON.stringify(params));
     });
     return promise;
 };

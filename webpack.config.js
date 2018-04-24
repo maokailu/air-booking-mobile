@@ -18,7 +18,7 @@ module.exports = {
         // inline: true, // 实时刷新
         // hot: true,
         // host: '10.32.84.16',
-        port: 8081
+        port: 8082
     },
     module: {
         rules: [
