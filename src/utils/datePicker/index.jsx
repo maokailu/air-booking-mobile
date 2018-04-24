@@ -59,6 +59,10 @@ export default class Pagination extends React.Component {
         let firstDay = date.getDay();
         return firstDay;
     };
+    // 点击相邻月日期时，跳到相邻月的相应日期：
+    // （前月天数31-点击格子Index2）（即实际点击上月号数）+前月1号天数即前前月占用天数，生成上月布局并跳到指定号数
+    // 关键在计算点击前月时的Index时要加上前前月在前月占用的天数
+
     getTable = () => {
         let sizeOfPrevMonth;
         if (this.state.currentmonth === 0) {

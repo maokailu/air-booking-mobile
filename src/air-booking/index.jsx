@@ -8,6 +8,8 @@ import {
     Switch
 } from 'react-router-dom';
 import List from './list';
+import Detail from './detail';
+import Book from './book';
 import utils from '../resources/utils';
 class Search extends React.Component {
     constructor() {
@@ -129,6 +131,8 @@ const Home = () => (
         <Switch>
             <Route exact path="/" component={Search} />
             <Route path="/list" component={List} />
+            <Route path="/detail" component={Detail} />
+            <Route path="/book" component={Book} />
         </Switch>
     </Router>
 );

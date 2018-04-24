@@ -1,5 +1,5 @@
 import React from 'react';
-import './search.scss';
+import './list.scss';
 import utils from '../resources/utils';
 export default class List extends React.Component {
     constructor(props) {
@@ -30,9 +30,16 @@ export default class List extends React.Component {
             console.error('出错了', error);
         });
     }
+    goToDetail = () => {
+        const path = {
+            pathname: '/detail',
+            listcode: 'listcode'
+        };
+        this.props.history.push(path);
+    }
     render() {
         return (
-            <div className="list">
+            <div className="list" onClick={this.goToDetail}>
                 {this.state.flights && this.state.flights.map((flight, index) =>
                     <div key={index} className="item">
                         <div className="row1">
@@ -41,7 +48,21 @@ export default class List extends React.Component {
                             <span className="airline">{flight.flightId}</span>
                         </div>
                         <div className="row2">
-                        14:40
+                            <div className="left">
+                                <div className="column1">
+                                    <div className="time">13:50</div>
+                                    <div className="loc">PVG T2</div>
+                                </div>
+                                <span className="arrow"></span>
+                                <div className="column2">
+                                    <div className="time">13:50</div>
+                                    <div className="loc">PVG T2</div>
+                                </div>
+                            </div>
+                            <span className="price">$370</span>
+                        </div>
+                        <div className="row3">
+                        2h40mh
                         </div>
                     </div>
                 )}

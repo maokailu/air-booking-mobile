@@ -9,6 +9,9 @@ export default class Detail extends React.Component {
         };
     }
     componentDidMount() {}
+    goToBook = () => {
+        this.props.history.push('./book');
+    }
     render() {
         classNames({});
         return (
@@ -79,7 +82,7 @@ export default class Detail extends React.Component {
                         <span>Adult</span>
                         <span clasName="right">CNY</span>
                     </div>
-                    <div className="btn">Comfirm</div>
+                    <div className="btn" onClick={this.goToBook}>Comfirm</div>
                 </div>
                 <div className="footer">
                     <i className="flight-logo" />
