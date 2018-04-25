@@ -68,19 +68,19 @@ export default class Detail extends React.Component {
                 <div className="box">
                     <div className="row">
                         <span>Adult</span>
-                        <span clasName="right">CNY</span>
+                        <span className="right">CNY</span>
                     </div>
                     <div className="row">
                         <span>Adult</span>
-                        <span clasName="right">CNY</span>
+                        <span className="right">CNY</span>
                     </div>
                     <div className="row">
                         <span>Adult</span>
-                        <span clasName="right">CNY</span>
+                        <span className="right">CNY</span>
                     </div>
                     <div className="row border">
                         <span>Adult</span>
-                        <span clasName="right">CNY</span>
+                        <span className="right">CNY</span>
                     </div>
                     <div className="btn" onClick={this.goToBook}>Comfirm</div>
                 </div>
