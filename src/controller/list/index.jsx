@@ -1,6 +1,6 @@
 import React from 'react';
-import './list.scss';
-import utils from '../resources/utils';
+import './style.scss';
+import utils from '../../resources/utils';
 export default class List extends React.Component {
     constructor(props) {
         super(props);

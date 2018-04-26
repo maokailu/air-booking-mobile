@@ -1,5 +1,5 @@
 import React from 'react';
-import './search.scss';
+import './style.scss';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import {
@@ -7,10 +7,11 @@ import {
     Route,
     Switch
 } from 'react-router-dom';
-import List from './list';
-import Detail from './detail';
-import Book from './book';
-import utils from '../resources/utils';
+import List from '../list';
+import Detail from '../detail';
+import Book from '../book';
+import Login from '../login';
+import utils from '../../resources/utils';
 class Search extends React.Component {
     constructor() {
         super();
@@ -52,6 +53,13 @@ class Search extends React.Component {
             console.log('please input departCity');
         }
     }
+    expandHeader = () => {
+        this.setState(prevState => ({ showHeaderMenu: !prevState.showHeaderMenu }));
+        const path = {
+            pathname: '/login'
+        };
+        this.context.router.history.push(path);
+    }
     render() {
         const arrow = classNames({
             'arrow': true,
@@ -63,7 +71,7 @@ class Search extends React.Component {
                 <div className="head">
                     <i className="logo"></i>
                     <i className={arrow}
-                        onClick={() => this.setState(prevState => ({ showHeaderMenu: !prevState.showHeaderMenu }))}>
+                        onClick={this.expandHeader}>
                     </i>
                 </div>
                 <div className="category">
@@ -133,6 +141,7 @@ const Home = () => (
             <Route path="/list" component={List} />
             <Route path="/detail" component={Detail} />
             <Route path="/book" component={Book} />
+            <Route path="/login" component={Login} />
         </Switch>
     </Router>
 );

@@ -1,5 +1,5 @@
 import React from 'react';
-import './detail.scss';
+import './style.scss';
 import classNames from 'classnames';
 export default class Detail extends React.Component {
     constructor() {

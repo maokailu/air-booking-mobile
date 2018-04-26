@@ -1,5 +1,5 @@
 import React from 'react';
-import './book.scss';
+import './style.scss';
 export default class Book extends React.Component {
     constructor(props) {
         super(props);
