@@ -17,11 +17,9 @@ export default class List extends React.Component {
         departCityCode: this.props.location.departCityCode
     }
     componentDidMount() {
-        const params = {
-            departCityCode: this.state.departCityCode
-        };
+        const params = `departCityCode=${this.state.departCityCode}`;
         utils.getPromise('http://localhost:8080/fecthFlightsFlight', params).then(json => {
-            console.log('Contents: ' + json);
+            json = JSON.parse(json);
             this.setState({
                 flights: json,
                 test: json

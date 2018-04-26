@@ -1,3 +1,4 @@
+
 /**
  * 截取URL参数
  * @param {string} name 截取的key
@@ -25,6 +26,7 @@ let isMobile = (val) => {
 };
 const getPromise = (url, params) => {
     const promise = new Promise(function(resolve, reject) {
+        // 原生方式
         const handler = function() {
             if (this.readyState !== 4) {
                 return;
@@ -36,12 +38,20 @@ const getPromise = (url, params) => {
             }
         };
         const client = new XMLHttpRequest();
-        client.open('POST', url);
+        const path = params ? url + '?' + params : url;
+        client.open('GET', path);
         client.onreadystatechange = handler;
         client.responseType = 'json';
         client.setRequestHeader('Accept', 'application/json');
-        // client.setRequestHeader('content-type', 'application/json');
-        client.send(JSON.stringify(params));
+        client.send();
+        // zepto方式
+        // $.ajax({
+        //     type: 'GET',
+        //     url: url,
+        //     data: params,
+        //     success: function(result) {
+        //     }
+        // });
     });
     return promise;
 };

@@ -54,6 +54,10 @@ module.exports = {
                 use: [
                     'file-loader'
                 ]
+            },
+            {
+                test: require.resolve('zepto'),
+                use: ['exports-loader?window.Zepto', 'script-loader']
             }
         ]
     },

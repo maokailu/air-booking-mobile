@@ -27,7 +27,7 @@ class Search extends React.Component {
     }
     initDepartCity = () => {
         utils.getPromise('http://localhost:8080/getLocationFlight').then(json => {
-            console.log('Contents: ' + json.city);
+            json = JSON.parse(json);
             if (json.city) {
                 this.setState({
                     departCity: json.city
@@ -45,7 +45,7 @@ class Search extends React.Component {
         if (this.state.departCity) {
             const path = {
                 pathname: '/list',
-                departCityCode: this.state.departCity.id
+                departCityCode: this.state.departCity.flightId
             };
             this.context.router.history.push(path);
         } else {
