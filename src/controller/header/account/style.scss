@@ -1,0 +1,22 @@
+.account {
+    padding-left: 20px;
+    background: #fff;
+    .title {
+        padding: 10px 0 15px;
+        border-bottom: 1px solid #ddd;
+        .username {
+            color: #000;
+            font-size: 18px;
+        }
+    }
+    .profile {
+        div {
+            padding: 6px 0;
+            span {
+                color: #9B9B9B;
+                font-size: 14px;
+                margin-right: 12px;
+            }
+        }
+    }
+}

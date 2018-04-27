@@ -31,8 +31,10 @@ export default class Login extends React.Component {
                 </div>
                 <div className="fb-login">Sign in with Facebook</div>
                 <div className="or">--- Or ---</div>
-                <div className="username" contentEditable = "true" onInput={this.inputUsername}>{this.state.username}</div>
-                <div className="password" contentEditable = "true" onInput={this.inputPassword}>{this.state.password}</div>
+                <div className="username"
+                    contentEditable="true" onInput={this.inputUsername}>{this.state.username}</div>
+                <div className="password"
+                    contentEditable="true" onInput={this.inputPassword}>{this.state.password}</div>
                 <div className="prompt">
                     <span>Remember me</span>
                     <span>Forget password</span>
