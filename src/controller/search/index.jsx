@@ -1,6 +1,5 @@
 import React from 'react';
 import './style.scss';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import {
     BrowserRouter as Router,
@@ -12,6 +11,7 @@ import Detail from '../detail';
 import Book from '../book';
 import Login from '../login';
 import utils from '../../resources/utils';
+import Header from '../header';
 class Search extends React.Component {
     constructor() {
         super();
@@ -61,19 +61,9 @@ class Search extends React.Component {
         this.context.router.history.push(path);
     }
     render() {
-        const arrow = classNames({
-            'arrow': true,
-            'icon-arrow-up': this.state.showHeaderMenu,
-            'icon-arrow-down': !this.state.showHeaderMenu
-        });
         return (
-            <div>
-                <div className="head">
-                    <i className="logo"></i>
-                    <i className={arrow}
-                        onClick={this.expandHeader}>
-                    </i>
-                </div>
+            <div className="search">
+                <Header />
                 <div className="category">
                     <span>Hotels</span>
                     <span>Flights</span>
