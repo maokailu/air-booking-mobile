@@ -1,0 +1,43 @@
+.order {
+    .title {
+        text-align: center;
+        font-size: 20px;
+        padding: 12px 0;
+    }
+    .list {
+        .item {
+            background: #fff;
+            padding: 8px 20px;
+            margin-bottom: 8px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+            .status {
+                position: relative;
+                .text {
+                    font-size: 20px;
+                }
+                .price {
+                    position: absolute;
+                    right: 0;
+                    color: #0288d1;
+                    font-size: 16px;
+                }
+            }
+            .location {
+                font-size: 14px;
+                color: #01579b;
+            }
+            .date {
+                color: rgba(0,0,0,.87)
+            }
+        }
+    }
+    .more {
+        background: #0288d1;
+        color: #fff;
+        text-align: center;
+        padding: 8px 0;
+        border-radius: 4px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+        font-size: 16px;
+    }
+}

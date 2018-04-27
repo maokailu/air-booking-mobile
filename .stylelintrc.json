@@ -126,7 +126,6 @@
     "media-query-list-comma-space-before": "never",
     "no-eol-whitespace": true,
     "no-missing-end-of-source-newline": true,
-    "number-leading-zero": "always",
     "number-no-trailing-zeros": true,
     "property-case": "lower",
     "selector-attribute-brackets-space-inside": "never",
