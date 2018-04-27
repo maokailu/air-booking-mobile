@@ -12,6 +12,7 @@ import Book from '../book';
 import Login from '../login';
 import utils from '../../resources/utils';
 import Header from '../header';
+import Footer from '../footer';
 class Search extends React.Component {
     constructor() {
         super();
@@ -66,7 +67,7 @@ class Search extends React.Component {
                 <Header />
                 <div className="category">
                     <span>Hotels</span>
-                    <span>Flights</span>
+                    <span className="tab-flights">Flights</span>
                     <span>Trains</span>
                 </div>
                 <div className="search-box">
@@ -120,6 +121,7 @@ class Search extends React.Component {
                         <span>My Bookings</span>
                     </div>
                 </div>
+                <Footer />
             </div>
         );
     }
