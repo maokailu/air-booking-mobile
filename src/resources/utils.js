@@ -26,7 +26,6 @@ let isMobile = (val) => {
 };
 const getPromise = (url, params) => {
     const promise = new Promise(function(resolve, reject) {
-        // 原生方式
         const handler = function() {
             if (this.readyState !== 4) {
                 return;
@@ -38,20 +37,13 @@ const getPromise = (url, params) => {
             }
         };
         const client = new XMLHttpRequest();
-        const path = params ? url + '?' + params : url;
-        client.open('GET', path);
+        client.open('POST', url);
         client.onreadystatechange = handler;
         client.responseType = 'json';
         client.setRequestHeader('Accept', 'application/json');
-        client.send();
-        // zepto方式
-        // $.ajax({
-        //     type: 'GET',
-        //     url: url,
-        //     data: params,
-        //     success: function(result) {
-        //     }
-        // });
+        client.setRequestHeader('content-type', 'application/json;charset=UTF-8');
+        const json = JSON.stringify(params) || {};
+        client.send(json);
     });
     return promise;
 };

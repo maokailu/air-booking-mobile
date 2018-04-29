@@ -16,7 +16,9 @@ export default class Footer extends React.Component {
                     <span className="policy">Privacy Policy
                     </span>
                 </div>
-                <div className="copyright">Copyright © 1999-2018 Trip.com. All rights reserved<br/>ICP证：沪B2-20050130</div>
+                <div className="copyright">
+                Copyright © 1999-2018 Trip.com. All rights reserved<br/>ICP证：沪B2-20050130
+                </div>
             </div>
         );
     }

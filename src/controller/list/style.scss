@@ -1,47 +1,50 @@
 
-.item {
-    background: #fff;
-    margin: 5px 5px 0;
-    padding: 5px 12px;
-    .row1 {
-        .logo {
-            background: #fff;
-            width: 16px;
-            height: 16px;
-            vertical-align: middle;
-            margin: -3px 5px 0 0;
+.list{
+    background: #EFEFF4;
+    .item {
+        background: #fff;
+        margin: 5px 5px 0;
+        padding: 5px 12px;
+        .row1 {
+            .logo {
+                background: #fff;
+                width: 16px;
+                height: 16px;
+                vertical-align: middle;
+                margin: -3px 5px 0 0;
+            }
         }
-    }
 
-    .row2 {
-        display: flex;
-        justify-content: space-between;
-        margin: 3px 0;
-        .column1, .column2 {
-            display: inline-block;
-            .time {
-                font-size: 20px;
-            }
-            .loc {
-                color: #999;
-                text-align: center;
-                margin-top: -2px;
-            }
-        }
-        .arrow {
-            border-bottom: 1px solid gray;
-            width: 60px;
-            margin: 0 10px;
-        }
-        .price {
+        .row2 {
             display: flex;
-            align-items: center;
-            color: #1899F2;
-            font-size: 20px;
-            font-weight: 700;
+            justify-content: space-between;
+            margin: 3px 0;
+            .column1, .column2 {
+                display: inline-block;
+                .time {
+                    font-size: 20px;
+                }
+                .loc {
+                    color: #999;
+                    text-align: center;
+                    margin-top: -2px;
+                }
+            }
+            .arrow {
+                border-bottom: 1px solid gray;
+                width: 60px;
+                margin: 0 10px;
+            }
+            .price {
+                display: flex;
+                align-items: center;
+                color: #1899F2;
+                font-size: 20px;
+                font-weight: 700;
+            }
         }
-    }
-    .row3 {
-        color: #999;
+        .row3 {
+            color: #999;
+        }
     }
 }
