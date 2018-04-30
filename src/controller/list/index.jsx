@@ -14,15 +14,14 @@ export default class List extends React.Component {
     state = {
         flights: null,
         test: null,
-        departCityCode: this.props.location.departCityCode
+        departCityCode: this.props.location.departCityCode || 'SHA'
     }
     componentDidMount() {
-        const params = `departCityCode=${this.state.departCityCode}`;
+        const params = { departCityCode: this.state.departCityCode, arriveCityCode: 'HKG' };
         utils.getPromise('http://localhost:8080/fecthFlightsFlight', params).then(json => {
             json = JSON.parse(json);
             this.setState({
-                flights: json,
-                test: json
+                flights: json
             });
         }, error => {
             console.error('出错了', error);
@@ -42,8 +41,8 @@ export default class List extends React.Component {
                     <div key={index} className="item">
                         <div className="row1">
                             <img className="logo" src="http://pic.english.c-ctrip.com/airline_logo/32/zh.png"/>
-                            <span className="airline">{flight.name}</span>
-                            <span className="airline">{flight.flightId}</span>
+                            <span className="airline">{flight.departCityCode}</span>
+                            <span className="airline">{flight.departCityCode}</span>
                         </div>
                         <div className="row2">
                             <div className="left">

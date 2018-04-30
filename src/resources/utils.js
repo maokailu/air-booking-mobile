@@ -42,8 +42,9 @@ const getPromise = (url, params) => {
         client.responseType = 'json';
         client.setRequestHeader('Accept', 'application/json');
         client.setRequestHeader('content-type', 'application/json;charset=UTF-8');
-        const json = JSON.stringify(params) || {};
-        client.send(json);
+        // debugger
+        const json = JSON.stringify(params);
+        json ? client.send(json) : client.send();
     });
     return promise;
 };

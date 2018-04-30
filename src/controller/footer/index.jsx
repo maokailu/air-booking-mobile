@@ -13,6 +13,7 @@ export default class Footer extends React.Component {
                 <div className="footer-item">
                     <span className="about">About us
                     </span>
+                    <i className="line"/>
                     <span className="policy">Privacy Policy
                     </span>
                 </div>

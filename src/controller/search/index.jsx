@@ -28,8 +28,8 @@ class Search extends React.Component {
         this.initDepartCity();
     }
     initDepartCity = () => {
-        const params = { 'name': 'Nicholas', 'flightId': 222 };
-        utils.getPromise('http://localhost:8080/getLocationFlight', params).then(json => {
+        // const params = { departCityCode: this.state.departCityCode, arriveCityCode: 'HKG' };
+        utils.getPromise('http://localhost:8080/getLocationFlight').then(json => {
             json = JSON.parse(json);
             if (json.city) {
                 this.setState({
@@ -78,7 +78,7 @@ class Search extends React.Component {
                     </div>
                     <div className="box" onClick={this.selectDepartCity}>
                         <span className="tit">From</span>
-                        <div className="content">{this.state.departCity.name}</div>
+                        <div className="content">{this.state.departCity.cityCode}</div>
                         <span className="code">All Airports</span>
                     </div>
                     <div className="box">
