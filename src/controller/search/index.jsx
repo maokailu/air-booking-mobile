@@ -13,12 +13,15 @@ import Login from '../login';
 import utils from '../../resources/utils';
 import Header from '../header';
 import Footer from '../footer';
+import CitySelecter from '../../common/citySelecter';
 class Search extends React.Component {
     constructor() {
         super();
         this.state = {
             departCity: {},
-            arriveCity: {}
+            arriveCity: {},
+            tripType: 0,
+            showCitySelecter: true
         };
     }
     static contextTypes = {
@@ -44,6 +47,7 @@ class Search extends React.Component {
     }
     selectDepartCity = () => {
         this.setState({
+            showCitySelecter: true
         });
     }
     search = () => {
@@ -64,7 +68,18 @@ class Search extends React.Component {
         };
         this.context.router.history.push(path);
     }
+    toggleTripType = () => {
+        this.setState(prevState => ({
+            tripType: prevState.tripType === 0 ? 1 : 0
+        }));
+    }
+    closeCitySelecter = () => {
+        this.setState({
+            showCitySelecter: false
+        });
+    }
     render() {
+        const tripType = this.state.tripType;
         return (
             <div className="search">
                 <Header />
@@ -74,9 +89,12 @@ class Search extends React.Component {
                     <span>Trains</span>
                 </div>
                 <div className="search-box">
-                    <div className="tab">
-                        <div className="round_trip">Round Trip</div>
-                        <div className="one_way">One-Way</div>
+                    <div className="tab" onClick={this.toggleTripType}>
+                        <i className={'toggle-bar ' + (tripType === 0 ? 'left-tab' : 'right-tab')}/>
+                        <div className="round_trip"
+                            style={ tripType === 0 ? { color: '#fff' } : { color: '#2681FF' }}>Round Trip</div>
+                        <div className="one_way"
+                            style={ tripType === 0 ? { color: '#2681FF' } : { color: '#fff' }}>One-Way</div>
                     </div>
                     <div className="box" onClick={this.selectDepartCity}>
                         <span className="tit">From</span>
@@ -125,6 +143,7 @@ class Search extends React.Component {
                     </div>
                 </div>
                 <Footer />
+                {this.state.showCitySelecter && <CitySelecter closeCitySelecter = {this.closeCitySelecter} />}
             </div>
         );
     }
