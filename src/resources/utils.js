@@ -41,8 +41,8 @@ const getPromise = (url, params) => {
         client.onreadystatechange = handler;
         client.responseType = 'json';
         client.setRequestHeader('Accept', 'application/json');
-        client.setRequestHeader('content-type', 'application/json;charset=UTF-8');
-        // debugger
+        client.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+        client.withCredentials = true;
         const json = JSON.stringify(params);
         json ? client.send(json) : client.send();
     });

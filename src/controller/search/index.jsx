@@ -28,12 +28,14 @@ class Search extends React.Component {
         this.initDepartCity();
     }
     initDepartCity = () => {
-        // const params = { departCityCode: this.state.departCityCode, arriveCityCode: 'HKG' };
-        utils.getPromise('http://localhost:8080/getLocationFlight').then(json => {
+        utils.getPromise('http://localhost:8080/getCurrentCity').then(json => {
             json = JSON.parse(json);
             if (json.city) {
                 this.setState({
                     departCity: json.city
+                }, () => {
+                    localStorage.setItem('departCityCode', 'SHA');
+                    localStorage.setItem('arriveCityCode', 'HKG');
                 });
             }
         }, error => {

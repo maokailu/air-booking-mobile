@@ -14,11 +14,14 @@ export default class List extends React.Component {
     state = {
         flights: null,
         test: null,
-        departCityCode: this.props.location.departCityCode || 'SHA'
+        departCityCode: localStorage.getItem('departCityCode') || 'SHA'
     }
     componentDidMount() {
-        const params = { departCityCode: this.state.departCityCode, arriveCityCode: 'HKG' };
-        utils.getPromise('http://localhost:8080/fecthFlightsFlight', params).then(json => {
+        console.log(localStorage.getItem('departCityCode'));
+        localStorage.setItem('flightsId', [1, 2]);
+        const params = { departCityCode: this.state.departCityCode,
+            arriveCityCode: localStorage.getItem('arriveCityCode') };
+        utils.getPromise('http://localhost:8080/getFlights', params).then(json => {
             json = JSON.parse(json);
             this.setState({
                 flights: json

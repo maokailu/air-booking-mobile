@@ -8,7 +8,9 @@ export default class Detail extends React.Component {
             showHeaderMenu: false
         };
     }
-    componentDidMount() {}
+    componentDidMount() {
+        console.log(localStorage.getItem('flightsId'));
+    }
     goToBook = () => {
         this.props.history.push('./book');
     }
