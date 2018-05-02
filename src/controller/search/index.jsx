@@ -21,7 +21,8 @@ class Search extends React.Component {
             departCity: {},
             arriveCity: {},
             tripType: 0,
-            showCitySelecter: true
+            showCitySelecter: false,
+            selectDepartCity: true
         };
     }
     static contextTypes = {
@@ -35,7 +36,8 @@ class Search extends React.Component {
             json = JSON.parse(json);
             if (json.city) {
                 this.setState({
-                    departCity: json.city
+                    departCity: json.city,
+                    arriveCity: { cityName: '香港', cityCode: 'HKG' }
                 }, () => {
                     localStorage.setItem('departCityCode', 'SHA');
                     localStorage.setItem('arriveCityCode', 'HKG');
@@ -47,7 +49,14 @@ class Search extends React.Component {
     }
     selectDepartCity = () => {
         this.setState({
-            showCitySelecter: true
+            showCitySelecter: true,
+            selectDepartCity: true
+        });
+    }
+    selectArriveCity = () => {
+        this.setState({
+            showCitySelecter: true,
+            selectDepartCity: false
         });
     }
     search = () => {
@@ -78,6 +87,17 @@ class Search extends React.Component {
             showCitySelecter: false
         });
     }
+    selectCity = city => {
+        if  (this.state.selectDepartCity) {
+            this.setState({
+                departCity: city
+            });
+        } else {
+            this.setState({
+                arriveCity: city
+            });
+        }
+    }
     render() {
         const tripType = this.state.tripType;
         return (
@@ -98,12 +118,12 @@ class Search extends React.Component {
                     </div>
                     <div className="box" onClick={this.selectDepartCity}>
                         <span className="tit">From</span>
-                        <div className="content">{this.state.departCity.cityCode}</div>
+                        <div className="content">{this.state.departCity.cityName}</div>
                         <span className="code">All Airports</span>
                     </div>
-                    <div className="box">
+                    <div className="box" onClick={this.selectArriveCity}>
                         <span className="tit">From</span>
-                        <div className="content">Shanghai</div>
+                        <div className="content">{this.state.arriveCity.cityName}</div>
                         <span className="code">All Airports</span>
                     </div>
 
@@ -143,7 +163,14 @@ class Search extends React.Component {
                     </div>
                 </div>
                 <Footer />
-                {this.state.showCitySelecter && <CitySelecter closeCitySelecter = {this.closeCitySelecter} />}
+                {this.state.showCitySelecter &&
+                <CitySelecter cityCode = {this.state.selectDepartCity ? this.state.departCity.cityCode : this.state.arriveCity.cityCode}
+                    closeCitySelecter = {this.closeCitySelecter} selectCity={this.selectCity}
+                    selectDepartCity = {this.state.selectDepartCity}
+                    currentCityName = {this.state.selectDepartCity ?
+                        this.state.departCity.cityName : this.state.arriveCity.cityName}
+                    labelText = {this.state.selectDepartCity ? '出发城市' : '到达城市'}
+                />}
             </div>
         );
     }
