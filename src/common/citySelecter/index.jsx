@@ -5,21 +5,9 @@ export default class CitySelecter extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            recentCity: [
-                // { cityName: '上海', cityCode: 'SHA' },
-                // { cityName: '北京', cityCode: 'PEK'  },
-                // { cityName: '香港', cityCode: 'HKG' },
-                // { cityName: '深圳', cityCode: 'SZX' }
-            ],
-            hotCity: localStorage.getItem('hotCity') && [
-                // { cityName: '上海', cityCode: 'SHA' },
-                // { cityName: '北京', cityCode: 'PEK' },
-                // { cityName: '香港', cityCode: 'HKG' },
-                // { cityName: '深圳', cityCode: 'SZX' }
-            ],
-            others: localStorage.getItem('others') && [
-                // { cityName: '东京', cityCode: 'DJX' }, { cityName: '悉尼', cityCode: 'XNX' }
-            ],
+            recentCity: JSON.parse(localStorage.getItem('recentCity')) || [],
+            hotCity: JSON.parse(localStorage.getItem('hotCity')) || [],
+            others: JSON.parse(localStorage.getItem('others')) || [],
             current: this.props.cityCode,
             currentCityName: this.props.currentCityName
         };
@@ -36,8 +24,8 @@ export default class CitySelecter extends React.Component {
                     hotCity: json['china'],
                     others: json['United States']
                 }, () => {
-                    localStorage.setItem('hotCity', json['china']);
-                    localStorage.setItem('others', json['United States']);
+                    localStorage.setItem('hotCity', JSON.stringify(json['china']));
+                    localStorage.setItem('others', JSON.stringify(json['United States']));
                 });
             }
         }, error => {
@@ -45,11 +33,26 @@ export default class CitySelecter extends React.Component {
         });
     }
     selectCity = city => {
+        let hasCity = false;
+        const recentCity = this.state.recentCity;
+        for (let i = 0;i < recentCity.length;i++) {
+            if (recentCity[i].cityCode === city.cityCode) {
+                hasCity = true;
+            }
+        }
+        if (!hasCity) {
+            recentCity.unshift(city);
+            if (recentCity.length > 6) {
+                recentCity.pop();
+            }
+        }
         this.setState({
             current: city.cityCode,
-            currentCityName: city.cityName
+            currentCityName: city.cityName,
+            recentCity: recentCity
         }, ()=>{
             this.props.selectCity(city);
+            localStorage.setItem('recentCity', JSON.stringify(recentCity));
             setTimeout(()=>{
                 this.props.closeCitySelecter();
             }, 300);

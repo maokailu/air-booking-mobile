@@ -164,7 +164,10 @@ class Search extends React.Component {
                 </div>
                 <Footer />
                 {this.state.showCitySelecter &&
-                <CitySelecter cityCode = {this.state.selectDepartCity ? this.state.departCity.cityCode : this.state.arriveCity.cityCode}
+                <CitySelecter
+                    cityCode = {
+                        this.state.selectDepartCity ? this.state.departCity.cityCode : this.state.arriveCity.cityCode
+                    }
                     closeCitySelecter = {this.closeCitySelecter} selectCity={this.selectCity}
                     selectDepartCity = {this.state.selectDepartCity}
                     currentCityName = {this.state.selectDepartCity ?
