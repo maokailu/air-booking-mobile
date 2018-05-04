@@ -1,8 +1,7 @@
 import React from 'react';
 import Day from './day';
 import SelectOption from './selectOption';
-import DateUtil from '../pub/date.jsx';
-import '../adaptation';
+import DateUtil from '../../resources/date';
 import './style.scss';
 let date = new Date();
 let year = date.getFullYear();
@@ -120,6 +119,7 @@ export default class Pagination extends React.Component {
                 currentIndex: index - firstDayOfCurrentMonth - sizeOfCurrentMonth + firstDayOfNextMonth
             }));
         }
+        this.props.closeDatePicker();
     };
 
     render() {
@@ -141,36 +141,28 @@ export default class Pagination extends React.Component {
                             .map((month, index) => <SelectOption value={index} text={index + 1} key={index} />)};
                     </select>
                 </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>周日</th>
-                            <th>周一</th>
-                            <th>周二</th>
-                            <th>周三</th>
-                            <th>周四</th>
-                            <th>周五</th>
-                            <th>周六</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.getTable().map((row, rowIndex) => (
-                            <tr key={rowIndex}>
-                                {row.map((day, columnIndex) => (
-                                    <Day
-                                        key={rowIndex * 7 + columnIndex}
-                                        index={rowIndex * 7 + columnIndex}
-                                        sizeOfPrevShowDays={firstDay}
-                                        sizeOfCurrentMonth={sizeOfCurrentMonth}
-                                        day={day}
-                                        clickHandler={() => this.clickHandler(rowIndex * 7 + columnIndex, event)}
-                                        currentIndex={this.state.currentIndex}
-                                    />
-                                ))}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <div className="grid">
+                    <span className="th">周日</span>
+                    <span className="th">周一</span>
+                    <span className="th">周二</span>
+                    <span className="th">周三</span>
+                    <span className="th">周四</span>
+                    <span className="th">周五</span>
+                    <span className="th">周六</span>
+                    {this.getTable().map((row, rowIndex) => (
+                        row.map((day, columnIndex) => (
+                            <Day
+                                key={rowIndex * 7 + columnIndex}
+                                index={rowIndex * 7 + columnIndex}
+                                sizeOfPrevShowDays={firstDay}
+                                sizeOfCurrentMonth={sizeOfCurrentMonth}
+                                day={day}
+                                clickHandler={() => this.clickHandler(rowIndex * 7 + columnIndex, event)}
+                                currentIndex={this.state.currentIndex}
+                            />
+                        ))
+                    ))}
+                </div>
             </div>
         );
     }

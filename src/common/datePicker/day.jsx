@@ -18,9 +18,9 @@ export default class Day extends React.Component {
             currentIndex: index === this.props.currentIndex
         });
         return (
-            <td onClick={() => this.clickHandler(index, event)} className={tdStyle}>
+            <span onClick={() => this.clickHandler(index, event)} className={tdStyle + ' td'}>
                 {day}
-            </td>
+            </span>
         );
     }
 }

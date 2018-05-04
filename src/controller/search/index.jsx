@@ -14,6 +14,7 @@ import utils from '../../resources/utils';
 import Header from '../header';
 import Footer from '../footer';
 import CitySelecter from '../../common/citySelecter';
+import DateSelecter from '../../common/datePicker';
 class Search extends React.Component {
     constructor() {
         super();
@@ -22,6 +23,7 @@ class Search extends React.Component {
             arriveCity: {},
             tripType: 0,
             showCitySelecter: false,
+            showDateSelecter: false,
             selectDepartCity: true
         };
     }
@@ -57,6 +59,16 @@ class Search extends React.Component {
         this.setState({
             showCitySelecter: true,
             selectDepartCity: false
+        });
+    }
+    selectDepartDate = () => {
+        this.setState({
+            showDateSelecter: true
+        });
+    }
+    closeDatePicker = () => {
+        this.setState({
+            showDateSelecter: false
         });
     }
     search = () => {
@@ -127,7 +139,7 @@ class Search extends React.Component {
                         <span className="code">All Airports</span>
                     </div>
 
-                    <div className="box hascolumn">
+                    <div className="box hascolumn"  onClick={this.selectDepartDate}>
                         <div>
                             <div className="tit">Depart</div>
                             <span className="content">Apr 11</span>
@@ -174,6 +186,8 @@ class Search extends React.Component {
                         this.state.departCity.cityName : this.state.arriveCity.cityName}
                     labelText = {this.state.selectDepartCity ? '出发城市' : '到达城市'}
                 />}
+                {this.state.showDateSelecter &&
+                <DateSelecter closeDatePicker={this.closeDatePicker} />}
             </div>
         );
     }
