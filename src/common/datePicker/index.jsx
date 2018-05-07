@@ -119,7 +119,11 @@ export default class Pagination extends React.Component {
                 currentIndex: index - firstDayOfCurrentMonth - sizeOfCurrentMonth + firstDayOfNextMonth
             }));
         }
-        this.props.closeDatePicker();
+        setTimeout(()=>{
+            const shortMonthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            this.props.closeDatePicker(shortMonthNames[currentmonth], index - firstDayOfCurrentMonth + 1);
+            console.log(currentmonth, index - firstDayOfCurrentMonth);
+        }, 300);
     };
 
     render() {

@@ -24,7 +24,9 @@ class Search extends React.Component {
             tripType: 0,
             showCitySelecter: false,
             showDateSelecter: false,
-            selectDepartCity: true
+            selectDepartCity: true,
+            departDate: '',
+            arriveDate: ''
         };
     }
     static contextTypes = {
@@ -66,9 +68,12 @@ class Search extends React.Component {
             showDateSelecter: true
         });
     }
-    closeDatePicker = () => {
+    closeDatePicker = (month, day) => {
+        const departDate = `${month} ${day}`;
+        console.log(departDate);
         this.setState({
-            showDateSelecter: false
+            showDateSelecter: false,
+            departDate: departDate
         });
     }
     search = () => {
@@ -142,12 +147,12 @@ class Search extends React.Component {
                     <div className="box hascolumn"  onClick={this.selectDepartDate}>
                         <div>
                             <div className="tit">Depart</div>
-                            <span className="content">Apr 11</span>
+                            <span className="content">{this.state.departDate}</span>
                             <span className = "week">Today</span>
                         </div>
                         <div>
                             <div className="tit">Depart</div>
-                            <span className="content">Apr 11</span>
+                            <span className="content">{this.state.arriveDate}</span>
                             <span className = "week">Today</span>
                         </div>
                     </div>
