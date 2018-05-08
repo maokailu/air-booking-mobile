@@ -10,7 +10,8 @@ let week = date.getDate();
 let count = 0;
 let fromIndex = -1;
 let toIndex = -1;
-
+let addSliderHalf = false;
+let disabledDate = false;
 export default class Pagination extends React.Component {
     constructor(props) {
         super(props);
@@ -128,9 +129,19 @@ export default class Pagination extends React.Component {
         if (this.props.isDepartDate) {
             let isDepartDate;
             if (count === 1) {
+                // debugger
+                if (index < fromIndex || (index > fromIndex && index < toIndex)) {
+                    addSliderHalf = true;
+                }
+                if (toIndex !== -1 && index > toIndex) {
+                    // disabledDate = true;
+                    // addSliderHalf = false;
+                }
                 fromIndex = index;
                 isDepartDate = true;
             } else if (count === 2) {
+                // disabledDate = false;
+
                 toIndex = index;
                 isDepartDate = false;
                 setTimeout(()=>{
@@ -152,6 +163,7 @@ export default class Pagination extends React.Component {
     };
 
     render() {
+        console.log(count);
         let firstDay = this.getFirstDay(this.state.currentmonth, this.state.currentyear);
         let sizeOfCurrentMonth = this.getSizeOfMonth(this.state.currentyear, this.state.currentmonth);
         return (
@@ -188,8 +200,15 @@ export default class Pagination extends React.Component {
                                 day={day}
                                 clickHandler={() => this.clickHandler(rowIndex * 7 + columnIndex, event)}
                                 currentIndex={this.state.currentIndex}
-                                isDepartDate = {this.props.isDepartDate && count === 1}
-                                slider = {(rowIndex * 7 + columnIndex > fromIndex && rowIndex * 7 + columnIndex < toIndex) ? 'slider' : ''}
+                                isDepartDate = {count === 0}
+                                sliderStart = {fromIndex}
+                                sliderEnd = {toIndex}
+                                addSliderHalf = {addSliderHalf}
+                                disabledDate = {(rowIndex * 7 + columnIndex < fromIndex)}
+                                slider = {
+                                    (rowIndex * 7 + columnIndex > fromIndex && rowIndex * 7 + columnIndex < toIndex) ?
+                                        'slider' : ''
+                                }
                             />
                         ))
                     ))}
