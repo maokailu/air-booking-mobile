@@ -11,7 +11,6 @@ let count = 0;
 let fromIndex = -1;
 let toIndex = -1;
 let addSliderHalf = false;
-let disabledDate = false;
 export default class Pagination extends React.Component {
     constructor(props) {
         super(props);

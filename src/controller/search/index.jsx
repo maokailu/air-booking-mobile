@@ -27,7 +27,8 @@ class Search extends React.Component {
             isDepartCity: true,
             idDepartDate: true,
             departDate: '',
-            arriveDate: ''
+            arriveDate: '',
+            passenger: 1
         };
     }
     static contextTypes = {
@@ -132,6 +133,16 @@ class Search extends React.Component {
             showCitySelector: false
         });
     }
+    minus = () =>{
+        this.setState(prevState => ({
+            passenger: prevState.passenger - 1
+        }));
+    }
+    plus = () =>{
+        this.setState(prevState => ({
+            passenger: prevState.passenger + 1
+        }));
+    }
     render() {
         // debugger
         const tripType = this.state.tripType;
@@ -169,7 +180,7 @@ class Search extends React.Component {
                             <span className = "week">Today</span>
                         </div>
                         <div onClick={this.clickArriveDate}>
-                            <div className="tit">Arrive</div>
+                            <div className="tit rdate">Arrive</div>
                             <span className="content">{this.state.arriveDate || 'Date'}</span>
                             <span className = "week">Today</span>
                         </div>
@@ -182,7 +193,9 @@ class Search extends React.Component {
                         </div>
                         <div className="passenger">
                             <div className="tit">Passenger</div>
-                            <span className="content">1</span>
+                            <span className="minus" onClick={this.minus}>--</span>
+                            <span className="content number">{this.state.passenger}</span>
+                            <span className="plus" onClick={this.plus}>++</span>
                         </div>
                     </div>
                     <div className="search-btn" onClick = {this.search}>Search</div>

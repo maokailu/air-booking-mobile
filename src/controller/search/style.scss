@@ -65,6 +65,9 @@
             letter-spacing: 0;
             line-height: 15px;
         }
+        .rdate {
+            text-align: right;
+        }
         .content {
             font-size: 20px;
             color: #333333;
@@ -80,6 +83,14 @@
         .week{
             margin-left: 4px;
         }
+        .minus{
+            // margin-right: 10px;
+            padding: 0 10px;
+        }
+        .number{
+            margin: 0 10px;
+        }
+        
     }
     
     .hascolumn {
@@ -122,6 +133,8 @@
             letter-spacing: 0;
             line-height: 20px;
             margin-left: 4px;
+            display: flex;
+            align-items: center;
         }
         .icon-bookings {
             background: url('../../resources/img/mybookings.png') no-repeat scroll 0 0;
