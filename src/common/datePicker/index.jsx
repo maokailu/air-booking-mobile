@@ -7,6 +7,9 @@ let date = new Date();
 let year = date.getFullYear();
 let month = date.getMonth();
 let week = date.getDate();
+let count = 0;
+let fromIndex = -1;
+let toIndex = -1;
 
 export default class Pagination extends React.Component {
     constructor(props) {
@@ -119,11 +122,33 @@ export default class Pagination extends React.Component {
                 currentIndex: index - firstDayOfCurrentMonth - sizeOfCurrentMonth + firstDayOfNextMonth
             }));
         }
-        setTimeout(()=>{
-            const shortMonthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            this.props.closeDatePicker(shortMonthNames[currentmonth], index - firstDayOfCurrentMonth + 1);
-            console.log(currentmonth, index - firstDayOfCurrentMonth);
-        }, 300);
+        count++;
+        const shortMonthNames =
+        ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        if (this.props.isDepartDate) {
+            let isDepartDate;
+            if (count === 1) {
+                fromIndex = index;
+                isDepartDate = true;
+            } else if (count === 2) {
+                toIndex = index;
+                isDepartDate = false;
+                setTimeout(()=>{
+                    this.props.closeDatePicker();
+                }, 300);
+                count = 0;
+            }
+            this.props.selectDate(isDepartDate, shortMonthNames[currentmonth], index - firstDayOfCurrentMonth + 1);
+        } else {
+            toIndex = index;
+            let isDepartDate = false;
+            this.props.selectDate(isDepartDate, shortMonthNames[currentmonth], index - firstDayOfCurrentMonth + 1);
+
+            setTimeout(()=>{
+                this.props.closeDatePicker();
+            }, 300);
+            count = 0;
+        }
     };
 
     render() {
@@ -163,6 +188,8 @@ export default class Pagination extends React.Component {
                                 day={day}
                                 clickHandler={() => this.clickHandler(rowIndex * 7 + columnIndex, event)}
                                 currentIndex={this.state.currentIndex}
+                                isDepartDate = {this.props.isDepartDate && count === 1}
+                                slider = {(rowIndex * 7 + columnIndex > fromIndex && rowIndex * 7 + columnIndex < toIndex) ? 'slider' : ''}
                             />
                         ))
                     ))}

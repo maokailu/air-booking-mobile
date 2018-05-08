@@ -1,7 +1,7 @@
 import React from 'react';
 import './style.scss';
 import utils from '../../resources/utils';
-export default class CitySelecter extends React.Component {
+export default class CitySelector extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -51,18 +51,18 @@ export default class CitySelecter extends React.Component {
             currentCityName: city.cityName,
             recentCity: recentCity
         }, ()=>{
-            this.props.selectCity(city);
+            this.props.changeCity(city);
             localStorage.setItem('recentCity', JSON.stringify(recentCity));
             setTimeout(()=>{
-                this.props.closeCitySelecter();
+                this.props.closeCitySelector();
             }, 300);
         });
     }
     render() {
         return (
-            <div className="city-selecter">
+            <div className="city-selector">
                 <div className="title">
-                    <span className="close-btn" onClick = {() => this.props.closeCitySelecter()}>arrow</span>
+                    <span className="close-btn" onClick = {() => this.props.closeCitySelector()}>arrow</span>
                     <span className="input-label">{this.props.labelText}</span>
                     <span className="input-box">{this.state.currentCityName}</span>
                 </div>

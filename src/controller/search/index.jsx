@@ -13,8 +13,8 @@ import Login from '../login';
 import utils from '../../resources/utils';
 import Header from '../header';
 import Footer from '../footer';
-import CitySelecter from '../../common/citySelecter';
-import DateSelecter from '../../common/datePicker';
+import CitySelector from '../../common/citySelector';
+import DatePicker from '../../common/datePicker';
 class Search extends React.Component {
     constructor() {
         super();
@@ -22,9 +22,10 @@ class Search extends React.Component {
             departCity: {},
             arriveCity: {},
             tripType: 0,
-            showCitySelecter: false,
-            showDateSelecter: false,
-            selectDepartCity: true,
+            showCitySelector: false,
+            showDatePicker: false,
+            isDepartCity: true,
+            idDepartDate: true,
             departDate: '',
             arriveDate: ''
         };
@@ -51,29 +52,56 @@ class Search extends React.Component {
             console.error('出错了', error);
         });
     }
-    selectDepartCity = () => {
+    clickDepartCity = () => {
         this.setState({
-            showCitySelecter: true,
-            selectDepartCity: true
+            showCitySelector: true,
+            isDepartCity: true
         });
     }
-    selectArriveCity = () => {
+    clickArriveCity = () => {
         this.setState({
-            showCitySelecter: true,
-            selectDepartCity: false
+            showCitySelector: true,
+            isDepartCity: false
         });
     }
-    selectDepartDate = () => {
+    changeCity = city => {
+        if  (this.state.isDepartCity) {
+            this.setState({
+                departCity: city
+            });
+        } else {
+            this.setState({
+                arriveCity: city
+            });
+        }
+    }
+    clickDepartDate = () => {
         this.setState({
-            showDateSelecter: true
+            showDatePicker: true,
+            isDepartDate: true
         });
     }
-    closeDatePicker = (month, day) => {
-        const departDate = `${month} ${day}`;
-        console.log(departDate);
+    clickArriveDate = () => {
         this.setState({
-            showDateSelecter: false,
-            departDate: departDate
+            showDatePicker: true,
+            isDepartDate: false
+        });
+    }
+    selectDate = (isDepartDate, month, day) => {
+        const date = `${month} ${day}`;
+        if (isDepartDate) {
+            this.setState({
+                departDate: date
+            });
+        } else {
+            this.setState({
+                arriveDate: date
+            });
+        }
+    }
+    closeDatePicker = () => {
+        this.setState({
+            showDatePicker: false
         });
     }
     search = () => {
@@ -99,23 +127,13 @@ class Search extends React.Component {
             tripType: prevState.tripType === 0 ? 1 : 0
         }));
     }
-    closeCitySelecter = () => {
+    closeCitySelector = () => {
         this.setState({
-            showCitySelecter: false
+            showCitySelector: false
         });
     }
-    selectCity = city => {
-        if  (this.state.selectDepartCity) {
-            this.setState({
-                departCity: city
-            });
-        } else {
-            this.setState({
-                arriveCity: city
-            });
-        }
-    }
     render() {
+        // debugger
         const tripType = this.state.tripType;
         return (
             <div className="search">
@@ -133,26 +151,26 @@ class Search extends React.Component {
                         <div className="one_way"
                             style={ tripType === 0 ? { color: '#2681FF' } : { color: '#fff' }}>One-Way</div>
                     </div>
-                    <div className="box" onClick={this.selectDepartCity}>
+                    <div className="box" onClick={this.clickDepartCity}>
                         <span className="tit">From</span>
                         <div className="content">{this.state.departCity.cityName}</div>
                         <span className="code">All Airports</span>
                     </div>
-                    <div className="box" onClick={this.selectArriveCity}>
-                        <span className="tit">From</span>
+                    <div className="box" onClick={this.clickArriveCity}>
+                        <span className="tit">To</span>
                         <div className="content">{this.state.arriveCity.cityName}</div>
                         <span className="code">All Airports</span>
                     </div>
 
-                    <div className="box hascolumn"  onClick={this.selectDepartDate}>
-                        <div>
+                    <div className="box hascolumn">
+                        <div onClick={this.clickDepartDate}>
                             <div className="tit">Depart</div>
-                            <span className="content">{this.state.departDate}</span>
+                            <span className="content">{this.state.departDate || 'Date'}</span>
                             <span className = "week">Today</span>
                         </div>
-                        <div>
-                            <div className="tit">Depart</div>
-                            <span className="content">{this.state.arriveDate}</span>
+                        <div onClick={this.clickArriveDate}>
+                            <div className="tit">Arrive</div>
+                            <span className="content">{this.state.arriveDate || 'Date'}</span>
                             <span className = "week">Today</span>
                         </div>
                     </div>
@@ -180,19 +198,21 @@ class Search extends React.Component {
                     </div>
                 </div>
                 <Footer />
-                {this.state.showCitySelecter &&
-                <CitySelecter
+                {this.state.showCitySelector &&
+                <CitySelector
                     cityCode = {
-                        this.state.selectDepartCity ? this.state.departCity.cityCode : this.state.arriveCity.cityCode
+                        this.state.isDepartCity ? this.state.departCity.cityCode : this.state.arriveCity.cityCode
                     }
-                    closeCitySelecter = {this.closeCitySelecter} selectCity={this.selectCity}
-                    selectDepartCity = {this.state.selectDepartCity}
-                    currentCityName = {this.state.selectDepartCity ?
+                    closeCitySelector = {this.closeCitySelector} changeCity={this.changeCity}
+                    currentCityName = {this.state.isDepartCity ?
                         this.state.departCity.cityName : this.state.arriveCity.cityName}
-                    labelText = {this.state.selectDepartCity ? '出发城市' : '到达城市'}
+                    labelText = {this.state.isDepartCity ? '出发城市' : '到达城市'}
                 />}
-                {this.state.showDateSelecter &&
-                <DateSelecter closeDatePicker={this.closeDatePicker} />}
+                {this.state.showDatePicker &&
+                <DatePicker closeDatePicker={this.closeDatePicker}
+                    selectDate = {this.selectDate}
+                    isDepartDate = {this.state.isDepartDate}
+                />}
             </div>
         );
     }

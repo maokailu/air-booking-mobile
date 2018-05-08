@@ -15,10 +15,14 @@ export default class Day extends React.Component {
         let sizeOfCurrentMonth = this.props.sizeOfCurrentMonth;
         let tdStyle = classNames({
             fadeOut: index < sizeOfPrevShowDays || index >= sizeOfPrevShowDays + sizeOfCurrentMonth,
-            currentIndex: index === this.props.currentIndex
+            currentIndex: index === this.props.currentIndex,
+            td: true,
+            slider: this.props.slider,
+            sliderStart: this.props.isDepartDate,
+            sliderEnd: !this.props.isDepartDate
         });
         return (
-            <span onClick={() => this.clickHandler(index, event)} className={tdStyle + ' td'}>
+            <span onClick={() => this.clickHandler(index, event)} className={tdStyle}>
                 {day}
             </span>
         );
