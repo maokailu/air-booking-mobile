@@ -6,7 +6,8 @@ export default class CitySelector extends React.Component {
         super(props);
         this.state = {
             recentCity: JSON.parse(localStorage.getItem('recentCity')) || [],
-            hotCity: JSON.parse(localStorage.getItem('hotCity')) || [],
+            hotCity: [],
+            us: JSON.parse(localStorage.getItem('us')) || [],
             others: JSON.parse(localStorage.getItem('others')) || [],
             current: this.props.cityCode,
             currentCityName: this.props.currentCityName
@@ -22,10 +23,11 @@ export default class CitySelector extends React.Component {
             if (json) {
                 this.setState({
                     hotCity: json['china'],
-                    others: json['United States']
+                    us: json['United States'],
+                    others: []
                 }, () => {
                     localStorage.setItem('hotCity', JSON.stringify(json['china']));
-                    localStorage.setItem('others', JSON.stringify(json['United States']));
+                    localStorage.setItem('us', JSON.stringify(json['United States']));
                 });
             }
         }, error => {
@@ -80,6 +82,16 @@ export default class CitySelector extends React.Component {
                 <div className="section">
                     {
                         this.state.hotCity.map((city, index) =>
+                            <div key={index}
+                                onClick={()=>this.selectCity(city)}
+                                className={ this.state.current === city.cityCode ? 'current' : ''}>{city.cityName}</div>
+                        )
+                    }
+                </div>
+                <div className="section-title"><span className="label">美国</span><span className="line"></span></div>
+                <div className="section">
+                    {
+                        this.state.us && this.state.us.length !== 0 && this.state.us.map((city, index) =>
                             <div key={index}
                                 onClick={()=>this.selectCity(city)}
                                 className={ this.state.current === city.cityCode ? 'current' : ''}>{city.cityName}</div>

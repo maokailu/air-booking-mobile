@@ -4,11 +4,6 @@ import utils from '../../resources/utils';
 export default class List extends React.Component {
     constructor(props) {
         super(props);
-        // var data = this.props.location.query;
-        // var { id, name, age } = data;
-        // console.log(id, name, age);
-        // var departCityCode  = data;
-        // console.log(departCityCode);
     }
 
     state = {
@@ -17,10 +12,21 @@ export default class List extends React.Component {
         departCityCode: localStorage.getItem('departCityCode') || 'SHA'
     }
     componentDidMount() {
-        console.log(localStorage.getItem('departCityCode'));
+        const data = this.props.location.query;
+        const { departCity, arriveCity, departDate, arriveDate, classType, passenger } = data;
+
         localStorage.setItem('flightsId', [1, 2]);
         const params = { departCityCode: this.state.departCityCode,
             arriveCityCode: localStorage.getItem('arriveCityCode') };
+        // const params = {
+        //     departCityCode: departCityCode,
+        //     departCityCode: departCityCode,
+        //     departDate: departDate,
+        //     arriveDate: arriveDate,
+        //     classType: classType,
+        //     passenger: passenger
+
+        // }
         utils.getPromise('http://localhost:8080/getFlights', params).then(json => {
             json = JSON.parse(json);
             this.setState({

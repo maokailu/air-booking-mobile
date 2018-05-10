@@ -10,17 +10,19 @@ import List from '../list';
 import Detail from '../detail';
 import Book from '../book';
 import Login from '../login';
-import utils from '../../resources/utils';
+// import utils from '../../resources/utils';
 import Header from '../header';
 import Footer from '../footer';
 import CitySelector from '../../common/citySelector';
 import DatePicker from '../../common/datePicker';
+import Swiper from 'swiper';
+let mySwiper;
 class Search extends React.Component {
     constructor() {
         super();
         this.state = {
-            departCity: {},
-            arriveCity: {},
+            departCity: { cityName: '上海', cityCode: 'SHA' },
+            arriveCity: { cityName: '香港', cityCode: 'HKG' },
             tripType: 0,
             showCitySelector: false,
             showDatePicker: false,
@@ -28,7 +30,8 @@ class Search extends React.Component {
             idDepartDate: true,
             departDate: '',
             arriveDate: '',
-            passenger: 1
+            passenger: 1,
+            classType: ['Economy', 'Business', 'First']
         };
     }
     static contextTypes = {
@@ -36,22 +39,36 @@ class Search extends React.Component {
     }
     componentDidMount() {
         this.initDepartCity();
+        mySwiper = new Swiper('#swiper', {
+            // autoplay: true,//可选选项，自动滑动
+            direction: 'vertical',
+            loop: true,
+            speed: 100,
+            delay: 0,
+            autoHeight: true, // 高度随内容变化
+            // simulateTouch : true,
+            on: {
+                click: ()=>{
+                    mySwiper.slideNext();
+                }
+            }
+        });
     }
     initDepartCity = () => {
-        utils.getPromise('http://localhost:8080/getCurrentCity').then(json => {
-            json = JSON.parse(json);
-            if (json.city) {
-                this.setState({
-                    departCity: json.city,
-                    arriveCity: { cityName: '香港', cityCode: 'HKG' }
-                }, () => {
-                    localStorage.setItem('departCityCode', 'SHA');
-                    localStorage.setItem('arriveCityCode', 'HKG');
-                });
-            }
-        }, error => {
-            console.error('出错了', error);
-        });
+        // utils.getPromise('http://localhost:8080/getCurrentCity').then(json => {
+        //     json = JSON.parse(json);
+        //     if (json.city) {
+        //         this.setState({
+        //             departCity: json.city,
+        //             arriveCity: { cityName: '香港', cityCode: 'HKG' }
+        //         }, () => {
+        //             localStorage.setItem('departCityCode', 'SHA');
+        //             localStorage.setItem('arriveCityCode', 'HKG');
+        //         });
+        //     }
+        // }, error => {
+        //     console.error('出错了', error);
+        // });
     }
     clickDepartCity = () => {
         this.setState({
@@ -106,10 +123,21 @@ class Search extends React.Component {
         });
     }
     search = () => {
+        const departCity = this.state.departCity;
+        const arriveCity = this.state.arriveCity;
+        const departDate = this.state.departDate;
+        const arriveDate = this.state.arriveDate;
+        const classType = this.state.classType[mySwiper.realIndex];
+        const passenger = this.state.passenger;
         if (this.state.departCity) {
             const path = {
                 pathname: '/list',
-                departCityCode: this.state.departCity.flightId
+                departCity: departCity,
+                arriveCity: arriveCity,
+                departDate: departDate,
+                arriveDate: arriveDate,
+                classType: classType,
+                passenger: passenger
             };
             this.context.router.history.push(path);
         } else {
@@ -189,7 +217,15 @@ class Search extends React.Component {
                     <div className="box hascolumn clearline">
                         <div className="class">
                             <div className="tit">Class</div>
-                            <span className="content">Economy</span>
+                            <div className="content">
+                                <div className="swiper-container" id="swiper">
+                                    <div className="swiper-wrapper wrapper" >
+                                        {this.state.classType.map((classType, index) =>
+                                            <div key={index} className="swiper-slide slide">{classType}</div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div className="passenger">
                             <div className="tit">Passenger</div>

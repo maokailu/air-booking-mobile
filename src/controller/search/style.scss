@@ -91,6 +91,22 @@
             margin: 0 10px;
         }
         
+        .class{
+            .content{
+                height:40px;
+                overflow:hidden;
+                #swiper{
+                    .wrapper{
+                        .slide{
+                            // background:red;
+                            // height: 20%;
+                        }
+                    }
+                }
+            }
+
+        }
+            
     }
     
     .hascolumn {
