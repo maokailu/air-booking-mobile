@@ -6,7 +6,7 @@ export default class CitySelector extends React.Component {
         super(props);
         this.state = {
             recentCity: JSON.parse(localStorage.getItem('recentCity')) || [],
-            hotCity: [],
+            hotCity: JSON.parse(localStorage.getItem('hotCity')) || [],
             us: JSON.parse(localStorage.getItem('us')) || [],
             others: JSON.parse(localStorage.getItem('others')) || [],
             current: this.props.cityCode,
@@ -20,14 +20,18 @@ export default class CitySelector extends React.Component {
         const params = { departCityCode: 'HKG' };
         utils.getPromise('http://localhost:8080/getHotDestinations', params).then(json => {
             json = JSON.parse(json);
-            if (json) {
+            if (Object.keys(json).length) {
+                const china = json['China'];
+                const us = json['United States'];
+                const others = json['Others'];
                 this.setState({
-                    hotCity: json['china'],
-                    us: json['United States'],
-                    others: []
+                    hotCity: china,
+                    us: us,
+                    others: others
                 }, () => {
-                    localStorage.setItem('hotCity', JSON.stringify(json['china']));
-                    localStorage.setItem('us', JSON.stringify(json['United States']));
+                    china && localStorage.setItem('hotCity', JSON.stringify(china));
+                    us && localStorage.setItem('us', JSON.stringify(us));
+                    others && localStorage.setItem('others', JSON.stringify(others));
                 });
             }
         }, error => {
@@ -81,7 +85,7 @@ export default class CitySelector extends React.Component {
                 <div className="section-title"><span className="label">热门城市</span><span className="line"></span></div>
                 <div className="section">
                     {
-                        this.state.hotCity.map((city, index) =>
+                        this.state.hotCity && this.state.hotCity.length !== 0 && this.state.hotCity.map((city, index) =>
                             <div key={index}
                                 onClick={()=>this.selectCity(city)}
                                 className={ this.state.current === city.cityCode ? 'current' : ''}>{city.cityName}</div>
@@ -101,7 +105,7 @@ export default class CitySelector extends React.Component {
                 <div className="section-title"><span className="label">其他</span><span className="line"></span></div>
                 <div className="section">
                     {
-                        this.state.others.map((city, index) =>
+                        this.state.others && this.state.others.length !== 0 && this.state.others.map((city, index) =>
                             <div key={index}
                                 onClick={()=>this.selectCity(city)}
                                 className={ this.state.current === city.cityCode ? 'current' : ''}>{city.cityName}</div>
