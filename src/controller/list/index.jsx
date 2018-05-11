@@ -13,21 +13,27 @@ export default class List extends React.Component {
     }
     componentDidMount() {
         const data = this.props.location.query;
-        const { departCity, arriveCity, departDate, arriveDate, classType, passenger } = data;
+        const { departCityName, arriveCityName, departCityCode, arriveCityCode, departAirportCode, arriveAirportCode,  departDate, returnDate, classType, passenger } = data;
 
         localStorage.setItem('flightsId', [1, 2]);
-        const params = { departCityCode: this.state.departCityCode,
-            arriveCityCode: localStorage.getItem('arriveCityCode') };
-        // const params = {
-        //     departCityCode: departCityCode,
-        //     departCityCode: departCityCode,
-        //     departDate: departDate,
-        //     arriveDate: arriveDate,
-        //     classType: classType,
-        //     passenger: passenger
-
-        // }
-        utils.getPromise('http://localhost:8080/getFlights', params).then(json => {
+        // const params = { departCityCode: this.state.departCityCode,
+        //     arriveCityCode: localStorage.getItem('arriveCityCode') };
+        const params = {
+            // departCityName: departCityName,
+            // arriveCityName: arriveCityName,
+            // departCityCode: departCityCode,
+            // arriveCityCode: arriveCityCode,
+            flightType: 0,
+            departAirportCode: 'SHA',
+            arriveAirportCode: 'PEK',
+            departTime: new Date(),
+            returnTime: new Date(),
+            // classType: classType,
+            // passenger: passenger,
+            firstClassCount: passenger
+        };
+        console.log(params);
+        utils.getPromise('http://localhost:8080/getFlights', null).then(json => {
             json = JSON.parse(json);
             this.setState({
                 flights: json

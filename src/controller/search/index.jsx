@@ -29,7 +29,7 @@ class Search extends React.Component {
             isDepartCity: true,
             idDepartDate: true,
             departDate: '',
-            arriveDate: '',
+            returnDate: '',
             passenger: 1,
             classType: ['Economy', 'Business', 'First']
         };
@@ -99,7 +99,7 @@ class Search extends React.Component {
             isDepartDate: true
         });
     }
-    clickArriveDate = () => {
+    clickreturnDate = () => {
         this.setState({
             showDatePicker: true,
             isDepartDate: false
@@ -113,7 +113,7 @@ class Search extends React.Component {
             });
         } else {
             this.setState({
-                arriveDate: date
+                returnDate: date
             });
         }
     }
@@ -126,18 +126,25 @@ class Search extends React.Component {
         const departCity = this.state.departCity;
         const arriveCity = this.state.arriveCity;
         const departDate = this.state.departDate;
-        const arriveDate = this.state.arriveDate;
+        const returnDate = this.state.returnDate;
         const classType = this.state.classType[mySwiper.realIndex];
         const passenger = this.state.passenger;
         if (this.state.departCity) {
-            const path = {
-                pathname: '/list',
-                departCity: departCity,
-                arriveCity: arriveCity,
+            const query = {
+                departCityName: departCity.cityName,
+                arriveCityName: arriveCity.cityName,
+                departCityCode: departCity.cityCode,
+                arriveCityCode: arriveCity.cityCode,
+                departAirportCode: departCity.departCode || 'ALL',
+                arriveAirportCode: arriveCity.arriveCode || 'ALL',
                 departDate: departDate,
-                arriveDate: arriveDate,
+                returnDate: returnDate,
                 classType: classType,
                 passenger: passenger
+            }
+            const path = {
+                pathname: '/list',
+                query: query
             };
             this.context.router.history.push(path);
         } else {
@@ -207,9 +214,9 @@ class Search extends React.Component {
                             <span className="content">{this.state.departDate || 'Date'}</span>
                             <span className = "week">Today</span>
                         </div>
-                        <div onClick={this.clickArriveDate}>
+                        <div onClick={this.clickreturnDate}>
                             <div className="tit rdate">Arrive</div>
-                            <span className="content">{this.state.arriveDate || 'Date'}</span>
+                            <span className="content">{this.state.returnDate || 'Date'}</span>
                             <span className = "week">Today</span>
                         </div>
                     </div>
