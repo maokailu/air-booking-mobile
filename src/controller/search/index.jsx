@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import {
     BrowserRouter as Router,
     Route,
-    Switch,
-    hashHistory
+    Switch
 } from 'react-router-dom';
+import {browserHistory} from 'react-router';
 import List from '../list';
 import Detail from '../detail';
 import Book from '../book';
@@ -143,12 +143,10 @@ class Search extends React.Component {
             + `&departDate=${departDate}&returnDate=${returnDate}`
             + `&classType=${classType}&passenger=${passenger}`;
             const path = {
-                pathname: `/list/?${query}`
-                // query: query
+                pathname: `/list`,
+                search: query
             };
             this.context.router.history.push(path);
-            // debugger
-            // hashHistory.push(path);
         } else {
             console.log('please input departCity');
         }
