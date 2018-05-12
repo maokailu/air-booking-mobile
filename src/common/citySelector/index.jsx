@@ -17,8 +17,8 @@ export default class CitySelector extends React.Component {
         this.state.hotCity.length === 0 && this.initGrid();
     }
     initGrid = () => {
-        const params = { departCityCode: 'HKG' };
-        utils.getPromise('http://localhost:8080/getHotDestinations', params).then(json => {
+        // const params = { cityCode: 'HKG' };
+        utils.getPromise('http://localhost:8080/getHotDestinations', null).then(json => {
             json = JSON.parse(json);
             if (Object.keys(json).length) {
                 const china = json['China'];

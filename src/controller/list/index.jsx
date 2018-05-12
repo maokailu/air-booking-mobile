@@ -1,6 +1,8 @@
 import React from 'react';
 import './style.scss';
 import utils from '../../resources/utils';
+import Header from '../header';
+import Footer from '../footer';
 export default class List extends React.Component {
     constructor(props) {
         super(props);
@@ -12,29 +14,18 @@ export default class List extends React.Component {
         departCityCode: localStorage.getItem('departCityCode') || 'SHA'
     }
     componentDidMount() {
-        const data = this.props.location.query;
-        const { departCityName, arriveCityName, departCityCode, arriveCityCode, departAirportCode, arriveAirportCode,  departDate, returnDate, classType, passenger } = data;
-
-        localStorage.setItem('flightsId', [1, 2]);
-        // const params = { departCityCode: this.state.departCityCode,
-        //     arriveCityCode: localStorage.getItem('arriveCityCode') };
         const params = {
-            // departCityName: departCityName,
-            // arriveCityName: arriveCityName,
-            // departCityCode: departCityCode,
-            // arriveCityCode: arriveCityCode,
-            flightType: 0,
-            departAirportCode: 'SHA',
-            arriveAirportCode: 'PEK',
-            departTime: new Date(),
-            returnTime: new Date(),
-            // classType: classType,
-            // passenger: passenger,
-            firstClassCount: passenger
+            departCityCode: utils.getUrlParam('departCityCode'),
+            arriveCityCode: utils.getUrlParam('arriveCityCode'),
+            flightType: utils.getUrlParam('flightType') || 1,
+            departAirportCode: utils.getUrlParam('departAirportCode'),
+            arriveAirportCode: utils.getUrlParam('arriveAirportCode'),
+            departTime: utils.getUrlParam('departTime') || new Date(),
+            returnTime: utils.getUrlParam('returnTime') || new Date(),
+            classType: 1,
+            passenger: 1
         };
-        console.log(params);
-        utils.getPromise('http://localhost:8080/getFlights', null).then(json => {
-            json = JSON.parse(json);
+        utils.getPromise('http://localhost:8080/getFlights', params).then(json => {
             this.setState({
                 flights: json
             });
@@ -51,33 +42,37 @@ export default class List extends React.Component {
     }
     render() {
         return (
-            <div className="list" onClick={this.goToDetail}>
-                {this.state.flights && this.state.flights.map((flight, index) =>
-                    <div key={index} className="item">
-                        <div className="row1">
-                            <img className="logo" src="http://pic.english.c-ctrip.com/airline_logo/32/zh.png"/>
-                            <span className="airline">{flight.departCityCode}</span>
-                            <span className="airline">{flight.departCityCode}</span>
-                        </div>
-                        <div className="row2">
-                            <div className="left">
-                                <div className="column1">
-                                    <div className="time">13:50</div>
-                                    <div className="loc">PVG T2</div>
-                                </div>
-                                <span className="arrow"></span>
-                                <div className="column2">
-                                    <div className="time">13:50</div>
-                                    <div className="loc">PVG T2</div>
-                                </div>
+            <div>
+                <Header className="list-header"/>
+                <div className="list" onClick={this.goToDetail}>
+                    {this.state.flights && this.state.flights.map((flight, index) =>
+                        <div key={index} className="item">
+                            <div className="row1">
+                                <img className="logo" src="http://pic.english.c-ctrip.com/airline_logo/32/zh.png"/>
+                                <span className="airline">{flight.departCityCode}</span>
+                                <span className="airline">{flight.departCityCode}</span>
                             </div>
-                            <span className="price">$370</span>
+                            <div className="row2">
+                                <div className="left">
+                                    <div className="column1">
+                                        <div className="time">13:50</div>
+                                        <div className="loc">PVG T2</div>
+                                    </div>
+                                    <span className="arrow"></span>
+                                    <div className="column2">
+                                        <div className="time">13:50</div>
+                                        <div className="loc">PVG T2</div>
+                                    </div>
+                                </div>
+                                <span className="price">$370</span>
+                            </div>
+                            <div className="row3">
+                            2h40mh
+                            </div>
                         </div>
-                        <div className="row3">
-                        2h40mh
-                        </div>
-                    </div>
-                )}
+                    )}
+                </div>
+                <Footer style={{ backgroundColor: '#EFEFF4' }}/>
             </div>
         );
     }

@@ -4,17 +4,18 @@ import PropTypes from 'prop-types';
 import {
     BrowserRouter as Router,
     Route,
-    Switch
+    Switch,
+    hashHistory
 } from 'react-router-dom';
 import List from '../list';
 import Detail from '../detail';
 import Book from '../book';
 import Login from '../login';
 // import utils from '../../resources/utils';
-import Header from '../header';
-import Footer from '../footer';
-import CitySelector from '../../common/citySelector';
-import DatePicker from '../../common/datePicker';
+import Header from 'header';
+import Footer from 'footer';
+import CitySelector from 'citySelector';
+import DatePicker from 'datePicker';
 import Swiper from 'swiper';
 let mySwiper;
 class Search extends React.Component {
@@ -22,7 +23,7 @@ class Search extends React.Component {
         super();
         this.state = {
             departCity: { cityName: '上海', cityCode: 'SHA' },
-            arriveCity: { cityName: '香港', cityCode: 'HKG' },
+            arriveCity: { cityName: '北京', cityCode: 'BJS' },
             tripType: 0,
             showCitySelector: false,
             showDatePicker: false,
@@ -125,28 +126,29 @@ class Search extends React.Component {
     search = () => {
         const departCity = this.state.departCity;
         const arriveCity = this.state.arriveCity;
-        const departDate = this.state.departDate;
-        const returnDate = this.state.returnDate;
+        const departCityName = departCity.cityName;
+        const arriveCityName = arriveCity.cityName;
+        const departCityCode = departCity.cityCode;
+        const arriveCityCode = arriveCity.cityCode;
+        const departAirportCode = departCity.departCode || 'ALL';
+        const arriveAirportCode = arriveCity.arriveCode || 'ALL';
+        const departDate = this.state.departDate || new Date();
+        const returnDate = this.state.returnDate || new Date();
         const classType = this.state.classType[mySwiper.realIndex];
         const passenger = this.state.passenger;
         if (this.state.departCity) {
-            const query = {
-                departCityName: departCity.cityName,
-                arriveCityName: arriveCity.cityName,
-                departCityCode: departCity.cityCode,
-                arriveCityCode: arriveCity.cityCode,
-                departAirportCode: departCity.departCode || 'ALL',
-                arriveAirportCode: arriveCity.arriveCode || 'ALL',
-                departDate: departDate,
-                returnDate: returnDate,
-                classType: classType,
-                passenger: passenger
-            }
+            const query = `departCityName=${departCityName}&arriveCityName=${arriveCityName}`
+            + `&departCityCode=${departCityCode}&arriveCityCode=${arriveCityCode}`
+            + `&departAirportCode=${departAirportCode}&arriveAirportCode=${arriveAirportCode}`
+            + `&departDate=${departDate}&returnDate=${returnDate}`
+            + `&classType=${classType}&passenger=${passenger}`;
             const path = {
-                pathname: '/list',
-                query: query
+                pathname: `/list/?${query}`
+                // query: query
             };
             this.context.router.history.push(path);
+            // debugger
+            // hashHistory.push(path);
         } else {
             console.log('please input departCity');
         }

@@ -5,7 +5,7 @@
  * @param {string} [url] 被截取的url
  * @returns {string} 截取的val
  */
-let urlParam = (name, url) => {
+let getUrlParam = (name, url) => {
     let reg = new RegExp('.*[&?]' + name + '=([^&]*)(&|$)');
     let r;
     if (!url) {
@@ -49,7 +49,7 @@ const getPromise = (url, params) => {
     return promise;
 };
 export default {
-    'urlParam': urlParam,
+    'getUrlParam': getUrlParam,
     'isMobile': isMobile,
     'getPromise': getPromise
 };

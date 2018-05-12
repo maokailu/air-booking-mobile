@@ -1,5 +1,7 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+var path = require('path');
+// import path from 'path';
 
 module.exports = {
     devtool: 'eval-source-map',
@@ -9,7 +11,13 @@ module.exports = {
         filename: 'bundle.js' // 打包后输出文件的文件名
     },
     resolve: {
-        extensions: ['.js', '.jsx', '.json', 'ts', 'tsx']
+        extensions: ['.js', '.jsx', '.json', 'ts', 'tsx'],
+        alias: {
+            header: path.resolve(__dirname, './src/controller/header'),
+            footer: path.resolve(__dirname, './src/controller/footer'),
+            citySelector: path.resolve(__dirname, './src/common/citySelector'),
+            datePicker: path.resolve(__dirname, './src/common/datePicker')
+        }
     },
     devServer: {
         // https: true,
