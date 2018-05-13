@@ -1,0 +1,109 @@
+.book{
+    background-color: #EFEFF4;
+    .person-title{
+        font-size: 12px;
+        font-weight: 400;
+        padding: 10px 15px;
+    }
+    .person-list{
+        padding: 10px 15px;
+        background: #fff;
+        display: grid;
+        grid-template-columns: 49% 49%;
+        justify-content: space-between;
+        .person, .more {
+            border: solid 1px #1899F2;
+            padding: 6px 12px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            .name{
+                font-size: 16px;
+            }
+            .card{
+                color: #999;
+            }
+        }
+        .more{
+            border-color: #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+    }
+    .passenger-list{
+        padding: 10px 15px;
+        font-size: 16px;
+        border-bottom: solid 1px #ccc;
+        border-top: solid 1px #ccc;
+        color: #ccc;
+        background: #fff;
+    }
+    .add-passenger-btn{
+        padding: 8px 15px;
+        color: #0288d1;
+        text-align: right;
+    }
+    .txt {
+        color: #999;
+        padding: 0 15px;
+        line-height: 20px;
+    }
+    .contact-person-txt{
+        padding: 0 15px;
+    }
+    .contact-person-form{
+        padding: 0 15px;
+        background: #fff;
+        div{
+            border-bottom: solid 1px #ccc;
+            padding: 10px 0;
+        }
+    }
+    .service-phone{
+        margin: 10px 15px 20px;
+    }
+    .blue{
+        color: #1899F2;
+        margin: 10px 15px 20px;
+    }
+    .tit{
+        font-size: 14px;
+        margin: 10px 15px 0;
+    }
+    .prompt{
+        padding: 10px 15px 20px;
+        border-bottom: solid 1px #ccc;
+        font-size: 12px;
+    }
+    .price{
+        display: flex;
+        justify-content: space-between;
+        .tit{
+            font-size: 14px;
+        }
+        .money-type{
+            color: #1899F2;
+        }
+        .number{
+            font-size: 24px;
+            color: #1899F2;
+        }
+    }
+    .comfirm-btn{
+        background-image: linear-gradient(90deg,#FFB300 7%,#F57C00 92%);
+        box-shadow: 0 6px 6px 0 rgba(255,143,0,.3);
+        border-radius: 100px;
+        font-size: 20px;
+        color: #FFF;
+        letter-spacing: 0;
+        line-height: 24px;
+        text-align: center;
+        padding: 10px;
+        margin: 0 15px;
+    }
+    .secured{
+        margin: 50px 0 20px;
+        text-align: center;
+    }
+}

@@ -14,6 +14,7 @@ import Login from '../login';
 // import utils from '../../resources/utils';
 import Header from 'header';
 import Footer from 'footer';
+import Result from '../result';
 import CitySelector from 'citySelector';
 import DatePicker from 'datePicker';
 import Swiper from 'swiper';
@@ -281,6 +282,7 @@ const Home = () => (
             <Route path="/detail" component={Detail} />
             <Route path="/book" component={Book} />
             <Route path="/login" component={Login} />
+            <Route path="/result" component={Result} />
         </Switch>
     </Router>
 );
