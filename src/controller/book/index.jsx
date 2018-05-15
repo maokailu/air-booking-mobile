@@ -20,30 +20,62 @@ export default class Book extends React.Component {
         });
     }
     createOrder = () => {
-        const params = {
-            orderId: 2,
+        const order = {
+            orderId: 0,
             userId: 2,
-            userName: '毛凯露'
+            contactName: '毛凯露',
+            orderDate: new Date(),
+            orderState: 0,
+            totalTicketPrice: 0,
+            totalFuelSurcharge: 0,
+            totalAirportTax: 0,
+            totalPrice: 0,
+            cellphone: 0,
+            email: 0,
+            zipCode: 0
         };
-        utils.getPromise('http://localhost:8080/createOrder', params).then(json => {
-            console.log(json);
-            this.goToPay();
-        }, error => {
-            console.error('出错了', error);
-        });
+        const orderItem = {
+            orderItemId: 2,
+            orderId: 0,
+            ticketId: 0,
+            seatRequire: 0
+        };
+        const ticket = {
+            ticketId: 1,
+            flightId: 0,
+            cabinClassId: 0
+        };
+        const passengers = [{ passengerId: 0 }, { passengerId: 2 }];
+        const params = {
+            order: order,
+            orderItem: orderItem,
+            ticket: ticket,
+            passengers: passengers
+        };
+        // utils.getPromise('http://localhost:8080/createOrder', params).then(json => {
+        //     console.log(json);
+        //     json = JSON.parse(json);
+        //     this.goToPay(json);
+        // }, error => {
+        //     console.error('出错了', error);
+        // });
+        this.goToPay();
     }
-    goToPay = () => {
+    goToPay = json => {
         const passenger = this.state.passengers[0];
         const path = {
             pathname: '/result',
-            passenger: passenger
+            query: {
+                passenger: passenger,
+                resultInfo: json
+            }
         };
         // this.createOrder();
         this.props.history.push(path);
     }
     render() {
         return (
-            <div className="book" onClick={this.goToPay}>
+            <div className="book">
                 <div className="person-title">选择/新增乘客</div>
                 <div className="person-list">
                     {this.state.passengers.map((passenger, index) =>
