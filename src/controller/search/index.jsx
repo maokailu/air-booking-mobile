@@ -18,6 +18,9 @@ import Result from '../result';
 import CitySelector from 'citySelector';
 import DatePicker from 'datePicker';
 import Swiper from 'swiper';
+import Account from '../header/account';
+import Help from '../header/help';
+import Order from '../header/order';
 let mySwiper;
 class Search extends React.Component {
     constructor() {
@@ -283,6 +286,9 @@ const Home = () => (
             <Route path="/book" component={Book} />
             <Route path="/login" component={Login} />
             <Route path="/result" component={Result} />
+            <Route path="/account" component={Account} />
+            <Route path="/help" component={Help} />
+            <Route path="/order" component={Order} />
         </Switch>
     </Router>
 );

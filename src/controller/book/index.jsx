@@ -62,6 +62,7 @@ export default class Book extends React.Component {
         this.goToPay();
     }
     goToPay = json => {
+        debugger
         const passenger = this.state.passengers[0];
         const path = {
             pathname: '/result',

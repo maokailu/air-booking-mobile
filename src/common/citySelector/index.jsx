@@ -44,6 +44,7 @@ export default class CitySelector extends React.Component {
         for (let i = 0;i < recentCity.length;i++) {
             if (recentCity[i].cityCode === city.cityCode) {
                 hasCity = true;
+                return;
             }
         }
         if (!hasCity) {
