@@ -29,11 +29,13 @@ class Search extends React.Component {
             arriveCity: JSON.parse(localStorage.getItem('arriveCity')) || {},
             tripType: 0,
             showCitySelector: false,
-            showDatePicker: true,
+            showDatePicker: false,
             isDepartCity: true,
-            idDepartDate: true,
-            departDate: '',
-            returnDate: '',
+            isDepartDate: true,
+            departDate: localStorage.getItem('departDateStr') || '',
+            returnDate: localStorage.getItem('returnDateStr') || '',
+            departDateObj: {},
+            returnDateObj: {},
             passenger: 1,
             classType: ['Economy', 'Business', 'First']
         };
@@ -126,15 +128,17 @@ class Search extends React.Component {
             isDepartDate: false
         });
     }
-    selectDate = (isDepartDate, month, day) => {
-        const date = `${month} ${day}`;
-        if (isDepartDate) {
+    selectDate = (month, day, departDateStr, date) => {
+        console.log(date);
+        if (this.state.isDepartDate) {
             this.setState({
-                departDate: date
+                departDate: departDateStr,
+                departDateObj: date
             });
         } else {
             this.setState({
-                returnDate: date
+                returnDate: departDateStr,
+                returnDateObj: date
             });
         }
     }
@@ -289,6 +293,8 @@ class Search extends React.Component {
                 <DatePicker closeDatePicker={this.closeDatePicker}
                     selectDate = {this.selectDate}
                     isDepartDate = {this.state.isDepartDate}
+                    departDateStr = {this.state.departDate}
+                    returnDateStr = {this.state.returnDate}
                 />}
             </div>
         );

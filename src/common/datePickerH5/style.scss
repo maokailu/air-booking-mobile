@@ -21,6 +21,22 @@
         background-color: #0288d1;
         color: rgb(247, 244, 244);
         font-size: 15px;
+        padding-top: 10px;
+        .input-box{
+            background-color: #fff;
+            margin: 0 16px;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            color: #0288d1;
+            .input-date{
+                width: 50%;
+                display: inline-block;
+                .gray{
+                    color: rgba(0, 0, 0, 0.48);
+                }
+            }
+        }
         .calender-title{
             display: flex;
             justify-content: space-around;
@@ -57,6 +73,23 @@
                     align-items: center;
                     justify-content: center;
                     color: rgba(0, 0, 0, 0.87);
+                }
+                
+                .start{
+                    background-color: rgba(255, 255, 255, .2);
+                    width: 50%;
+                    transform: translateX(50%);
+                }
+                .end{
+                    background-color: rgba(255, 255, 255, .2);
+                    width: 50%;
+                    transform: translateX(-50%);
+                }
+                .slider{
+                    background-color: rgba(255, 255, 255, .2);
+                    border-radius: 0;
+                    color: #fff;
+                    width: 100%;
                 }
             }
         }
