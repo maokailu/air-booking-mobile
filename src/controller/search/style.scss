@@ -59,9 +59,9 @@
     .box {
         padding: 12px 0;
         border-bottom: 1px solid #D8D8D8;
-        .tit {            
+        .tit {
             font-size: 12px;
-            color: #999999;
+            color: #999;
             letter-spacing: 0;
             line-height: 15px;
         }
@@ -70,13 +70,16 @@
         }
         .content {
             font-size: 20px;
-            color: #333333;
+            color: #333;
             letter-spacing: 0;
             line-height: 24px;
         }
-        .code{            
+        .gray{
+            color: rgba(0, 0, 0, 0.48);
+        }
+        .code {
             font-size: 12px;
-            color: #333333;
+            color: rgba(0, 0, 0, 0.48);
             letter-spacing: 0;
             line-height: 15px;
         }

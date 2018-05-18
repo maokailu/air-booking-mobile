@@ -6,17 +6,16 @@ import {
     Route,
     Switch
 } from 'react-router-dom';
-import {browserHistory} from 'react-router';
 import List from '../list';
 import Detail from '../detail';
 import Book from '../book';
 import Login from '../login';
-// import utils from '../../resources/utils';
+import utils from '../../resources/utils';
 import Header from 'header';
 import Footer from 'footer';
 import Result from '../result';
 import CitySelector from 'citySelector';
-import DatePicker from 'datePicker';
+import DatePicker from '../../common/datePickerH5';
 import Swiper from 'swiper';
 import Account from '../header/account';
 import Help from '../header/help';
@@ -26,11 +25,11 @@ class Search extends React.Component {
     constructor() {
         super();
         this.state = {
-            departCity: { cityName: '上海', cityCode: 'SHA' },
-            arriveCity: { cityName: '北京', cityCode: 'BJS' },
+            departCity: JSON.parse(localStorage.getItem('departCity')) || {},
+            arriveCity: JSON.parse(localStorage.getItem('arriveCity')) || {},
             tripType: 0,
             showCitySelector: false,
-            showDatePicker: false,
+            showDatePicker: true,
             isDepartCity: true,
             idDepartDate: true,
             departDate: '',
@@ -43,7 +42,9 @@ class Search extends React.Component {
         router: PropTypes.object.isRequired
     }
     componentDidMount() {
-        this.initDepartCity();
+        if (utils.isEmpty(this.state.departCity)) {
+            this.getCurrentCityNum();
+        }
         mySwiper = new Swiper('#swiper', {
             // autoplay: true,//可选选项，自动滑动
             direction: 'vertical',
@@ -59,21 +60,34 @@ class Search extends React.Component {
             }
         });
     }
-    initDepartCity = () => {
-        // utils.getPromise('http://localhost:8080/getCurrentCity').then(json => {
-        //     json = JSON.parse(json);
-        //     if (json.city) {
-        //         this.setState({
-        //             departCity: json.city,
-        //             arriveCity: { cityName: '香港', cityCode: 'HKG' }
-        //         }, () => {
-        //             localStorage.setItem('departCityCode', 'SHA');
-        //             localStorage.setItem('arriveCityCode', 'HKG');
-        //         });
+    getCurrentCityNum = () => {
+        // utils.getPromise('http://api.map.baidu.com/location/ip?ak=MTsoYO1kC64Gagtb9FdsXg2fbyyQvoTA').then(json => {
+        //     if (json && json.content) {
+        //         const city = json.content.address_detail;
+        //         if (city) {
+        //              const cityNum = city.city_code;
+        //              this.initDepartCity(cityNum);
+        //         }
         //     }
         // }, error => {
         //     console.error('出错了', error);
         // });
+        this.initDepartCity();
+    }
+    initDepartCity = cityNum => {
+        if (!cityNum) cityNum = 316;
+        const params = `cityNum=${cityNum}`;
+        utils.getPromise(`http://localhost:8080/getCurrentCityByCityNum?${params}`).then(json => {
+            if (json) {
+                this.setState({
+                    departCity: json
+                }, () => {
+                    localStorage.setItem('departCity', JSON.stringify(json));
+                });
+            }
+        }, error => {
+            console.error('出错了', error);
+        });
     }
     clickDepartCity = () => {
         this.setState({
@@ -92,10 +106,12 @@ class Search extends React.Component {
             this.setState({
                 departCity: city
             });
+            localStorage.setItem('departCity', JSON.stringify(city));
         } else {
             this.setState({
                 arriveCity: city
             });
+            localStorage.setItem('arriveCity', JSON.stringify(city));
         }
     }
     clickDepartDate = () => {
@@ -104,7 +120,7 @@ class Search extends React.Component {
             isDepartDate: true
         });
     }
-    clickreturnDate = () => {
+    clickReturnDate = () => {
         this.setState({
             showDatePicker: true,
             isDepartDate: false
@@ -183,45 +199,46 @@ class Search extends React.Component {
         }));
     }
     render() {
-        // debugger
         const tripType = this.state.tripType;
         return (
             <div className="search">
                 <Header />
                 <div className="category">
-                    <span>Hotels</span>
-                    <span className="tab-flights">Flights</span>
-                    <span>Trains</span>
+                    {/* <span>酒店</span> */}
+                    {/* <span className="tab-flights">机票</span> */}
+                    {/* <span>火车</span> */}
                 </div>
                 <div className="search-box">
                     <div className="tab" onClick={this.toggleTripType}>
                         <i className={'toggle-bar ' + (tripType === 0 ? 'left-tab' : 'right-tab')}/>
                         <div className="round_trip"
-                            style={ tripType === 0 ? { color: '#fff' } : { color: '#2681FF' }}>Round Trip</div>
+                            style={ tripType === 0 ? { color: '#fff' } : { color: '#2681FF' }}>往返</div>
                         <div className="one_way"
-                            style={ tripType === 0 ? { color: '#2681FF' } : { color: '#fff' }}>One-Way</div>
+                            style={ tripType === 0 ? { color: '#2681FF' } : { color: '#fff' }}>单程</div>
                     </div>
                     <div className="box" onClick={this.clickDepartCity}>
                         <span className="tit">From</span>
-                        <div className="content">{this.state.departCity.cityName}</div>
+                        <div className={'content' + (this.state.departCity.cityName ? '' : ' gray')}>{this.state.departCity.cityName || '城市或机场'}</div>
                         <span className="code">All Airports</span>
                     </div>
                     <div className="box" onClick={this.clickArriveCity}>
                         <span className="tit">To</span>
-                        <div className="content">{this.state.arriveCity.cityName}</div>
+                        <div className={'content' + (this.state.arriveCity.cityName ? '' : ' gray')}>{this.state.arriveCity.cityName || '城市或机场'}</div>
                         <span className="code">All Airports</span>
                     </div>
 
                     <div className="box hascolumn">
                         <div onClick={this.clickDepartDate}>
                             <div className="tit">Depart</div>
-                            <span className="content">{this.state.departDate || 'Date'}</span>
-                            <span className = "week">Today</span>
+                            <span className={'content' + (this.state.departDate ? '' : ' gray')}>
+                                {this.state.departDate || '日期'}</span>
+                            <span className = "week">今天</span>
                         </div>
-                        <div onClick={this.clickreturnDate}>
+                        <div onClick={this.clickReturnDate}>
                             <div className="tit rdate">Arrive</div>
-                            <span className="content">{this.state.returnDate || 'Date'}</span>
-                            <span className = "week">Today</span>
+                            <span className={'content' + (this.state.returnDate ? '' : ' gray')}>
+                                {this.state.returnDate || '日期'}</span>
+                            <span className = "week">今天</span>
                         </div>
                     </div>
 

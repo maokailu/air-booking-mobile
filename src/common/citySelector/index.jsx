@@ -7,8 +7,8 @@ export default class CitySelector extends React.Component {
         this.state = {
             recentCity: JSON.parse(localStorage.getItem('recentCity')) || [],
             hotCity: JSON.parse(localStorage.getItem('hotCity')) || [],
+            jp: JSON.parse(localStorage.getItem('jp')) || [],
             us: JSON.parse(localStorage.getItem('us')) || [],
-            others: JSON.parse(localStorage.getItem('others')) || [],
             current: this.props.cityCode,
             currentCityName: this.props.currentCityName
         };
@@ -17,21 +17,20 @@ export default class CitySelector extends React.Component {
         this.state.hotCity.length === 0 && this.initGrid();
     }
     initGrid = () => {
-        // const params = { cityCode: 'HKG' };
         utils.getPromise('http://localhost:8080/getHotDestinations', null).then(json => {
             json = JSON.parse(json);
-            if (Object.keys(json).length) {
-                const china = json['China'];
-                const us = json['United States'];
-                const others = json['Others'];
+            if (!utils.isEmpty(json)) {
+                const hotCity = json['ZH'];
+                const jp = json['JP'];
+                const us = json['US'];
                 this.setState({
-                    hotCity: china,
-                    us: us,
-                    others: others
+                    hotCity: hotCity,
+                    jp: jp,
+                    us: us
                 }, () => {
-                    china && localStorage.setItem('hotCity', JSON.stringify(china));
+                    hotCity && localStorage.setItem('hotCity', JSON.stringify(hotCity));
+                    jp && localStorage.setItem('jp', JSON.stringify(jp));
                     us && localStorage.setItem('us', JSON.stringify(us));
-                    others && localStorage.setItem('others', JSON.stringify(others));
                 });
             }
         }, error => {
@@ -44,6 +43,7 @@ export default class CitySelector extends React.Component {
         for (let i = 0;i < recentCity.length;i++) {
             if (recentCity[i].cityCode === city.cityCode) {
                 hasCity = true;
+                this.changeCurrentCity(city);
                 return;
             }
         }
@@ -53,13 +53,16 @@ export default class CitySelector extends React.Component {
                 recentCity.pop();
             }
         }
-        this.setState({
+        this.changeCurrentCity(city, recentCity);
+    }
+    changeCurrentCity = (city, recentCity) => {
+        this.setState((prevState)=>({
             current: city.cityCode,
             currentCityName: city.cityName,
-            recentCity: recentCity
-        }, ()=>{
+            recentCity: recentCity ? recentCity : prevState.recentCity
+        }), ()=>{
             this.props.changeCity(city);
-            localStorage.setItem('recentCity', JSON.stringify(recentCity));
+            recentCity && localStorage.setItem('recentCity', JSON.stringify(recentCity));
             setTimeout(()=>{
                 this.props.closeCitySelector();
             }, 300);
@@ -69,14 +72,16 @@ export default class CitySelector extends React.Component {
         return (
             <div className="city-selector">
                 <div className="title">
-                    <span className="close-btn" onClick = {() => this.props.closeCitySelector()}>arrow</span>
+                    <span className="close-btn icon-keyboard-return"
+                        onClick = {() => this.props.closeCitySelector()}></span>
                     <span className="input-label">{this.props.labelText}</span>
-                    <span className="input-box">{this.state.currentCityName}</span>
+                    <span className="input-box" contentEditable="true">{this.state.currentCityName}</span>
                 </div>
                 <div className="section-title"><span className="label">最近搜寻</span><span className="line"></span></div>
                 <div className="section">
                     {
-                        this.state.recentCity.map((city, index) =>
+                        this.state.recentCity &&
+                        this.state.recentCity.length !== 0 && this.state.recentCity.map((city, index) =>
                             <div key={index}
                                 onClick={()=>this.selectCity(city)}
                                 className={ this.state.current === city.cityCode ? 'current' : ''}>{city.cityName}</div>
@@ -93,20 +98,20 @@ export default class CitySelector extends React.Component {
                         )
                     }
                 </div>
-                <div className="section-title"><span className="label">美国</span><span className="line"></span></div>
+                <div className="section-title"><span className="label">日本</span><span className="line"></span></div>
                 <div className="section">
                     {
-                        this.state.us && this.state.us.length !== 0 && this.state.us.map((city, index) =>
+                        this.state.jp && this.state.jp.length !== 0 && this.state.jp.map((city, index) =>
                             <div key={index}
                                 onClick={()=>this.selectCity(city)}
                                 className={ this.state.current === city.cityCode ? 'current' : ''}>{city.cityName}</div>
                         )
                     }
                 </div>
-                <div className="section-title"><span className="label">其他</span><span className="line"></span></div>
+                <div className="section-title"><span className="label">美国</span><span className="line"></span></div>
                 <div className="section">
                     {
-                        this.state.others && this.state.others.length !== 0 && this.state.others.map((city, index) =>
+                        this.state.us && this.state.us.length !== 0 && this.state.us.map((city, index) =>
                             <div key={index}
                                 onClick={()=>this.selectCity(city)}
                                 className={ this.state.current === city.cityCode ? 'current' : ''}>{city.cityName}</div>

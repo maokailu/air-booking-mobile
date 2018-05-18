@@ -48,8 +48,16 @@ const getPromise = (url, params) => {
     });
     return promise;
 };
+const isEmpty = obj =>{
+    if (Object.keys(obj).length === 0) {
+        return true;
+    } else {
+        return false;
+    }
+};
 export default {
     'getUrlParam': getUrlParam,
     'isMobile': isMobile,
-    'getPromise': getPromise
+    'getPromise': getPromise,
+    'isEmpty': isEmpty
 };

@@ -38,8 +38,8 @@ export default class Header extends React.Component {
     render() {
         const arrow = classNames({
             'arrow': true,
-            'icon-arrow-up': this.state.showHeaderMenu,
-            'icon-arrow-down': !this.state.showHeaderMenu
+            'icon-up-arrow': this.state.showHeaderMenu,
+            'icon-down-arrow': !this.state.showHeaderMenu
         });
         return (
             <div className="header">

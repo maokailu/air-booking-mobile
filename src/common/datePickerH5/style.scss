@@ -1,0 +1,65 @@
+.datePicker {
+    position: absolute;
+    width: 100%;
+    // height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    background-color: #EFEFF4;
+    .datePicker-header{
+        background-color: #fff;
+        display: flex;
+        justify-content: space-between;
+        font-size: 16px;
+        padding: 16px;
+        box-shadow: 0 2px 4px rgba(0,0,0,.24);
+        .header-btn{
+            color: #0288d1;
+        }
+    }
+    .grid{
+        background-color: #0288d1;
+        color: rgb(247, 244, 244);
+        font-size: 15px;
+        .calender-title{
+            display: flex;
+            justify-content: space-around;
+            position: fixed;
+            width: 100%;
+            // top: 0;
+            background-color: #0288d1;
+            font-size: 14px;
+            font-weight: lighter;
+            border-bottom: 2px solid rgba(204, 204, 204, .5);
+        }
+        .month-box{
+            .month{
+                text-align: center;
+                padding: 30px 0 10px 0;
+            }
+            .days{
+                display: grid;
+                grid-template-columns: 14.28% 14.28% 14.28% 14.28% 14.28% 14.28% 14.28%;
+                text-align: center;
+                .day{
+                    padding: 9px 0;
+                }
+                .current{
+                    background: white;
+                    border-radius: 50%;
+                    margin: auto;
+                    width: 40px;
+                    right: 0;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: rgba(0, 0, 0, 0.87);
+                }
+            }
+        }
+    }
+}
+
