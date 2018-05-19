@@ -3,6 +3,7 @@ import './style.scss';
 import utils from '../../resources/utils';
 import Header from '../header';
 import Footer from '../footer';
+let param = '';
 export default class List extends React.Component {
     constructor(props) {
         super(props);
@@ -14,7 +15,7 @@ export default class List extends React.Component {
         departCityCode: localStorage.getItem('departCityCode') || 'SHA'
     }
     componentDidMount() {
-        const params = {
+        param = {
             departCityCode: utils.getUrlParam('departCityCode'),
             arriveCityCode: utils.getUrlParam('arriveCityCode'),
             flightType: utils.getUrlParam('tripType'),
@@ -25,8 +26,7 @@ export default class List extends React.Component {
             classType: utils.getUrlParam('classType'),
             passenger: utils.getUrlParam('passenger')
         };
-        console.log(params);
-        utils.getPromise('http://localhost:8080/getFlights', params).then(json => {
+        utils.getPromise('http://localhost:8080/getFlights', param).then(json => {
             this.setState({
                 flights: json
             });
@@ -34,10 +34,17 @@ export default class List extends React.Component {
             console.error('出错了', error);
         });
     }
-    goToDetail = () => {
+    goToDetail = flight => {
+        console.log(flight);
+        const query = `departCityName=${flight.departCityName}&arriveCityName=${flight.arriveCityName}`
+            + `&departCityCode=${flight.departCityCode}&arriveCityCode=${flight.arriveCityCode}`
+            + `&departAirportCode=${flight.departAirportCode}&arriveAirportCode=${flight.arriveAirportCode}`
+            + `&departTime=${flight.departTime}&returnTime=${flight.returnTime}`
+            + `&classType=${flight.classType}&passenger=${flight.passenger}`
+            + `&tripType=${flight.flightType}`;
         const path = {
-            pathname: '/detail',
-            listcode: 'listcode'
+            pathname: `/detail`,
+            search: query
         };
         this.props.history.push(path);
     }
@@ -45,9 +52,9 @@ export default class List extends React.Component {
         return (
             <div>
                 <Header/>
-                <div className="list" onClick={this.goToDetail}>
+                <div className="list">
                     {this.state.flights && this.state.flights.map((flight, index) =>
-                        <div key={index} className="item">
+                        <div key={index} className="item"  onClick={()=>this.goToDetail(flight)}>
                             <div className="row1">
                                 <img className="logo" src="http://pic.english.c-ctrip.com/airline_logo/32/zh.png"/>
                                 <span className="airline">{flight.departCityCode}</span>

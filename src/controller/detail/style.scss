@@ -9,6 +9,18 @@
     padding: 15px 16px;
     background: #fff;
     margin-bottom: 8px;
+    .depart-text{
+        position: relative;
+        padding: 1px;
+        width: 48px;
+        height: 18px;
+        line-height: 18px;
+        margin-right: 15px;
+        color: #fff;
+        display: inline-block;
+        text-align: center;
+        background: rgba(24, 153, 242, .6);
+    }
     .flight-list {
         padding: 8px;
         display: flex;
