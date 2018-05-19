@@ -1,6 +1,6 @@
 import React from 'react';
 import './style.scss';
-const shortMonthNamesEn= ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+// const shortMonthNamesEn = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const shortMonthNames = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
 let selectCount = 0;
 export default class Pagination extends React.Component {
@@ -9,8 +9,8 @@ export default class Pagination extends React.Component {
         this.state = {
             grid: [],
             current: -1,
-            start: -1,
-            end: -1,
+            // start: -1,
+            // end: -1,
             departDateStr: this.props.departDateStr,
             returnDateStr: this.props.returnDateStr
         };
@@ -55,7 +55,6 @@ export default class Pagination extends React.Component {
         this.setState({
             grid: grid
         });
-        console.log(grid);
     }
     getDays = () => {
         const date = new Date();
@@ -65,7 +64,6 @@ export default class Pagination extends React.Component {
         const end = new Date(year, month, 0).getDate();
         const firstDay = new Date(year, month, 1);
         const start = firstDay.getDay();
-        console.log(year, month, start);
         for (let i = 1; i <= start; i++) {
             days.push(0);
         }
@@ -75,73 +73,79 @@ export default class Pagination extends React.Component {
         this.setState({
             days: days
         });
-        console.log(days);
         return days;
     }
-    clickDate = (year, month, day, index) =>{
+    clickDate = (year, month, day, index) => {
+        console.log(this.state);
         selectCount++;
-        console.log(year, month, day, index);
         const shortMonthName = shortMonthNames[month];
         const dateStr = `${shortMonthName}${day}日`;
-        // this.setState({
-        //     current: index
-        // });
         const date = new Date(year, month, day);
-        this.props.selectDate(shortMonthName, day, dateStr, date);
+        // 选择出发日期
         if (this.props.isDepartDate) {
+            // 第一次点击选择出发日期
             if (selectCount === 1) {
                 this.setState({
                     departDateStr: dateStr,
                     start: index
                 });
                 localStorage.setItem('departDateStr', dateStr);
+                this.props.selectDate(true, shortMonthName, day, dateStr, date);
             } else if (selectCount === 2) {
+                // 第二次点击选择到达日期
                 this.setState({
                     returnDateStr: dateStr,
                     end: index
+                }, () => {
+                    localStorage.setItem('returnDateStr', dateStr);
+                    this.props.selectDate(false, shortMonthName, day, dateStr, date);
+                    setTimeout(() => {
+                        // this.props.closeDatePicker();
+                    }, 500);
+                    selectCount = 0;
                 });
-                localStorage.setItem('returnDateStr', dateStr);
-                setTimeout(()=>{
-                    this.props.closeDatePicker();
-                }, 500);
-                selectCount = 0;
             }
+            // localStorage.setItem('end', this.state.end);
+            // localStorage.setItem('start', this.state.start);
         } else {
+            // 选择到达日期
             this.setState({
-                returnDateStr: dateStr
+                returnDateStr: dateStr,
+                end: index
             });
             localStorage.setItem('returnDateStr', dateStr);
-            setTimeout(()=>{
-                this.props.closeDatePicker();
+            this.props.selectDate(false, shortMonthName, day, dateStr, date);
+            setTimeout(() => {
+                // this.props.closeDatePicker();
             }, 500);
             selectCount = 0;
         }
     }
     clickCancel = () => {
-        
+
     }
     clickComfirm = () => {
-        
+
     }
     render() {
         return (
             <div className="datePicker">
-                <div className = "datePicker-header">
-                    <span className="header-btn" onClick={()=>this.props.closeDatePicker()}>取消</span>
+                <div className="datePicker-header">
+                    <span className="header-btn" onClick={() => this.props.closeDatePicker()}>取消</span>
                     <span>选择日期</span>
-                    <span className="header-btn" onClick={()=>this.props.closeDatePicker()}>确定</span>
+                    <span className="header-btn" onClick={() => this.props.closeDatePicker()}>确定</span>
                 </div>
                 <div className="grid">
                     <div className="input-box">
                         <div className="input-date">
                             <div>出发</div>
                             <div className={this.state.departDateStr ? 'blue' : 'gray'}>
-                                {this.state.departDateStr || '日期' }</div>
+                                {this.state.departDateStr || '日期'}</div>
                         </div>
                         <div className="input-date">
                             <div>到达</div>
                             <div className={this.state.returnDateStr ? 'blue' : 'gray'}>
-                                {this.state.returnDateStr || '日期' }</div>
+                                {this.state.returnDateStr || '日期'}</div>
                         </div>
                     </div>
                     <div className="calender-title">
@@ -159,15 +163,27 @@ export default class Pagination extends React.Component {
                                 <div className="month">{obj.year + '年' + obj.shortMonthName}</div>
                                 <div className="days">
                                     {obj.days.map((day, dayIndex) => (
-                                        <div key={dayIndex}
-                                            className={'day'
-                                            // + (this.state.current === monthIndex * 100 + dayIndex ? ' current' : '')
-                                            + (this.state.start === monthIndex * 100 + dayIndex ? ' current start' : '')
-                                            + (this.state.end === monthIndex * 100 + dayIndex ? ' current end' : '')
-                                            + ((this.state.start < monthIndex * 100 + dayIndex < this.state.end) ? ' slider' : '')
-                                            }
-                                            onClick={()=>this.clickDate(obj.year, obj.month, day, monthIndex * 100 + dayIndex)}>
-                                            {day !== 0 && day}
+                                        <div key={dayIndex} className="ceil"
+                                            onClick={() =>
+                                                this.clickDate(obj.year, obj.month, day, monthIndex * 100 + dayIndex)}>
+                                            <span className={'num' +
+                                            (((monthIndex * 100 + dayIndex === this.state.start) ||
+                                            (monthIndex * 100 + dayIndex === this.state.end)) ? ' black' : '')
+                                            }>
+                                                {day !== 0 && day}
+                                            </span>
+                                            <div
+                                                className={
+                                                    (this.state.start === monthIndex * 100 + dayIndex ?
+                                                        'half start' : '')
+                                                    + (this.state.end === monthIndex * 100 + dayIndex ? 'half end' : '')
+                                                    + (((monthIndex * 100 + dayIndex > this.state.start) &&
+                                                        (monthIndex * 100 + dayIndex < this.state.end)) ? 'slider' : '')
+                                                }>
+                                            </div>
+                                            <div className={((this.state.end === monthIndex * 100 + dayIndex) ||
+                                                (this.state.start === monthIndex * 100 + dayIndex)) ?
+                                                'current' : ''}></div>
                                         </div>
                                     ))}
                                 </div>

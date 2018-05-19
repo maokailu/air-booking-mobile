@@ -12,7 +12,7 @@
         justify-content: space-between;
         font-size: 16px;
         padding: 16px;
-        box-shadow: 0 2px 4px rgba(0,0,0,.24);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, .24);
         .header-btn{
             color: #0288d1;
         }
@@ -57,39 +57,55 @@
                 display: grid;
                 grid-template-columns: 14.28% 14.28% 14.28% 14.28% 14.28% 14.28% 14.28%;
                 text-align: center;
-                .day{
+                .ceil{
+                    position: relative;
                     padding: 9px 0;
-                }
-                .current{
-                    background: white;
-                    border-radius: 50%;
-                    margin: auto;
-                    width: 40px;
-                    right: 0;
-                    top: 0;
-                    bottom: 0;
-                    left: 0;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    color: rgba(0, 0, 0, 0.87);
-                }
-                
-                .start{
-                    background-color: rgba(255, 255, 255, .2);
-                    width: 50%;
-                    transform: translateX(50%);
-                }
-                .end{
-                    background-color: rgba(255, 255, 255, .2);
-                    width: 50%;
-                    transform: translateX(-50%);
-                }
-                .slider{
-                    background-color: rgba(255, 255, 255, .2);
-                    border-radius: 0;
-                    color: #fff;
-                    width: 100%;
+                    // 白色圆形背景
+                    .current{
+                        background: rgba(255, 255, 255, 1);
+                        border-radius: 50%;
+                        margin: auto;
+                        width: 40px;
+                        position: absolute;
+                        right: 0;
+                        top: 0;
+                        bottom: 0;
+                        left: 0;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: rgba(0, 0, 0, .87);
+                    }
+                    // 阴影
+                    .slider{
+                        background-color: rgba(255, 255, 255, .2);
+                        position: absolute;
+                        top: 0;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
+                    }
+                    .half{
+                        background-color: rgba(255, 255, 255, .2);
+                        position: absolute;
+                        top: 0;
+                        bottom: 0;
+                        width: 50%;
+                    }
+                    .start{
+                        right: 0;
+                    }
+                    .end{
+                        left: 0;
+                    }
+                    // 数字
+                    .num{
+                        z-index: 999;
+                        position: relative;
+                    }
+                    .black {
+                        color: rgba(0, 0, 0, .87);
+                    }
                 }
             }
         }

@@ -37,7 +37,9 @@ class Search extends React.Component {
             departDateObj: {},
             returnDateObj: {},
             passenger: 1,
-            classType: ['Economy', 'Business', 'First']
+            classType: ['Economy', 'Business', 'First'],
+            start: localStorage.getItem('start') || -1,
+            end: localStorage.getItem('end') || -1
         };
     }
     static contextTypes = {
@@ -128,9 +130,9 @@ class Search extends React.Component {
             isDepartDate: false
         });
     }
-    selectDate = (month, day, departDateStr, date) => {
-        console.log(date);
-        if (this.state.isDepartDate) {
+    selectDate = (isDepartDate, month, day, departDateStr, date, start, end) => {
+        console.log(start, end);
+        if (isDepartDate) {
             this.setState({
                 departDate: departDateStr,
                 departDateObj: date
@@ -222,12 +224,14 @@ class Search extends React.Component {
                     </div>
                     <div className="box" onClick={this.clickDepartCity}>
                         <span className="tit">From</span>
-                        <div className={'content' + (this.state.departCity.cityName ? '' : ' gray')}>{this.state.departCity.cityName || '城市或机场'}</div>
+                        <div className={'content' + (this.state.departCity.cityName ? '' : ' gray')}>
+                            {this.state.departCity.cityName || '城市或机场'}</div>
                         <span className="code">All Airports</span>
                     </div>
                     <div className="box" onClick={this.clickArriveCity}>
                         <span className="tit">To</span>
-                        <div className={'content' + (this.state.arriveCity.cityName ? '' : ' gray')}>{this.state.arriveCity.cityName || '城市或机场'}</div>
+                        <div className={'content' + (this.state.arriveCity.cityName ? '' : ' gray')}>
+                            {this.state.arriveCity.cityName || '城市或机场'}</div>
                         <span className="code">All Airports</span>
                     </div>
 

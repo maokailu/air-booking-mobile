@@ -12,7 +12,6 @@ export default class Detail extends React.Component {
         console.log(localStorage.getItem('flightsId'));
     }
     goToBook = () => {
-        debugger
         this.props.history.push('./book');
     }
     render() {

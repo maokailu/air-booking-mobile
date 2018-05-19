@@ -52,17 +52,16 @@ export default class Book extends React.Component {
             ticket: ticket,
             passengers: passengers
         };
-        // utils.getPromise('http://localhost:8080/createOrder', params).then(json => {
-        //     console.log(json);
-        //     json = JSON.parse(json);
-        //     this.goToPay(json);
-        // }, error => {
-        //     console.error('出错了', error);
-        // });
+        utils.getPromise('http://localhost:8080/createOrder', params).then(json => {
+            console.log(json);
+            json = JSON.parse(json);
+            this.goToPay(json);
+        }, error => {
+            console.error('出错了', error);
+        });
         this.goToPay();
     }
     goToPay = json => {
-        debugger
         const passenger = this.state.passengers[0];
         const path = {
             pathname: '/result',
@@ -95,7 +94,6 @@ export default class Book extends React.Component {
                 </div>
                 <div className="contact-person-txt"> 联络人信息</div>
                 <div className="txt">若您預訂的行程有任何問題，Trip.com 會主動聯絡您。</div>
-                
                 <div className="contact-person-form" onChange={this.getInputContent}>
                     <div contentEditable="true">1</div>
                     <div contentEditable="true">2</div>
