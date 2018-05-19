@@ -1,9 +1,11 @@
 
 .list{
-    background: #EFEFF4;
+    background-color: #EFEFF4;
+    min-height: calc(100vh - 150px);
+    padding-top: 5px;
     .item {
         background: #fff;
-        margin: 5px 5px 0;
+        margin: 0 5px 5px 5px;
         padding: 5px 12px;
         .row1 {
             .logo {
@@ -47,8 +49,4 @@
             color: #999;
         }
     }
-}
-
-.list-header{
-    background-color: #1785E6;
 }

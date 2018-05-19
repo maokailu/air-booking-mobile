@@ -36,17 +36,17 @@ export default class Pagination extends React.Component {
             for (let i = start; i <= end + start - 1; i++) {
                 days.push(i - start + 1);
             }
+            const obj = {};
+            obj.month = month;
+            const shortMonthName = shortMonthNames[month];
             if (month < 12) {
                 month++;
             } else {
                 month = 1;
                 year++;
             }
-            const shortMonthName = shortMonthNames[month - 1];
-            const obj = {};
             // obj.title = year + '年' + shortMonthName;
             obj.year = year;
-            obj.month = month;
             obj.days = days;
             obj.shortMonthName = shortMonthName;
             grid.push(obj);
@@ -76,7 +76,7 @@ export default class Pagination extends React.Component {
         return days;
     }
     clickDate = (year, month, day, index) => {
-        console.log(this.state);
+        console.log(month);
         selectCount++;
         const shortMonthName = shortMonthNames[month];
         const dateStr = `${shortMonthName}${day}日`;

@@ -27,17 +27,17 @@ class Search extends React.Component {
         this.state = {
             departCity: JSON.parse(localStorage.getItem('departCity')) || {},
             arriveCity: JSON.parse(localStorage.getItem('arriveCity')) || {},
-            tripType: 0,
+            tripType: 1,
             showCitySelector: false,
             showDatePicker: false,
             isDepartCity: true,
             isDepartDate: true,
             departDate: localStorage.getItem('departDateStr') || '',
             returnDate: localStorage.getItem('returnDateStr') || '',
-            departDateObj: {},
-            returnDateObj: {},
+            departDateObj: new Date(JSON.parse(localStorage.getItem('departDateObj'))) || {},
+            returnDateObj: new Date(JSON.parse(localStorage.getItem('returnDateObj'))) || {},
             passenger: 1,
-            classType: ['Economy', 'Business', 'First'],
+            classType: ['First', 'Business', 'Economy'],
             start: localStorage.getItem('start') || -1,
             end: localStorage.getItem('end') || -1
         };
@@ -63,6 +63,8 @@ class Search extends React.Component {
                 }
             }
         });
+        
+        console.log(this.state.departDateObj);
     }
     getCurrentCityNum = () => {
         // utils.getPromise('http://api.map.baidu.com/location/ip?ak=MTsoYO1kC64Gagtb9FdsXg2fbyyQvoTA').then(json => {
@@ -137,11 +139,13 @@ class Search extends React.Component {
                 departDate: departDateStr,
                 departDateObj: date
             });
+            localStorage.setItem('departDateObj', JSON.stringify(date));
         } else {
             this.setState({
                 returnDate: departDateStr,
                 returnDateObj: date
             });
+            localStorage.setItem('returnDateObj', JSON.stringify(date));
         }
     }
     closeDatePicker = () => {
@@ -150,6 +154,7 @@ class Search extends React.Component {
         });
     }
     search = () => {
+        // debugger
         const departCity = this.state.departCity;
         const arriveCity = this.state.arriveCity;
         const departCityName = departCity.cityName;
@@ -158,16 +163,18 @@ class Search extends React.Component {
         const arriveCityCode = arriveCity.cityCode;
         const departAirportCode = departCity.departCode || 'ALL';
         const arriveAirportCode = arriveCity.arriveCode || 'ALL';
-        const departDate = this.state.departDate || new Date();
-        const returnDate = this.state.returnDate || new Date();
-        const classType = this.state.classType[mySwiper.realIndex];
+        const departDate = this.state.departDateObj.getTime();
+        const returnDate = this.state.returnDateObj.getTime();
+        const classType = mySwiper.realIndex;
         const passenger = this.state.passenger;
+        const tripType = this.state.tripType;
         if (this.state.departCity) {
             const query = `departCityName=${departCityName}&arriveCityName=${arriveCityName}`
             + `&departCityCode=${departCityCode}&arriveCityCode=${arriveCityCode}`
             + `&departAirportCode=${departAirportCode}&arriveAirportCode=${arriveAirportCode}`
             + `&departDate=${departDate}&returnDate=${returnDate}`
-            + `&classType=${classType}&passenger=${passenger}`;
+            + `&classType=${classType}&passenger=${passenger}`
+            + `&tripType=${tripType}`;
             const path = {
                 pathname: `/list`,
                 search: query
@@ -195,11 +202,17 @@ class Search extends React.Component {
         });
     }
     minus = () =>{
+        if (this.state.passenger === 1) {
+            return;
+        }
         this.setState(prevState => ({
             passenger: prevState.passenger - 1
         }));
     }
     plus = () =>{
+        if (this.state.passenger === 9) {
+            return;
+        }
         this.setState(prevState => ({
             passenger: prevState.passenger + 1
         }));
@@ -208,7 +221,7 @@ class Search extends React.Component {
         const tripType = this.state.tripType;
         return (
             <div className="search">
-                <Header />
+                <Header isHome />
                 <div className="category">
                     {/* <span>酒店</span> */}
                     {/* <span className="tab-flights">机票</span> */}
@@ -265,9 +278,9 @@ class Search extends React.Component {
                         </div>
                         <div className="passenger">
                             <div className="tit">Passenger</div>
-                            <span className="minus" onClick={this.minus}>--</span>
+                            <span className={'icon-minus minus' + (this.state.passenger <= 1 ? ' gray' : ' blue')} onClick={this.minus}></span>
                             <span className="content number">{this.state.passenger}</span>
-                            <span className="plus" onClick={this.plus}>++</span>
+                            <span className={'icon-plus plus' + (this.state.passenger >= 9 ? ' gray' : ' blue')} onClick={this.plus}></span>
                         </div>
                     </div>
                     <div className="search-btn" onClick = {this.search}>Search</div>

@@ -17,14 +17,15 @@ export default class List extends React.Component {
         const params = {
             departCityCode: utils.getUrlParam('departCityCode'),
             arriveCityCode: utils.getUrlParam('arriveCityCode'),
-            flightType: utils.getUrlParam('flightType') || 1,
+            flightType: utils.getUrlParam('tripType'),
             departAirportCode: utils.getUrlParam('departAirportCode'),
             arriveAirportCode: utils.getUrlParam('arriveAirportCode'),
-            departTime: utils.getUrlParam('departTime') || new Date(),
-            returnTime: utils.getUrlParam('returnTime') || new Date(),
-            classType: 1,
-            passenger: 1
+            departTime: utils.getUrlParam('departDate'),
+            returnTime: utils.getUrlParam('returnDate'),
+            classType: utils.getUrlParam('classType'),
+            passenger: utils.getUrlParam('passenger')
         };
+        console.log(params);
         utils.getPromise('http://localhost:8080/getFlights', params).then(json => {
             this.setState({
                 flights: json
@@ -43,7 +44,7 @@ export default class List extends React.Component {
     render() {
         return (
             <div>
-                <Header className="list-header"/>
+                <Header/>
                 <div className="list" onClick={this.goToDetail}>
                     {this.state.flights && this.state.flights.map((flight, index) =>
                         <div key={index} className="item">

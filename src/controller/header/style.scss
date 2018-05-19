@@ -1,11 +1,18 @@
 .header {
-    padding: 0 20px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    background-color: #fff;
     display: flex;
     flex-direction: column;
+    .white{
+        color: #fff;
+    }
+    .blue{
+        color: #0288d1;
+    }
     .head {
-        padding: 16px 0 16px 0;
+        padding: 16px;
+        .logo-text{
+            font: 20px Helvetica Neue, Roboto, arial, sans-serif;
+        }
         .logo {
             background: url('../../resources/img/triplogo.png') no-repeat scroll 0 0;
             width: 70px;
@@ -19,9 +26,12 @@
             color: #9b9b9b;
             border-right: 1px solid #ddd;
             margin-right: 4px;
+            transform: translateY(4px);
+            display: inline-block;
         }
     }
     .main {
+        padding: 0 20px;
         overflow-x: hidden;
         height: 100vh;
         .home, .account, .bookings, .language, .currency, .help, .sign-out {
@@ -39,4 +49,11 @@
             padding-bottom: 0;
         }
     }
+}
+
+.blue-back{
+    background-color: #0288d1;
+}
+.white-back{
+    background-color: #fff;
 }

@@ -42,10 +42,11 @@ export default class Header extends React.Component {
             'icon-down-arrow': !this.state.showHeaderMenu
         });
         return (
-            <div className="header">
-                <div className="head"
+            <div className = "header">
+                <div className={'head' + (this.props.isHome ? ' white-back' : ' blue-back')}
                     onClick={this.expandHeader}>
-                    <i className="logo"></i>
+                    {/* <i className="logo"></i> */}
+                    <i className={'logo-text' + (this.props.isHome ? ' blue' : ' white')}>机票预定</i>
                     <i className={arrow}>
                     </i>
                 </div>

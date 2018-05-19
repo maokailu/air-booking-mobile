@@ -90,17 +90,22 @@
             margin-left: 4px;
         }
         .minus{
-            // margin-right: 10px;
-            padding: 0 10px;
+            display: inline-block;
+            font-size: 20px;
+            transform: translateY(3px);
+        }
+        .plus{
+            display: inline-block;
+            font-size: 20px;
+            transform: translateY(3px);
         }
         .number{
             margin: 0 10px;
         }
-        
         .class{
             .content{
-                height:40px;
-                overflow:hidden;
+                height: 40px;
+                overflow: hidden;
                 #swiper{
                     .wrapper{
                         .slide{
