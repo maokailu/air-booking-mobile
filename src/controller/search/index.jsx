@@ -37,7 +37,7 @@ class Search extends React.Component {
             departDateObj: new Date(JSON.parse(localStorage.getItem('departDateObj'))) || {},
             returnDateObj: new Date(JSON.parse(localStorage.getItem('returnDateObj'))) || {},
             passenger: 1,
-            classType: ['First', 'Business', 'Economy'],
+            classType: ['头等舱', '商务舱', '经济舱'],
             start: localStorage.getItem('start') || -1,
             end: localStorage.getItem('end') || -1
         };

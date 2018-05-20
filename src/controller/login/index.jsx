@@ -1,5 +1,6 @@
 import React from 'react';
 import './style.scss';
+import utils from '../../resources/utils';
 export default class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -15,13 +16,26 @@ export default class Login extends React.Component {
             username: event.target.value
         });
     }
-    inputPassword = () => {
+    inputPassword = event => {
         this.setState({
             password: event.target.value
         });
     }
     closeLogin = () => {
         console.log(this.props.history.goBack());
+    }
+    login = () => {
+        const params = {
+            userId: this.state.username,
+            password: this.state.password
+        };
+        utils.getPromise(`http://localhost:8080/login`, params).then(json => {
+            if (json) {
+                console.log(json);
+            }
+        }, error => {
+            console.error('出错了', error);
+        });
     }
     render() {
         return (
@@ -38,7 +52,7 @@ export default class Login extends React.Component {
                     <span>记住我</span>
                     <span>忘记密码</span>
                 </div>
-                <div className="comfirm">登录</div>
+                <div className="comfirm" onClick={this.login}>登录</div>
                 <div className="register">
                     <span className="tip">{`还没有账户?`}</span>
                     <span className="btn">{`注册>>`}</span>

@@ -109,7 +109,6 @@ export default class Book extends React.Component {
         //     }
         // };
         // this.props.history.push(path);
-        debugger
         const query = `resultInfo=${json.result}`;
 
         const path = {
