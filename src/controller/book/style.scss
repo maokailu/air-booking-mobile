@@ -11,16 +11,26 @@
         display: grid;
         grid-template-columns: 49% 49%;
         justify-content: space-between;
-        .person, .more {
+        .person-info{
+            display: flex;
+            justify-content: space-between;
             border: solid 1px #1899F2;
-            padding: 6px 12px;
+            padding: 10px 12px;
             margin-bottom: 10px;
             border-radius: 4px;
-            .name{
-                font-size: 16px;
+            .person, .more {
+                flex: 1;
+                .name{
+                    font-size: 16px;
+                }
+                .card{
+                    color: #999;
+                }
             }
-            .card{
-                color: #999;
+            .checked{
+                display: flex;
+                align-items: center;
+                color: rgb(32, 194, 145);
             }
         }
         .more{
@@ -58,7 +68,7 @@
         .input-item{
             display: flex;
             justify-content: space-between;
-            border-bottom: solid 1px #ccc;
+            border-top: solid 1px #ccc;
             input {
                 border: 0;
                 display: block;

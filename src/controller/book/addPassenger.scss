@@ -1,0 +1,58 @@
+.addPassenger{
+    z-index: 999;
+    position: absolute;
+    top: 0;
+    left: 0;
+    // bottom: 0;
+    right: 0;
+    background: #EFEFF4;
+    min-height: 100vh;
+    .title-info{
+        display: flex;
+        background: #fff;
+        justify-content: space-between;
+        padding: 16px;
+        font-size: 16px;
+        .title-btn{
+            color: #0288d1;
+        }
+        .title{
+            color: rgba(0,0,0,.87);
+        }
+    }
+    .main{
+        padding: 0 8px;
+        .text{
+            margin: 8px 0;
+        }
+        .input-box{
+            padding: 0 16px;
+            background: #fff;
+            border-radius: 4px;
+            input{
+                border: 0;
+                display: block;
+                padding: 20px 0 10px;
+                outline: 0;
+                font-size: 16px;
+                width: 100%;
+            }
+            .last-name{
+                border-bottom: 1px solid rgba(0,0,0,.12);
+            }
+        }
+        .gender{
+            display: flex;
+            justify-content: space-between;
+            margin: 16px 0;
+            div{
+                background: #fff;
+                width: 48%;
+                padding: 15px 0;
+                text-align: center;
+                border-radius: 4px;
+                font-size: 16px;
+            }
+        }
+    }
+}

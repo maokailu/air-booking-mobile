@@ -72,7 +72,8 @@ export default class Detail extends React.Component {
         const query = `&departAirportCode=${utils.getUrlParam('departAirportCode')}&arriveAirportCode=${utils.getUrlParam('arriveAirportCode')}`
             + `&departAirportName=${utils.getUrlParam('departAirportName')}&arriveAirportName=${utils.getUrlParam('arriveAirportName')}`
             + `&departTimeStr=${params.departTimeStr}&departHMStr=${params.departHMStr}`
-            + `&arriveHMStr=${params.arriveHMStr}`;
+            + `&arriveHMStr=${params.arriveHMStr}`
+            + `&flightId=${params.flightId}&cabinClassId=${utils.getUrlParam('classType')}`;
 
         const path = {
             pathname: `/book`,
