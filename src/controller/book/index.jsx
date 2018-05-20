@@ -20,7 +20,7 @@ export default class Book extends React.Component {
         showMaxEmailTip: false,
         showNamePassTip: false,
         passengersId: [],
-        showAddPassenger: true
+        showAddPassenger: false
     }
     componentDidMount() {
         utils.getPromise('http://localhost:8080/getPassengers').then(json => {
@@ -278,14 +278,17 @@ export default class Book extends React.Component {
         if (isConfirm) {
             if (data) {
                 const passengers = this.state.passengers;
+                const passengersId = this.state.passengersId;
                 const passenger = {
                     name: data.name,
                     cardNumber: data.cardNumber,
                     passengerId: data.passengerId
                 };
                 passengers.push(passenger);
+                passengersId.push(data.passengerId);
                 this.setState({
-                    passengers: passengers
+                    passengers: passengers,
+                    passengersId: passengersId
                 });
                 console.log(data.passengerId);
             }
