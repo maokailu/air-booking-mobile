@@ -44,6 +44,9 @@ export default class Detail extends React.Component {
         const minutesOfArriveTime = arriveTimeObj.getMinutes();
         const arriveHMStr = `${hoursOfArriveTime}:${minutesOfArriveTime}`;
         // const arriveTimeStr = `${monthOfArriveTime}月${dateOfArriveTime}日(周${weekOfArriveTime})`;
+        const duringHours = Math.round((parseInt(arriveTime) - parseInt(departTime)) / 1000 / 60 / 60);
+        const duringMinutes = Math.round((parseInt(arriveTime) - parseInt(departTime)) / 1000 / 60 / 60);
+        const duringTimeStr = duringHours + '小时' + duringMinutes + '分';
         const params = {
             departHMStr: departHMStr,
             departTimeStr: departTimeStr,
@@ -59,7 +62,8 @@ export default class Detail extends React.Component {
             classType: ['头等舱', '商务舱', '经济舱'][classType],
             airportTax: airportTax,
             ticketPrice: ticketPrice,
-            totalPrice: parseInt(airportTax) + parseInt(ticketPrice)
+            totalPrice: parseInt(airportTax) + parseInt(ticketPrice),
+            duringTimeStr: duringTimeStr
         };
         this.setState({ params: params });
     }
@@ -80,6 +84,7 @@ export default class Detail extends React.Component {
                     <span className="title-text">{this.state.params.flightId}</span>
                     <span className="title-text">{this.state.params.classType}</span>
                     <span className="title-text">{this.state.params.departTimeStr}</span>
+                    <span className="title-text">{this.state.params.duringTimeStr}</span>
                     <div className="flight-list">
                         <div className="time">
                             <span>{this.state.params.departHMStr}</span>
@@ -137,14 +142,14 @@ export default class Detail extends React.Component {
                         <span className="right">{'人民币 ' + this.state.params.ticketPrice}</span>
                     </div>
                     <div className="price-row style1">
-                        <span>{'税&&服务费'}</span>
+                        <span>{'税&服务费'}</span>
                         <span className="right">{'人民币 ' + this.state.params.airportTax}</span>
                     </div>
                     <div className="price-row border style2">
                         <span>总价</span>
                         <span className="right">{'人民币 ' + this.state.params.totalPrice}</span>
                     </div>
-                    <div className="btn" onClick={this.goToBook}>Comfirm</div>
+                    <div className="btn" onClick={this.goToBook}>确认</div>
                 </div>
                 <div className="footer">
                     <i className="flight-logo" />
