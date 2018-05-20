@@ -37,6 +37,7 @@ export default class Book extends React.Component {
         const departTimeStr = utils.getUrlParam('departTimeStr');
         const departHMStr = utils.getUrlParam('departHMStr');
         const arriveHMStr = utils.getUrlParam('arriveHMStr');
+        const totalPrice = utils.getUrlParam('totalPrice');
         params = {
             departAirportCode: departAirportCode,
             arriveAirportCode: arriveAirportCode,
@@ -44,79 +45,11 @@ export default class Book extends React.Component {
             arriveAirportName: arriveAirportName,
             departTimeStr: departTimeStr,
             departHMStr: departHMStr,
-            arriveHMStr: arriveHMStr
+            arriveHMStr: arriveHMStr,
+            totalPrice: totalPrice
         };
-        console.log(params);
     }
-    // createOrder = () => {
-    //     const order = {
-    //         orderId: 0,
-    //         userId: 2,
-    //         contactName: '毛凯露',
-    //         orderDate: new Date(),
-    //         orderState: 0,
-    //         totalTicketPrice: 0,
-    //         totalFuelSurcharge: 0,
-    //         totalAirportTax: 0,
-    //         totalPrice: 0,
-    //         cellphone: 0,
-    //         email: 0,
-    //         zipCode: 0
-    //     };
-    //     const orderItem = {
-    //         orderItemId: 2,
-    //         orderId: 0,
-    //         ticketId: 0,
-    //         seatRequire: 0
-    //     };
-    //     const ticket = {
-    //         ticketId: 1,
-    //         flightId: 0,
-    //         cabinClassId: 0
-    //     };
-    //     const passengers = [{ passengerId: 0 }, { passengerId: 2 }];
-    //     const params = {
-    //         order: order,
-    //         orderItem: orderItem,
-    //         ticket: ticket,
-    //         passengers: passengers
-    //     };
-    //     utils.getPromise('http://localhost:8080/createOrder', params).then(json => {
-    //         console.log(json);
-    //         json = JSON.parse(json);
-    //         this.goToPay(json);
-    //     }, error => {
-    //         console.error('出错了', error);
-    //     });
-    //     this.goToPay();
-    // }
-    // goToPay = json => {
-    //     const passenger = this.state.passengers[0];
-    //     const path = {
-    //         pathname: '/result',
-    //         query: {
-    //             passenger: passenger,
-    //             resultInfo: json
-    //         }
-    //     };
-    //     // this.createOrder();
-    //     this.props.history.push(path);
-    // }
-    // getContactName = event =>{
-    //     console.log(event.target.value);
-    //     if (event.target.value.length >= 11) {
-    //         this.setState({
-    //             showMaxNameTip: true
-    //         });
-    //     } else {
-    //         this.setState({
-    //             contactName: event.target.value,
-    //             showMaxNameTip: false
-    //         });
-    //     }
-    // }
     createOrder = () => {
-
         const order = {
             // orderId: 0,
             // 从cookie中取，如果没有，要求登陆
@@ -167,13 +100,21 @@ export default class Book extends React.Component {
         });
     }
     goToPay = json => {
-        const passenger = this.state.passengers[0];
+        // const passenger = this.state.passengers[0];
+        // const path = {
+        //     pathname: '/result',
+        //     query: {
+        //         passenger: passenger,
+        //         resultInfo: json
+        //     }
+        // };
+        // this.props.history.push(path);
+        debugger
+        const query = `resultInfo=${json.result}`;
+
         const path = {
-            pathname: '/result',
-            query: {
-                passenger: passenger,
-                resultInfo: json
-            }
+            pathname: `/result`,
+            search: query
         };
         this.props.history.push(path);
     }
@@ -358,7 +299,7 @@ export default class Book extends React.Component {
                     </div>
                     <div className="price">
                         <div className="tit">总价</div>
-                        <div><span className="money-type">人名币</span><span className="number">6666</span></div>
+                        <div><span className="money-type">人名币</span><span className="number">{params.totalPrice}</span></div>
                     </div>
                     <div className="comfirm-btn" onClick={this.createOrder}>确认</div>
                     <div className="secured">祝您旅途愉快！</div>
