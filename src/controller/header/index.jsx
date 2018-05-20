@@ -35,6 +35,9 @@ export default class Header extends React.Component {
         };
         this.props.history.push(path);
     }
+    goHome = () => {
+        location.href = 'http://localhost:8082/';
+    }
     render() {
         const arrow = classNames({
             'arrow': true,
@@ -58,30 +61,30 @@ export default class Header extends React.Component {
                     }
                 </div>
                 {this.state.showHeaderMenu && <div className="main">
-                    <div className="home">
-                        <span className="left">Home</span>
-                        <span className="right">Home</span>
+                    <div className="home" onClick={this.goHome}>
+                        <span className="left">首页</span>
+                        {/* <span className="right">Home</span> */}
                     </div>
                     <div className="account" onClick={this.clickAccount}>
-                        <span className="left">Accounts</span>
-                        <span className="right">Linda/LaLaLa</span>
+                        <span className="left">账户</span>
+                        <span className="right">毛凯露</span>
                     </div>
                     <div className="bookings">
-                        <span className="left">My Bookings</span>
+                        <span className="left">我的订单</span>
                     </div>
                     <div className="language">
-                        <span className="left">Language</span>
-                        <span className="right">English (United States)</span>
+                        <span className="left">语言</span>
+                        <span className="right">中文</span>
                     </div>
                     <div className="currency">
-                        <span className="left">Currency</span>
-                        <span className="right">DNY</span>
+                        <span className="left">货币</span>
+                        <span className="right">人民币</span>
                     </div>
                     <div className="help" onClick={this.clickHelp}>
-                        <span className="left">Help</span>
+                        <span className="left">帮助</span>
                     </div>
                     <div className="sign-out">
-                        <span className="left">Sign out</span>
+                        <span className="left">登出</span>
                     </div>
                 </div>}
             </div>

@@ -1,21 +1,31 @@
-.account {
-    padding-left: 20px;
-    background: #fff;
-    .title {
-        padding: 10px 0 15px;
-        border-bottom: 1px solid #ddd;
-        .username {
-            color: #000;
-            font-size: 18px;
+.account-box{
+    min-height: calc(100vh - 150px);
+    background-color: #EFEFF4;
+    .account {
+        padding-left: 20px;
+        background: #fff;
+        .title {
+            padding: 10px 0 15px;
+            border-bottom: 1px solid #ddd;
+            .username {
+                color: #000;
+                font-size: 18px;
+            }
+            .portrait{
+                font-size: 40px;
+                transform: translateY(12px);
+                margin-right: 10px;
+                display: inline-block;
+            }
         }
-    }
-    .profile {
-        div {
-            padding: 6px 0;
-            span {
-                color: #9B9B9B;
-                font-size: 14px;
-                margin-right: 12px;
+        .profile {
+            div {
+                padding: 6px 0;
+                span {
+                    color: #9B9B9B;
+                    font-size: 14px;
+                    margin-right: 12px;
+                }
             }
         }
     }
