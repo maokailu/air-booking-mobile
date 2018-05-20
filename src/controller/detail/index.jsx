@@ -2,15 +2,66 @@ import React from 'react';
 import './style.scss';
 import classNames from 'classnames';
 import Header from 'header';
+import utils from '../../resources/utils';
 export default class Detail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            showHeaderMenu: false
+            showHeaderMenu: false,
+            params: {}
         };
     }
     componentDidMount() {
-        console.log(localStorage.getItem('flightsId'));
+        const departCityName = utils.getUrlParam('departCityName');
+        const arriveCityName = utils.getUrlParam('arriveCityName');
+        // const departCityCode = utils.getUrlParam('departCityCode');
+        // const arriveCityCode = utils.getUrlParam('arriveCityCode');
+        const departAirportCode = utils.getUrlParam('departAirportCode');
+        const arriveAirportCode = utils.getUrlParam('arriveAirportCode');
+        const departAirportName = utils.getUrlParam('departAirportName');
+        const arriveAirportName = utils.getUrlParam('arriveAirportName');
+        const flightId = utils.getUrlParam('flightId');
+        const departTime = utils.getUrlParam('departTime');
+        const arriveTime = utils.getUrlParam('returnTime');
+        const classType = utils.getUrlParam('classType');
+        const passenger = utils.getUrlParam('passenger');
+        const tripType = utils.getUrlParam('tripType');
+        const ticketPrice = utils.getUrlParam('ticketPrice');
+        const airportTax = utils.getUrlParam('airportTax');
+        const departTimeObj = new Date(parseInt(departTime));
+        const monthOfDepartTime = departTimeObj.getMonth() + 1;
+        const dateOfDepartTime = departTimeObj.getDate();
+        const weekOfDepartTime = departTimeObj.getDay();
+        const hoursOfDepartTime = departTimeObj.getHours();
+        const minutesOfDepartTime = departTimeObj.getMinutes();
+        const departHMStr = `${hoursOfDepartTime}:${minutesOfDepartTime}`;
+        const departTimeStr = `${monthOfDepartTime}月${dateOfDepartTime}日(周${weekOfDepartTime})`;
+        const arriveTimeObj = new Date(parseInt(arriveTime));
+        // const monthOfArriveTime = arriveTimeObj.getMonth() + 1;
+        // const dateOfArriveTime = arriveTimeObj.getDate();
+        // const weekOfArriveTime = arriveTimeObj.getDay();
+        const hoursOfArriveTime = arriveTimeObj.getHours();
+        const minutesOfArriveTime = arriveTimeObj.getMinutes();
+        const arriveHMStr = `${hoursOfArriveTime}:${minutesOfArriveTime}`;
+        // const arriveTimeStr = `${monthOfArriveTime}月${dateOfArriveTime}日(周${weekOfArriveTime})`;
+        const params = {
+            departHMStr: departHMStr,
+            departTimeStr: departTimeStr,
+            arriveHMStr: arriveHMStr,
+            departAirportCode: departAirportCode,
+            arriveAirportCode: arriveAirportCode,
+            
+            departCityName: departCityName,
+            arriveCityName: arriveCityName,
+            departAirportName: departAirportName,
+            arriveAirportName: arriveAirportName,
+            flightId: flightId,
+            classType: ['头等舱', '商务舱', '经济舱'][classType],
+            airportTax: airportTax,
+            ticketPrice: ticketPrice,
+            totalPrice: parseInt(airportTax) + parseInt(ticketPrice)
+        };
+        this.setState({ params: params });
     }
     goToBook = () => {
         this.props.history.push('./book');
@@ -25,15 +76,22 @@ export default class Detail extends React.Component {
                     已选航班！
                 </div>
                 <div className="box">
-                    <div className="depart-text">出发</div>
+                    <span className="depart-text">出发</span>
+                    <span className="title-text">{this.state.params.flightId}</span>
+                    <span className="title-text">{this.state.params.classType}</span>
+                    <span className="title-text">{this.state.params.departTimeStr}</span>
                     <div className="flight-list">
                         <div className="time">
-                            <span>13:20</span>
-                            <span>13:20</span>
+                            <span>{this.state.params.departHMStr}</span>
+                            <span>{this.state.params.arriveHMStr}</span>
                         </div>
-                        <div className="city">
-                            <span>HKG</span>
-                            <span>HKG</span>
+                        <div className="airport">
+                            <span>{this.state.params.departAirportCode}</span>
+                            <span>{this.state.params.arriveAirportCode}</span>
+                        </div>
+                        <div className="city-name">
+                            <span>{this.state.params.departCityName + ' ' + this.state.params.departAirportName}</span>
+                            <span>{this.state.params.arriveCityName + ' ' + this.state.params.arriveAirportName}</span>
                         </div>
                     </div>
                 </div>
@@ -70,21 +128,21 @@ export default class Detail extends React.Component {
                     </div>
                 </div> */}
                 <div className="box">
-                    <div className="row">
+                    <div className="price-row style2">
                         <span>成人</span>
-                        <span className="right">CNY</span>
+                        <span className="right">{'人民币 ' + this.state.params.totalPrice}</span>
                     </div>
-                    <div className="row">
+                    <div className="price-row style1">
                         <span>票价</span>
-                        <span className="right">CNY</span>
+                        <span className="right">{'人民币 ' + this.state.params.ticketPrice}</span>
                     </div>
-                    <div className="row">
+                    <div className="price-row style1">
                         <span>{'税&&服务费'}</span>
-                        <span className="right">CNY</span>
+                        <span className="right">{'人民币 ' + this.state.params.airportTax}</span>
                     </div>
-                    <div className="row border">
-                        <span>总结</span>
-                        <span className="right">CNY</span>
+                    <div className="price-row border style2">
+                        <span>总价</span>
+                        <span className="right">{'人民币 ' + this.state.params.totalPrice}</span>
                     </div>
                     <div className="btn" onClick={this.goToBook}>Comfirm</div>
                 </div>

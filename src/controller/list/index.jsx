@@ -36,12 +36,15 @@ export default class List extends React.Component {
     }
     goToDetail = flight => {
         console.log(flight);
-        const query = `departCityName=${flight.departCityName}&arriveCityName=${flight.arriveCityName}`
-            + `&departCityCode=${flight.departCityCode}&arriveCityCode=${flight.arriveCityCode}`
+        const query = `departCityName=${utils.getUrlParam('departCityName')}&arriveCityName=${utils.getUrlParam('arriveCityName')}`
+            + `&departCityCode=${utils.getUrlParam('departCityCode')}&arriveCityCode=${utils.getUrlParam('arriveCityCode')}`
             + `&departAirportCode=${flight.departAirportCode}&arriveAirportCode=${flight.arriveAirportCode}`
+            + `&departAirportName=${flight.departAirportName}&arriveAirportName=${flight.arriveAirportName}`
             + `&departTime=${flight.departTime}&returnTime=${flight.returnTime}`
-            + `&classType=${flight.classType}&passenger=${flight.passenger}`
-            + `&tripType=${flight.flightType}`;
+            + `&passenger=${utils.getUrlParam('passenger')}&flightId=${flight.flightId}`
+            + `&tripType=${flight.flightType}&classType=${utils.getUrlParam('classType')}`
+            + `&airportTax=${flight.airportTax}`
+            + `&ticketPrice=${flight.ticketPrice}`;
         const path = {
             pathname: `/detail`,
             search: query
