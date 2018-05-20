@@ -55,9 +55,26 @@
     .contact-person-form{
         padding: 0 15px;
         background: #fff;
-        div{
+        .input-item{
+            display: flex;
+            justify-content: space-between;
             border-bottom: solid 1px #ccc;
-            padding: 10px 0;
+            input {
+                border: 0;
+                display: block;
+                flex: 1;
+                padding: 20px 0;
+                outline: 0;
+                font-size: 16px;
+            }
+            div{
+                padding: 20px 0;
+                color: red;
+            }
+            .pass{
+                // color: #FFB300;
+                color: rgb(32, 194, 145);
+            }
         }
     }
     .service-phone{

@@ -55,7 +55,7 @@ export default class List extends React.Component {
     render() {
         return (
             <div>
-                <Header/>
+                <Header isBook/>
                 <div className="list">
                     {this.state.flights && this.state.flights.map((flight, index) =>
                         <div key={index} className="item"  onClick={()=>this.goToDetail(flight)}>
@@ -68,12 +68,12 @@ export default class List extends React.Component {
                                 <div className="left">
                                     <div className="column1">
                                         <div className="time">{(new Date(flight.departTime)).getHours() + ':' + (new Date(flight.departTime)).getMinutes()}</div>
-                                        <div className="loc">{flight.departAirportCode}</div>
+                                        <div className="loc">{flight.departAirportName}</div>
                                     </div>
                                     <span className="arrow"></span>
                                     <div className="column2">
                                         <div className="time">{(new Date(flight.returnTime)).getHours() + ':' + (new Date(flight.returnTime)).getMinutes()}</div>
-                                        <div className="loc">{flight.arriveAirportCode}</div>
+                                        <div className="loc">{flight.arriveAirportName}</div>
                                     </div>
                                 </div>
                                 <span className="price">{'人民币 ' + (parseInt(flight.airportTax) + parseInt(flight.ticketPrice)) + '元'}</span>

@@ -49,6 +49,13 @@ export default class Header extends React.Component {
                     <i className={'logo-text' + (this.props.isHome ? ' blue' : ' white')}>机票预定</i>
                     <i className={arrow}>
                     </i>
+                    {
+                        this.props.isBook && <div className="book-title">
+                            <span>{this.props.params && this.props.params.departAirportName}</span>
+                            <span>到</span>
+                            <span>{this.props.params && this.props.params.arriveAirportName}</span>
+                        </div>
+                    }
                 </div>
                 {this.state.showHeaderMenu && <div className="main">
                     <div className="home">

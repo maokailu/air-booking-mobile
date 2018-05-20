@@ -3,6 +3,7 @@ import './style.scss';
 import classNames from 'classnames';
 import Header from 'header';
 import utils from '../../resources/utils';
+let params = {};
 export default class Detail extends React.Component {
     constructor(props) {
         super(props);
@@ -47,7 +48,7 @@ export default class Detail extends React.Component {
         const duringHours = Math.round((parseInt(arriveTime) - parseInt(departTime)) / 1000 / 60 / 60);
         const duringMinutes = Math.round((parseInt(arriveTime) - parseInt(departTime)) / 1000 / 60 / 60);
         const duringTimeStr = duringHours + '小时' + duringMinutes + '分';
-        const params = {
+        params = {
             departHMStr: departHMStr,
             departTimeStr: departTimeStr,
             arriveHMStr: arriveHMStr,
@@ -68,7 +69,16 @@ export default class Detail extends React.Component {
         this.setState({ params: params });
     }
     goToBook = () => {
-        this.props.history.push('./book');
+        const query = `&departAirportCode=${utils.getUrlParam('departAirportCode')}&arriveAirportCode=${utils.getUrlParam('arriveAirportCode')}`
+            + `&departAirportName=${utils.getUrlParam('departAirportName')}&arriveAirportName=${utils.getUrlParam('arriveAirportName')}`
+            + `&departTimeStr=${params.departTimeStr}&departHMStr=${params.departHMStr}`
+            + `&arriveHMStr=${params.arriveHMStr}`;
+
+        const path = {
+            pathname: `/book`,
+            search: query
+        };
+        this.props.history.push(path);
     }
     render() {
         classNames({});

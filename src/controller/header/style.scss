@@ -29,6 +29,14 @@
             transform: translateY(4px);
             display: inline-block;
         }
+        .book-title{
+            display: inline-block;
+            color: #fff;
+            margin-left: 10px;
+            span{
+                margin-left: 10px;
+            }
+        }
     }
     .main {
         padding: 0 20px;
