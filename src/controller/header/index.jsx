@@ -38,6 +38,9 @@ export default class Header extends React.Component {
     goHome = () => {
         location.href = 'http://localhost:8082/';
     }
+    clickLoginOut = () =>{
+        location.href = 'http://localhost:8082/login';
+    }
     render() {
         const arrow = classNames({
             'arrow': true,
@@ -83,7 +86,7 @@ export default class Header extends React.Component {
                     <div className="help" onClick={this.clickHelp}>
                         <span className="left">帮助</span>
                     </div>
-                    <div className="sign-out">
+                    <div className="sign-out" onClick={this.clickLoginOut}>
                         <span className="left">登出</span>
                     </div>
                 </div>}

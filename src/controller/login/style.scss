@@ -33,10 +33,13 @@
         justify-content: center;
     }
     .username, .password {
-        margin: 20px 20px 6px;
-        font-size: 17px;
-        color: rgba(0, 0, 0, .3);
+        outline: 0;
+        border: 0;
         border-bottom: 1px solid #1899f2;
+        width: 90%;
+        display: block;
+        padding: 10px 10px 10px 0;
+        margin: 20px auto;
     }
     .prompt {
         margin: 20px;
@@ -57,10 +60,12 @@
         box-shadow: 0 3px 3px 0 rgba(255,143,0,.3);
         border-radius: 22px;
         color: #fff;
+        font-size: 16px;
     }
     .register {
         display: flex;
-        margin: 20px;
+        left: 50%;
+        transform: translateX(-50%);
         padding-bottom: 50px;
         justify-content: space-between;
         bottom: 0;

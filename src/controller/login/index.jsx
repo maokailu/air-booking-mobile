@@ -6,8 +6,8 @@ export default class Login extends React.Component {
     }
 
     state = {
-        username: `Email/Username/Phone`,
-        password: 'Password'
+        username: ``,
+        password: ''
     }
 
     inputUsername = event => {
@@ -21,28 +21,27 @@ export default class Login extends React.Component {
         });
     }
     closeLogin = () => {
+        console.log(this.props.history.goBack());
     }
     render() {
         return (
             <div className="login">
                 <div className="title">
                     <span className="close" onClick={this.closeLogin}>关闭</span>
-                    <span className="sign-in">Sign in</span>
+                    <span className="sign-in">登录</span>
                 </div>
-                <div className="fb-login">Sign in with Facebook</div>
-                <div className="or">--- Or ---</div>
-                <div className="username"
-                    contentEditable="true" onInput={this.inputUsername}>{this.state.username}</div>
-                <div className="password"
-                    contentEditable="true" onInput={this.inputPassword}>{this.state.password}</div>
+                {/* <div className="fb-login">Sign in with Facebook</div> */}
+                {/* <div className="or">--- 登陆 ---</div> */}
+                <input className="username" onChange={this.inputUsername} placeholder={'姓名/邮箱/电话'} type="text" value={this.state.username}/>
+                <input className="password" onChange={this.inputPassword}  placeholder={'密码'} type="text" value={this.state.password}/>
                 <div className="prompt">
-                    <span>Remember me</span>
-                    <span>Forget password</span>
+                    <span>记住我</span>
+                    <span>忘记密码</span>
                 </div>
-                <div className="comfirm">Sign in</div>
+                <div className="comfirm">登录</div>
                 <div className="register">
-                    <span className="tip">{`Don't have a Trip com account?`}</span>
-                    <span className="btn">{`Register>>`}</span>
+                    <span className="tip">{`还没有账户?`}</span>
+                    <span className="btn">{`注册>>`}</span>
                 </div>
             </div>
         );
