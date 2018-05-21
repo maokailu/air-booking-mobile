@@ -1,6 +1,7 @@
 import React from 'react';
 import './style.scss';
 import utils from '../../resources/utils';
+import { Toast, AppRoot } from '../../common/toast-portals'
 export default class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -8,7 +9,10 @@ export default class Login extends React.Component {
 
     state = {
         username: ``,
-        password: ''
+        password: '',
+        // checked: false
+        showToast: false,
+        text: ''
     }
 
     inputUsername = event => {
@@ -22,7 +26,7 @@ export default class Login extends React.Component {
         });
     }
     closeLogin = () => {
-        console.log(this.props.history.goBack());
+        this.props.history.goBack();
     }
     login = () => {
         const params = {
@@ -31,10 +35,32 @@ export default class Login extends React.Component {
         };
         utils.getPromise(`http://localhost:8080/login`, params).then(json => {
             if (json) {
-                console.log(json);
+                json = JSON.parse(json);
+                // 已存进cookie，表示登陆成功或在线
+                if(document.cookie.indexOf('userId')!==-1 && json==='登陆成功！'){
+                    this.setState({
+                        showToast: false,
+                        text: json
+                    },()=>{
+                        this.setState({
+                            showToast: true
+                        },()=>{
+                            setTimeout(()=>{
+                                this.closeLogin();
+                            }, 300);
+                        })
+                    })
+                } else {
+                    this.setState({
+                        showToast: false, // 先卸载Toast以便其重新读取props
+                        text: json
+                    },()=>{
+                        this.setState({
+                            showToast: true
+                        });
+                    })
+                }
             }
-        }, error => {
-            console.error('出错了', error);
         });
     }
     render() {
@@ -55,8 +81,9 @@ export default class Login extends React.Component {
                 <div className="comfirm" onClick={this.login}>登录</div>
                 <div className="register">
                     <span className="tip">{`还没有账户?`}</span>
-                    <span className="btn">{`注册>>`}</span>
+                    <span className="register-btn">{`注册>>`}</span>
                 </div>
+                {this.state.showToast && <Toast text={this.state.text} time = {2000}/>}
             </div>
         );
     }

@@ -2,6 +2,7 @@ import React from 'react';
 import './style.scss';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import utils from '../../resources/utils.js';
 export default class Header extends React.Component {
     constructor(props) {
         super(props);
@@ -10,12 +11,20 @@ export default class Header extends React.Component {
             [
                 { 'orderStatus': 'Canceled', 'orderPrice': 'CNY 46888' },
                 { 'orderStatus': 'Canceled', 'orderPrice': 'CNY 46888' }
-            ]
+            ],
+            checked: false
         };
     }
 
     static contextTypes = {
         router: PropTypes.object.isRequired
+    }
+    componentDidMount(){
+        if(document.cookie.indexOf('userId') !== -1){
+            this.setState({
+                checked: true
+            })
+        }
     }
     expandHeader = () => {
         this.setState(prevState => ({ showHeaderMenu: !prevState.showHeaderMenu }));
@@ -39,6 +48,11 @@ export default class Header extends React.Component {
         location.href = 'http://localhost:8082/';
     }
     clickLoginOut = () =>{
+        const exp = new Date();
+        exp.setTime(exp.getTime() - 1);
+        const name = 'userId';
+        var cval=utils.getCookie(name);
+        if(cval!=null)  document.cookie= name + "=;expires="+exp.toGMTString();
         location.href = 'http://localhost:8082/login';
     }
     render() {
@@ -87,7 +101,7 @@ export default class Header extends React.Component {
                         <span className="left">帮助</span>
                     </div>
                     <div className="sign-out" onClick={this.clickLoginOut}>
-                        <span className="left">登出</span>
+                        <span className="left">{this.state.checked ? '登出' : '登入'}</span>
                     </div>
                 </div>}
             </div>

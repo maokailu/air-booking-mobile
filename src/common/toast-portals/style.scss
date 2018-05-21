@@ -1,0 +1,32 @@
+#app-root {
+  position: relative;
+}
+#modal-root {
+    position: absolute;
+    top: 0;
+    z-index: 999;
+}
+.toast-btn {
+    // position: absolute;
+    // left: 50%;
+    // transform: translate(-50%);
+    // top: 50%;
+    // color: #fff;
+    // background: rgba(0, 0, 0, 0.5);
+    // overflow: hidden;
+    // padding: 20px;
+    width:0;
+    height:0
+}
+
+.modal {
+  background-color: rgba(0,0,0,0.5);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  text-align: center;
+  font-size: 16px;
+  color: white
+}
