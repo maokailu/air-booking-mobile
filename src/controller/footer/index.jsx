@@ -18,7 +18,9 @@ export default class Footer extends React.Component {
                     </span>
                 </div>
                 <div className="copyright">
-                Copyright © 1999-2018 Trip.com. All rights reserved<br/>ICP证：沪B2-20050130
+                    {
+                        `设计与开发@毛凯露`
+                    }
                 </div>
             </div>
         );

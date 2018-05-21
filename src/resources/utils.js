@@ -56,18 +56,19 @@ const isEmpty = obj =>{
     }
 };
 const getCookie = (name) =>{
-    const cookieName= encodeURIComponent(name) + "=";
+    const cookieName = encodeURIComponent(name) + '=';
     const cookieStart = document.cookie.indexOf(cookieName);
     let cookieValue = null;
-    if(cookieStart>-1){
-        let cookieEnd = document.cookie.indexOf(";", cookieStart);
-        if(cookieEnd == -1){
+    if (cookieStart > -1) {
+        let cookieEnd = document.cookie.indexOf(';', cookieStart);
+        if (cookieEnd === -1) {
             cookieEnd = document.cookie.length;
         }
-        cookieValue = decodeURIComponent(document.cookie.substring(cookieStart+cookieName.length,cookieEnd));
+        cookieValue = decodeURIComponent(document.cookie.substring(cookieStart + cookieName.length, cookieEnd),
+            'UTF-8');
     }
     return cookieValue;
-}
+};
 
 export default {
     'getUrlParam': getUrlParam,

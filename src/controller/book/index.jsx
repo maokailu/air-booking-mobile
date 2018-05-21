@@ -50,54 +50,63 @@ export default class Book extends React.Component {
         };
     }
     createOrder = () => {
-        const order = {
+        const userId =  utils.getCookie('userId');
+        if (userId) {
+            const order = {
             // orderId: 0,
             // 从cookie中取，如果没有，要求登陆
-            userId: 2,
-            contactName: this.state.contactName,
-            orderDate: new Date(),
-            // orderState: 0,
-            // 通过flightId可得 在Mysql中将ticket中的价格移到flight中
-            // totalTicketPrice: 0,
-            // totalFuelSurcharge: 0,
-            // totalAirportTax: 0,
-            // totalPrice: 0,
-            cellphone: this.state.contactPhone,
-            email: this.state.contactEmail
+                userId: userId,
+                contactName: this.state.contactName,
+                orderDate: new Date(),
+                // orderState: 0,
+                // 通过flightId可得 在Mysql中将ticket中的价格移到flight中
+                // totalTicketPrice: 0,
+                // totalFuelSurcharge: 0,
+                // totalAirportTax: 0,
+                // totalPrice: 0,
+                cellphone: this.state.contactPhone,
+                email: this.state.contactEmail
             // zipCode: 0
-        };
-        const orderItem = {
+            };
+            const orderItem = {
             // orderItemId: 2,
             // orderId: 0,
             // ticketId: 0,
-            seatRequire: 1
-        };
-        const ticket = {
-            // ticketId: 1,
-            flightId: utils.getUrlParam('flightId'),
-            cabinClassId: utils.getUrlParam('cabinClassId')
-        };
-        let obj = {};
-        let passengers = [];
-        for (let i = 0; i < this.state.passengersId.length; i++) {
-            obj = {
-                passengerId: this.state.passengersId[i]
+                seatRequire: 1
             };
-            passengers.push(obj);
+            const ticket = {
+            // ticketId: 1,
+                flightId: utils.getUrlParam('flightId'),
+                cabinClassId: utils.getUrlParam('cabinClassId')
+            };
+            let obj = {};
+            let passengers = [];
+            for (let i = 0; i < this.state.passengersId.length; i++) {
+                obj = {
+                    passengerId: this.state.passengersId[i]
+                };
+                passengers.push(obj);
+            }
+            const params = {
+                order: order,
+                orderItem: orderItem,
+                ticket: ticket,
+                passengers: passengers
+            };
+            utils.getPromise('http://localhost:8080/createOrder', params).then(json => {
+                console.log(json);
+                json = JSON.parse(json);
+                this.goToPay(json);
+            }, error => {
+                console.error('出错了', error);
+            });
+        } else {
+            // 跳转登陆框
+            const path = {
+                pathname: `/login`
+            };
+            this.props.history.push(path);
         }
-        const params = {
-            order: order,
-            orderItem: orderItem,
-            ticket: ticket,
-            passengers: passengers
-        };
-        utils.getPromise('http://localhost:8080/createOrder', params).then(json => {
-            console.log(json);
-            json = JSON.parse(json);
-            this.goToPay(json);
-        }, error => {
-            console.error('出错了', error);
-        });
     }
     goToPay = json => {
         // const passenger = this.state.passengers[0];
@@ -266,7 +275,7 @@ export default class Book extends React.Component {
                     <div className="contact-person-txt"> 联络人信息</div>
                     <div className="txt">若您预定的行程有任何问题，我们会主动联系您。</div>
                     <div className="contact-person-form">
-                        <div className="input-item">
+                        <div className="input-item" style={{ border: '0' }}>
                             <input onChange={this.getContactName} onBlur={this.validateName} onFocus={this.focusName}
                                 value={this.state.contactName} type="text" placeholder="联系人姓名"/>
                             {this.state.showMaxNameTip && <div>姓名长度最大为10位</div>}

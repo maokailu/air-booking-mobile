@@ -1,7 +1,7 @@
 import React from 'react';
 import './style.scss';
 import utils from '../../resources/utils';
-import { Toast, AppRoot } from '../../common/toast-portals'
+import { Toast, AppRoot } from '../../common/toast-portals';
 export default class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -37,28 +37,28 @@ export default class Login extends React.Component {
             if (json) {
                 json = JSON.parse(json);
                 // 已存进cookie，表示登陆成功或在线
-                if(document.cookie.indexOf('userId')!==-1 && json==='登陆成功！'){
+                if (document.cookie.indexOf('userId') !== -1 && json === '登陆成功！') {
                     this.setState({
                         showToast: false,
                         text: json
-                    },()=>{
+                    }, ()=>{
                         this.setState({
                             showToast: true
-                        },()=>{
+                        }, ()=>{
                             setTimeout(()=>{
                                 this.closeLogin();
                             }, 300);
-                        })
-                    })
+                        });
+                    });
                 } else {
                     this.setState({
                         showToast: false, // 先卸载Toast以便其重新读取props
                         text: json
-                    },()=>{
+                    }, ()=>{
                         this.setState({
                             showToast: true
                         });
-                    })
+                    });
                 }
             }
         });
@@ -73,7 +73,7 @@ export default class Login extends React.Component {
                 {/* <div className="fb-login">Sign in with Facebook</div> */}
                 {/* <div className="or">--- 登陆 ---</div> */}
                 <input className="username" onChange={this.inputUsername} placeholder={'姓名/邮箱/电话'} type="text" value={this.state.username}/>
-                <input className="password" onChange={this.inputPassword}  placeholder={'密码'} type="text" value={this.state.password}/>
+                <input className="password" onChange={this.inputPassword}  placeholder={'密码'} type="password" value={this.state.password}/>
                 <div className="prompt">
                     <span>记住我</span>
                     <span>忘记密码</span>

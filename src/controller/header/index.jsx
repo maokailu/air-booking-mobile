@@ -12,18 +12,20 @@ export default class Header extends React.Component {
                 { 'orderStatus': 'Canceled', 'orderPrice': 'CNY 46888' },
                 { 'orderStatus': 'Canceled', 'orderPrice': 'CNY 46888' }
             ],
-            checked: false
+            checked: false,
+            userName: ''
         };
     }
 
     static contextTypes = {
         router: PropTypes.object.isRequired
     }
-    componentDidMount(){
-        if(document.cookie.indexOf('userId') !== -1){
+    componentDidMount() {
+        if (document.cookie.indexOf('userId') !== -1) {
             this.setState({
-                checked: true
-            })
+                checked: true,
+                userName: utils.getCookie('userId')
+            });
         }
     }
     expandHeader = () => {
@@ -38,11 +40,11 @@ export default class Header extends React.Component {
         };
         this.context.router.history.push(path);
     }
-    clickOrder = () =>{
+    clickOrders = () =>{
         const path = {
-            pathname: `/order`
+            pathname: `/orders`
         };
-        this.props.history.push(path);
+        this.context.router.history.push(path);
     }
     goHome = () => {
         location.href = 'http://localhost:8082/';
@@ -51,8 +53,8 @@ export default class Header extends React.Component {
         const exp = new Date();
         exp.setTime(exp.getTime() - 1);
         const name = 'userId';
-        var cval=utils.getCookie(name);
-        if(cval!=null)  document.cookie= name + "=;expires="+exp.toGMTString();
+        var cval = utils.getCookie(name);
+        if (cval !== null)  document.cookie = name + '=;expires=' + exp.toGMTString();
         location.href = 'http://localhost:8082/login';
     }
     render() {
@@ -84,9 +86,9 @@ export default class Header extends React.Component {
                     </div>
                     <div className="account" onClick={this.clickAccount}>
                         <span className="left">账户</span>
-                        <span className="right">毛凯露</span>
+                        <span className="right">{this.state.userName}</span>
                     </div>
-                    <div className="bookings">
+                    <div className="bookings" onClick={this.clickOrders}>
                         <span className="left">我的订单</span>
                     </div>
                     <div className="language">

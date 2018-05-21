@@ -19,7 +19,7 @@ import DatePicker from '../../common/datePickerH5';
 import Swiper from 'swiper';
 import Account from '../header/account';
 import Help from '../header/help';
-import Order from '../header/order';
+import Order from '../header/orders';
 let mySwiper;
 class Search extends React.Component {
     constructor() {
@@ -286,10 +286,10 @@ class Search extends React.Component {
                     <div className="search-btn" onClick = {this.search}>Search</div>
                 </div>
                 <div className="footer-menu">
-                    <div className="left">
+                    {/* <div className="left">
                         <i className="icon-status"/>
                         <span>Flight Status</span>
-                    </div>
+                    </div> */}
                     <div className="right">
                         <i className="icon-bookings"/>
                         <span>My Bookings</span>
@@ -328,7 +328,7 @@ const Home = () => (
             <Route path="/result" component={Result} />
             <Route path="/account" component={Account} />
             <Route path="/help" component={Help} />
-            <Route path="/order" component={Order} />
+            <Route path="/orders" component={Order} />
         </Switch>
     </Router>
 );
