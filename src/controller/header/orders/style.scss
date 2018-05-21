@@ -1,8 +1,9 @@
 
-.list{
+.order-list{
     background-color: #EFEFF4;
     min-height: calc(100vh - 150px);
     padding-top: 5px;
+    font-size: 15px;
     .item {
         background: #fff;
         margin: 0 5px 5px 5px;
@@ -28,7 +29,7 @@
                 }
                 .loc {
                     color: #999;
-                    text-align: center;
+                    text-align: left;
                     margin-top: -2px;
                 }
             }

@@ -216,6 +216,12 @@ class Search extends React.Component {
         this.setState(prevState => ({
             passenger: prevState.passenger + 1
         }));
+    }    
+    clickOrders = () =>{
+        const path = {
+            pathname: `/orders`
+        };
+        this.context.router.history.push(path);
     }
     render() {
         const tripType = this.state.tripType;
@@ -236,27 +242,27 @@ class Search extends React.Component {
                             style={ tripType === 0 ? { color: '#2681FF' } : { color: '#fff' }}>单程</div>
                     </div>
                     <div className="box" onClick={this.clickDepartCity}>
-                        <span className="tit">From</span>
+                        <span className="tit">出发</span>
                         <div className={'content' + (this.state.departCity.cityName ? '' : ' gray')}>
                             {this.state.departCity.cityName || '城市或机场'}</div>
-                        <span className="code">All Airports</span>
+                        <span className="code">所有机场</span>
                     </div>
                     <div className="box" onClick={this.clickArriveCity}>
-                        <span className="tit">To</span>
+                        <span className="tit">到达</span>
                         <div className={'content' + (this.state.arriveCity.cityName ? '' : ' gray')}>
                             {this.state.arriveCity.cityName || '城市或机场'}</div>
-                        <span className="code">All Airports</span>
+                        <span className="code">所有机场</span>
                     </div>
 
                     <div className="box hascolumn">
                         <div onClick={this.clickDepartDate}>
-                            <div className="tit">Depart</div>
+                            <div className="tit">出发</div>
                             <span className={'content' + (this.state.departDate ? '' : ' gray')}>
                                 {this.state.departDate || '日期'}</span>
                             <span className = "week">今天</span>
                         </div>
                         <div onClick={this.clickReturnDate}>
-                            <div className="tit rdate">Arrive</div>
+                            <div className="tit rdate">到达</div>
                             <span className={'content' + (this.state.returnDate ? '' : ' gray')}>
                                 {this.state.returnDate || '日期'}</span>
                             <span className = "week">今天</span>
@@ -265,7 +271,7 @@ class Search extends React.Component {
 
                     <div className="box hascolumn clearline">
                         <div className="class">
-                            <div className="tit">Class</div>
+                            <div className="tit">舱位</div>
                             <div className="content">
                                 <div className="swiper-container" id="swiper">
                                     <div className="swiper-wrapper wrapper" >
@@ -277,13 +283,13 @@ class Search extends React.Component {
                             </div>
                         </div>
                         <div className="passenger">
-                            <div className="tit">Passenger</div>
+                            <div className="tit">乘客人数</div>
                             <span className={'icon-minus minus' + (this.state.passenger <= 1 ? ' gray' : ' blue')} onClick={this.minus}></span>
                             <span className="content number">{this.state.passenger}</span>
                             <span className={'icon-plus plus' + (this.state.passenger >= 9 ? ' gray' : ' blue')} onClick={this.plus}></span>
                         </div>
                     </div>
-                    <div className="search-btn" onClick = {this.search}>Search</div>
+                    <div className="search-btn" onClick = {this.search}>查询</div>
                 </div>
                 <div className="footer-menu">
                     {/* <div className="left">
@@ -292,7 +298,7 @@ class Search extends React.Component {
                     </div> */}
                     <div className="right">
                         <i className="icon-bookings"/>
-                        <span>My Bookings</span>
+                        <span onClick={this.clickOrders}>My Bookings</span>
                     </div>
                 </div>
                 <Footer />
