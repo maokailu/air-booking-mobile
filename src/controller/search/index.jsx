@@ -161,8 +161,8 @@ class Search extends React.Component {
         const arriveCityName = arriveCity.cityName;
         const departCityCode = departCity.cityCode;
         const arriveCityCode = arriveCity.cityCode;
-        const departAirportCode = departCity.departCode || 'ALL';
-        const arriveAirportCode = arriveCity.arriveCode || 'ALL';
+        const departAirportCode = departCity.airportCode || 'ALL';
+        const arriveAirportCode = arriveCity.airportCode || 'ALL';
         const departDate = this.state.departDateObj.getTime();
         const returnDate = this.state.returnDateObj.getTime();
         const classType = mySwiper.realIndex;
