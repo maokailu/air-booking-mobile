@@ -245,13 +245,13 @@ class Search extends React.Component {
                         <span className="tit">出发</span>
                         <div className={'content' + (this.state.departCity.cityName ? '' : ' gray')}>
                             {this.state.departCity.cityName || '城市或机场'}</div>
-                        <span className="code">所有机场</span>
+                        <span className="code">{this.state.departCity.airportName || '所有机场'}</span>
                     </div>
                     <div className="box" onClick={this.clickArriveCity}>
                         <span className="tit">到达</span>
                         <div className={'content' + (this.state.arriveCity.cityName ? '' : ' gray')}>
                             {this.state.arriveCity.cityName || '城市或机场'}</div>
-                        <span className="code">所有机场</span>
+                        <span className="code">{this.state.arriveCity.airportName || '所有机场'}</span>
                     </div>
 
                     <div className="box hascolumn">

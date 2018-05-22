@@ -10,7 +10,8 @@ export default class CitySelector extends React.Component {
             jp: JSON.parse(localStorage.getItem('jp')) || [],
             us: JSON.parse(localStorage.getItem('us')) || [],
             current: this.props.cityCode,
-            currentCityName: this.props.currentCityName
+            currentCityName: this.props.currentCityName,
+            showResult: false
         };
     }
     componentDidMount() {
@@ -68,6 +69,46 @@ export default class CitySelector extends React.Component {
             }, 300);
         });
     }
+    searchGeo=event=>{
+        if (event.target.value) {
+            const param = `text=${event.target.value}`;
+            utils.getPromise(`http://localhost:8080/getCitys?${param}`).then(json => {
+                console.log(json);
+                this.setState({
+                    result: json
+                });
+            }, error => {
+                console.error('出错了', error);
+            });
+            this.setState({
+                showResult: true
+            });
+        } else {
+            this.setState({
+                showResult: false
+            });
+        }
+        this.setState({
+            currentCityName: event.target.value
+        });
+    }
+    selectPOICity = city =>{
+        const selectedCity = {
+            cityName: city.cityName,
+            cityCode: city.cityCode
+        };
+        this.selectCity(selectedCity);
+    }
+    selectPOIAirport = (city, airport) =>{
+        const selectedCity = {
+            cityName: city.cityName,
+            cityCode: city.cityCode,
+            airportName: airport.airportName,
+            airportCode: airport.airportCode
+        };
+        console.log(selectedCity);
+        this.selectCity(selectedCity);
+    }
     render() {
         return (
             <div className="city-selector">
@@ -75,48 +116,66 @@ export default class CitySelector extends React.Component {
                     <span className="close-btn icon-keyboard-return"
                         onClick = {() => this.props.closeCitySelector()}></span>
                     <span className="input-label">{this.props.labelText}</span>
-                    <span className="input-box" contentEditable="true">{this.state.currentCityName}</span>
+                    <input type="text" value={this.state.currentCityName} onChange={(event)=>this.searchGeo(event)} className="input-box" />
                 </div>
-                <div className="section-title"><span className="label">最近搜寻</span><span className="line"></span></div>
-                <div className="section">
-                    {
-                        this.state.recentCity &&
+
+                <div style={{ position: 'relative' }}>
+                    <div>
+                        <div className="section-title"><span className="label">最近搜寻</span><span className="line"></span></div>
+                        <div className="section">
+                            {
+                                this.state.recentCity &&
                         this.state.recentCity.length !== 0 && this.state.recentCity.map((city, index) =>
-                            <div key={index}
-                                onClick={()=>this.selectCity(city)}
-                                className={ this.state.current === city.cityCode ? 'current' : ''}>{city.cityName}</div>
-                        )
-                    }
-                </div>
-                <div className="section-title"><span className="label">热门城市</span><span className="line"></span></div>
-                <div className="section">
-                    {
-                        this.state.hotCity && this.state.hotCity.length !== 0 && this.state.hotCity.map((city, index) =>
-                            <div key={index}
-                                onClick={()=>this.selectCity(city)}
-                                className={ this.state.current === city.cityCode ? 'current' : ''}>{city.cityName}</div>
-                        )
-                    }
-                </div>
-                <div className="section-title"><span className="label">日本</span><span className="line"></span></div>
-                <div className="section">
-                    {
-                        this.state.jp && this.state.jp.length !== 0 && this.state.jp.map((city, index) =>
-                            <div key={index}
-                                onClick={()=>this.selectCity(city)}
-                                className={ this.state.current === city.cityCode ? 'current' : ''}>{city.cityName}</div>
-                        )
-                    }
-                </div>
-                <div className="section-title"><span className="label">美国</span><span className="line"></span></div>
-                <div className="section">
-                    {
-                        this.state.us && this.state.us.length !== 0 && this.state.us.map((city, index) =>
-                            <div key={index}
-                                onClick={()=>this.selectCity(city)}
-                                className={ this.state.current === city.cityCode ? 'current' : ''}>{city.cityName}</div>
-                        )
-                    }
+                                    <div key={index}
+                                        onClick={()=>this.selectCity(city)}
+                                        className={ this.state.current === city.cityCode ? 'current' : ''}>{city.cityName}</div>
+                                )
+                            }
+                        </div>
+                        <div className="section-title"><span className="label">热门城市</span><span className="line"></span></div>
+                        <div className="section">
+                            {
+                                this.state.hotCity && this.state.hotCity.length !== 0 && this.state.hotCity.map((city, index) =>
+                                    <div key={index}
+                                        onClick={()=>this.selectCity(city)}
+                                        className={ this.state.current === city.cityCode ? 'current' : ''}>{city.cityName}</div>
+                                )
+                            }
+                        </div>
+                        <div className="section-title"><span className="label">日本</span><span className="line"></span></div>
+                        <div className="section">
+                            {
+                                this.state.jp && this.state.jp.length !== 0 && this.state.jp.map((city, index) =>
+                                    <div key={index}
+                                        onClick={()=>this.selectCity(city)}
+                                        className={ this.state.current === city.cityCode ? 'current' : ''}>{city.cityName}</div>
+                                )
+                            }
+                        </div>
+                        <div className="section-title"><span className="label">美国</span><span className="line"></span></div>
+                        <div className="section">
+                            {
+                                this.state.us && this.state.us.length !== 0 && this.state.us.map((city, index) =>
+                                    <div key={index}
+                                        onClick={()=>this.selectCity(city)}
+                                        className={ this.state.current === city.cityCode ? 'current' : ''}>{city.cityName}</div>
+                                )
+                            }
+                        </div>
+                    </div>
+                    {this.state.showResult && <div className="searchResult">
+                        {
+                            this.state.result &&
+                            this.state.result.length !== 0 && this.state.result.map((city, index) =>
+                                <div key={index}>
+                                    <div className="city" onClick={()=>this.selectPOICity(city)}>{city.cityCode + ' ' + city.cityName}</div>
+                                    {city.airports.map((airport, index) =>
+                                        <div className="airport" onClick={()=>this.selectPOIAirport(city, airport)} key={index}>{airport.airportCode + ' ' + airport.airportName}</div>
+                                    )}
+                                </div>
+                            )
+                        }
+                    </div>}
                 </div>
             </div>
         );

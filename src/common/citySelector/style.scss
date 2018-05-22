@@ -80,4 +80,20 @@
             color: #1171B7;
         }
     }
+    .searchResult{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #EFEFF4;
+        .city, .airport {
+            border-bottom: 1px solid rgba(0, 0, 0, .12);
+            padding: 15px;
+            font-size: 20px;
+        }
+        .airport{
+            margin-left: 30px;
+        }
+    }
 }
