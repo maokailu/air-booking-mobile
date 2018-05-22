@@ -154,7 +154,6 @@ class Search extends React.Component {
         });
     }
     search = () => {
-        // debugger
         const departCity = this.state.departCity;
         const arriveCity = this.state.arriveCity;
         const departCityName = departCity.cityName;
@@ -174,7 +173,7 @@ class Search extends React.Component {
             + `&departAirportCode=${departAirportCode}&arriveAirportCode=${arriveAirportCode}`
             + `&departDate=${departDate}&returnDate=${returnDate}`
             + `&classType=${classType}&passenger=${passenger}`
-            + `&tripType=${tripType}`;
+            + `&tripType=${tripType}&start=0`;
             const path = {
                 pathname: `/list`,
                 search: query

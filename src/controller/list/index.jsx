@@ -19,6 +19,7 @@ export default class List extends React.Component {
         departCityCode: localStorage.getItem('departCityCode') || 'SHA'
     }
     componentDidMount() {
+        start = utils.getUrlParam('start');
         this.getFlights();
         window.addEventListener('scroll', this.getMore);
     }
@@ -44,6 +45,7 @@ export default class List extends React.Component {
                         flights: prevState.flights.concat(json)
                     }));
                 } else {
+                    // start = 0;
                     this.setState({
                         flights: json
                     });
