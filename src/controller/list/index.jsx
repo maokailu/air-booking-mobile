@@ -5,17 +5,24 @@ import Header from '../header';
 import Footer from '../footer';
 let param = {};
 let logoPic = ['hu', 'mf', 'ca', 'ho', 'mu'];
+let start = 0;
+let size  = 6;
+let hasToBottom = false;
 export default class List extends React.Component {
     constructor(props) {
         super(props);
     }
 
     state = {
-        flights: null,
+        flights: [],
         test: null,
         departCityCode: localStorage.getItem('departCityCode') || 'SHA'
     }
     componentDidMount() {
+        this.getFlights();
+        window.addEventListener('scroll', this.getMore);
+    }
+    getFlights = () => {
         param = {
             departCityCode: utils.getUrlParam('departCityCode'),
             arriveCityCode: utils.getUrlParam('arriveCityCode'),
@@ -27,13 +34,36 @@ export default class List extends React.Component {
             classType: utils.getUrlParam('classType'),
             passenger: utils.getUrlParam('passenger')
         };
-        utils.getPromise('http://localhost:8080/getFlights', param).then(json => {
-            this.setState({
-                flights: json
-            });
+        const str = `start=${start}&size=${size}`;
+        utils.getPromise(`http://localhost:8080/getFlights?${str}`, param).then(json => {
+            if (json.length === 0) {
+                hasToBottom = true;
+            } else {
+                if (this.state.flights && this.state.flights.length > 0) {
+                    this.setState(prevState => ({
+                        flights: prevState.flights.concat(json)
+                    }));
+                } else {
+                    this.setState({
+                        flights: json
+                    });
+                }
+            }
         }, error => {
             console.error('出错了', error);
         });
+    }
+    getMore = () =>{
+        if (!hasToBottom) {
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            var scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+            var windowHeight =  document.documentElement.clientHeight || document.body.clientHeight;
+            if (scrollTop + windowHeight > scrollHeight) {
+                console.log('已经到最底部了！');
+                start++;
+                this.getFlights();
+            }
+        }
     }
     goToDetail = flight => {
         console.log(flight);
@@ -60,9 +90,10 @@ export default class List extends React.Component {
                     {this.state.flights && this.state.flights.map((flight, index) =>
                         <div key={index} className="item"  onClick={()=>this.goToDetail(flight)}>
                             <div className="row1">
-                                <img className="logo" src={`http://pic.english.c-ctrip.com/airline_logo/32/${logoPic[Math.round(index + 1 / 3)]}.png`}/>
+                                <img className="logo" src={`http://pic.english.c-ctrip.com/airline_logo/32/${logoPic[Math.round((index + 1) / 3)]}.png`}/>
                                 {/* <img className="logo" src={`../../resources/img/${Math.round(index + 1 / 3)}.png`}/> */}
-                                <span className="airline">{['海南航空', '厦门航空', '中国国航', '东方航空', '吉祥航空'][(Math.round(index + 1 / 3))]}</span>
+                                <span className="airline">{['海南航空', '厦门航空', '中国国航', '东方航空', '吉祥航空'][(Math.round((index + 1) / 3))]}</span>
+                                <span>{' ' + flight.flightId}</span>
                             </div>
                             <div className="row2">
                                 <div className="left">
