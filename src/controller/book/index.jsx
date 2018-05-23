@@ -254,14 +254,16 @@ export default class Book extends React.Component {
                     <div className="person-title">选择/新增乘客</div>
                     <div className="person-list">
                         {this.state.passengers.map((passenger, index) =>
-                            <div className="person-info" key={index} onClick={(event)=>this.selectPassenger(event, passenger)}>
+                            <div className="person-info" key={index}
+                                onClick={(event)=>this.selectPassenger(event, passenger)}>
                                 <div className="person">
                                     <div className="name">{passenger.name}</div>
                                     <div className="card">{'身份证号 ' + passenger.cardNumber}</div>
                                 </div>
-                                {this.state.passengersId.indexOf(parseInt(passenger.passengerId)) !== -1 && <div className="checked">
+                                {this.state.passengersId.indexOf(parseInt(passenger.passengerId)) !== -1
+                                    && <div className="checked">
                                     已选
-                                </div>}
+                                    </div>}
                             </div>
                         )}
                         {/* <div className="more">更多...</div> */}
@@ -282,12 +284,14 @@ export default class Book extends React.Component {
                             {this.state.showNamePassTip && <div className="pass">验证通过</div>}
                         </div>
                         <div className="input-item">
-                            <input type="text"  onFocus={this.focusPhone} onBlur={this.validatePhone} onChange={this.getContactPhone} value={this.state.contactPhone} placeholder="联系电话"/>
+                            <input type="text"  onFocus={this.focusPhone} onBlur={this.validatePhone}
+                                onChange={this.getContactPhone} value={this.state.contactPhone} placeholder="联系电话"/>
                             {this.state.showMaxPhoneTip && <div>电话号码最多为11位</div>}
                             {this.state.showPhonePassTip && <div className="pass">验证通过</div>}
                         </div>
                         <div className="input-item">
-                            <input type="text"  onFocus={this.focusEmail} onBlur={this.validateEmail} onChange={this.getContactEmail}  value={this.state.contactEmail} placeholder="电子邮箱"/>
+                            <input type="text"  onFocus={this.focusEmail} onBlur={this.validateEmail}
+                                onChange={this.getContactEmail}  value={this.state.contactEmail} placeholder="电子邮箱"/>
                             {this.state.showMaxEmailTip && <div>邮箱格式不正确</div>}
                             {this.state.showEmailPassTip && <div className="pass">验证通过</div>}
                         </div>
@@ -307,7 +311,8 @@ export default class Book extends React.Component {
                     </div>
                     <div className="price">
                         <div className="tit">总价</div>
-                        <div><span className="money-type">人名币</span><span className="number">{params.totalPrice}</span></div>
+                        <div><span className="money-type">人名币</span>
+                            <span className="number">{params.totalPrice}</span></div>
                     </div>
                     <div className="comfirm-btn" onClick={this.createOrder}>确认</div>
                     <div className="secured">祝您旅途愉快！</div>

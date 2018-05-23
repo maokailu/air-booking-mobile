@@ -25,8 +25,8 @@ export default class Detail extends React.Component {
         const departTime = utils.getUrlParam('departTime');
         const arriveTime = utils.getUrlParam('returnTime');
         const classType = utils.getUrlParam('classType');
-        const passenger = utils.getUrlParam('passenger');
-        const tripType = utils.getUrlParam('tripType');
+        // const passenger = utils.getUrlParam('passenger');
+        // const tripType = utils.getUrlParam('tripType');
         const ticketPrice = utils.getUrlParam('ticketPrice');
         const airportTax = utils.getUrlParam('airportTax');
         const departTimeObj = new Date(parseInt(departTime));
@@ -54,7 +54,6 @@ export default class Detail extends React.Component {
             arriveHMStr: arriveHMStr,
             departAirportCode: departAirportCode,
             arriveAirportCode: arriveAirportCode,
-            
             departCityName: departCityName,
             arriveCityName: arriveCityName,
             departAirportName: departAirportName,

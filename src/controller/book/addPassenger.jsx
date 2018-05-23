@@ -45,8 +45,10 @@ export default class addPassenger extends React.Component {
         utils.getPromise('http://localhost:8080/addPassengers', param).then(json => {
             // debugger
             this.props.addPassengerCallBack(1, param);
+            console.log(json);
         }, error => {
             this.props.addPassengerCallBack(1);
+            console.log(error);
         });
     }
     render() {
@@ -62,16 +64,20 @@ export default class addPassenger extends React.Component {
                     <div className="text">请确保您的身份证于出发日期后的六个月有效。</div>
                     <div className="text">此预定须输入身份证明文件资料。</div>
                     <div className="input-box">
-                        <input onChange={this.inputLastName} value={this.state.lastName} className="last-name" placeholder="姓氏" type="text" />
-                        <input onChange={this.inputFirstName} value={this.state.firstName} type="text" placeholder="名" />
+                        <input onChange={this.inputLastName}
+                            value={this.state.lastName} className="last-name" placeholder="姓氏" type="text" />
+                        <input onChange={this.inputFirstName}
+                            value={this.state.firstName} type="text" placeholder="名" />
                     </div>
                     <div className="gender">
                         <div>男</div>
                         <div>女</div>
                     </div>
                     <div className="input-box">
-                        <input onChange={this.inputCardNumber} value={this.state.cardNumber} className="last-name" placeholder="身份证号" type="text" />
-                        <input onChange={this.inputBirthday} value={this.state.birthday} type="text" placeholder="出发日期" />
+                        <input onChange={this.inputCardNumber}
+                            value={this.state.cardNumber} className="last-name" placeholder="身份证号" type="text" />
+                        <input onChange={this.inputBirthday}
+                            value={this.state.birthday} type="text" placeholder="出发日期" />
                     </div>
                 </div>
             </div>

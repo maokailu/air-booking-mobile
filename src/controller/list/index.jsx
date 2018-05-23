@@ -92,28 +92,38 @@ export default class List extends React.Component {
                     {this.state.flights && this.state.flights.map((flight, index) =>
                         <div key={index} className="item"  onClick={()=>this.goToDetail(flight)}>
                             <div className="row1">
-                                <img className="logo" src={`http://pic.english.c-ctrip.com/airline_logo/32/${logoPic[Math.round((index + 1) / 3)]}.png`}/>
-                                {/* <img className="logo" src={`../../resources/img/${Math.round(index + 1 / 3)}.png`}/> */}
-                                <span className="airline">{['海南航空', '厦门航空', '中国国航', '东方航空', '吉祥航空'][(Math.round((index + 1) / 3))]}</span>
+                                <img className="logo"
+                                    src={`http://pic.english.c-ctrip.com/airline_logo/32/
+                                    ${logoPic[Math.round((index + 1) / 3)]}.png`}/>
+                                {/* <img className="logo" src={`../../resources/img/
+                            ${Math.round(index + 1 / 3)}.png`}/> */}
+                                <span className="airline">
+                                    {['海南航空', '厦门航空', '中国国航', '东方航空', '吉祥航空'][(Math.round((index + 1) / 3))]}</span>
                                 <span>{' ' + flight.flightId}</span>
                             </div>
                             <div className="row2">
                                 <div className="left">
                                     <div className="column1">
-                                        <div className="time">{(new Date(flight.departTime)).getHours() + ':' + (new Date(flight.departTime)).getMinutes()}</div>
+                                        <div className="time">
+                                            {(new Date(flight.departTime)).getHours() + ':' +
+                                            (new Date(flight.departTime)).getMinutes()}</div>
                                         <div className="loc">{flight.departAirportName}</div>
                                     </div>
                                     <span className="arrow"></span>
                                     <div className="column2">
-                                        <div className="time">{(new Date(flight.returnTime)).getHours() + ':' + (new Date(flight.returnTime)).getMinutes()}</div>
+                                        <div className="time">{(new Date(flight.returnTime)).getHours() + ':' +
+                                        (new Date(flight.returnTime)).getMinutes()}</div>
                                         <div className="loc">{flight.arriveAirportName}</div>
                                     </div>
                                 </div>
-                                <span className="price">{'人民币 ' + (parseInt(flight.airportTax) + parseInt(flight.ticketPrice)) + '元'}</span>
+                                <span className="price">{'人民币 ' + (parseInt(flight.airportTax) +
+                                parseInt(flight.ticketPrice)) + '元'}</span>
                             </div>
                             <div className="row3">
-                                { Math.round(((parseInt(flight.returnTime - flight.departTime)) / 1000 / 60 / 60)) + '小时'}
-                                { Math.round(((parseInt(flight.returnTime - flight.departTime)) / 1000 / 60 % 60)) + '分'}
+                                { Math.round(((parseInt(flight.returnTime - flight.departTime))
+                                    / 1000 / 60 / 60)) + '小时'}
+                                { Math.round(((parseInt(flight.returnTime - flight.departTime))
+                                    / 1000 / 60 % 60)) + '分'}
                             </div>
                         </div>
                     )}

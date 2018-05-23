@@ -58,12 +58,11 @@ class Search extends React.Component {
             autoHeight: true, // 高度随内容变化
             // simulateTouch : true,
             on: {
-                click: ()=>{
+                click: () => {
                     mySwiper.slideNext();
                 }
             }
         });
-        
         console.log(this.state.departDateObj);
     }
     getCurrentCityNum = () => {
@@ -108,7 +107,7 @@ class Search extends React.Component {
         });
     }
     changeCity = city => {
-        if  (this.state.isDepartCity) {
+        if (this.state.isDepartCity) {
             this.setState({
                 departCity: city
             });
@@ -169,11 +168,11 @@ class Search extends React.Component {
         const tripType = this.state.tripType;
         if (this.state.departCity) {
             const query = `departCityName=${departCityName}&arriveCityName=${arriveCityName}`
-            + `&departCityCode=${departCityCode}&arriveCityCode=${arriveCityCode}`
-            + `&departAirportCode=${departAirportCode}&arriveAirportCode=${arriveAirportCode}`
-            + `&departDate=${departDate}&returnDate=${returnDate}`
-            + `&classType=${classType}&passenger=${passenger}`
-            + `&tripType=${tripType}&start=0`;
+                + `&departCityCode=${departCityCode}&arriveCityCode=${arriveCityCode}`
+                + `&departAirportCode=${departAirportCode}&arriveAirportCode=${arriveAirportCode}`
+                + `&departDate=${departDate}&returnDate=${returnDate}`
+                + `&classType=${classType}&passenger=${passenger}`
+                + `&tripType=${tripType}&start=0`;
             const path = {
                 pathname: `/list`,
                 search: query
@@ -200,7 +199,7 @@ class Search extends React.Component {
             showCitySelector: false
         });
     }
-    minus = () =>{
+    minus = () => {
         if (this.state.passenger === 1) {
             return;
         }
@@ -208,15 +207,15 @@ class Search extends React.Component {
             passenger: prevState.passenger - 1
         }));
     }
-    plus = () =>{
+    plus = () => {
         if (this.state.passenger === 9) {
             return;
         }
         this.setState(prevState => ({
             passenger: prevState.passenger + 1
         }));
-    }    
-    clickOrders = () =>{
+    }
+    clickOrders = () => {
         const path = {
             pathname: `/orders`
         };
@@ -234,11 +233,11 @@ class Search extends React.Component {
                 </div>
                 <div className="search-box">
                     <div className="tab" onClick={this.toggleTripType}>
-                        <i className={'toggle-bar ' + (tripType === 0 ? 'left-tab' : 'right-tab')}/>
+                        <i className={'toggle-bar ' + (tripType === 0 ? 'left-tab' : 'right-tab')} />
                         <div className="round_trip"
-                            style={ tripType === 0 ? { color: '#fff' } : { color: '#2681FF' }}>往返</div>
+                            style={tripType === 0 ? { color: '#fff' } : { color: '#2681FF' }}>往返</div>
                         <div className="one_way"
-                            style={ tripType === 0 ? { color: '#2681FF' } : { color: '#fff' }}>单程</div>
+                            style={tripType === 0 ? { color: '#2681FF' } : { color: '#fff' }}>单程</div>
                     </div>
                     <div className="box" onClick={this.clickDepartCity}>
                         <span className="tit">出发</span>
@@ -258,13 +257,13 @@ class Search extends React.Component {
                             <div className="tit">出发</div>
                             <span className={'content' + (this.state.departDate ? '' : ' gray')}>
                                 {this.state.departDate || '日期'}</span>
-                            <span className = "week">今天</span>
+                            <span className="week">今天</span>
                         </div>
                         <div onClick={this.clickReturnDate}>
                             <div className="tit rdate">到达</div>
                             <span className={'content' + (this.state.returnDate ? '' : ' gray')}>
                                 {this.state.returnDate || '日期'}</span>
-                            <span className = "week">今天</span>
+                            <span className="week">今天</span>
                         </div>
                     </div>
 
@@ -283,12 +282,14 @@ class Search extends React.Component {
                         </div>
                         <div className="passenger">
                             <div className="tit">乘客人数</div>
-                            <span className={'icon-minus minus' + (this.state.passenger <= 1 ? ' gray' : ' blue')} onClick={this.minus}></span>
+                            <span className={'icon-minus minus' +
+                            (this.state.passenger <= 1 ? ' gray' : ' blue')} onClick={this.minus}></span>
                             <span className="content number">{this.state.passenger}</span>
-                            <span className={'icon-plus plus' + (this.state.passenger >= 9 ? ' gray' : ' blue')} onClick={this.plus}></span>
+                            <span className={'icon-plus plus' +
+                            (this.state.passenger >= 9 ? ' gray' : ' blue')} onClick={this.plus}></span>
                         </div>
                     </div>
-                    <div className="search-btn" onClick = {this.search}>查询</div>
+                    <div className="search-btn" onClick={this.search}>查询</div>
                 </div>
                 <div className="footer-menu">
                     {/* <div className="left">
@@ -296,28 +297,28 @@ class Search extends React.Component {
                         <span>Flight Status</span>
                     </div> */}
                     <div className="right">
-                        <i className="icon-bookings"/>
+                        <i className="icon-bookings" />
                         <span onClick={this.clickOrders}>My Bookings</span>
                     </div>
                 </div>
                 <Footer />
                 {this.state.showCitySelector &&
-                <CitySelector
-                    cityCode = {
-                        this.state.isDepartCity ? this.state.departCity.cityCode : this.state.arriveCity.cityCode
-                    }
-                    closeCitySelector = {this.closeCitySelector} changeCity={this.changeCity}
-                    currentCityName = {this.state.isDepartCity ?
-                        this.state.departCity.cityName : this.state.arriveCity.cityName}
-                    labelText = {this.state.isDepartCity ? '出发城市' : '到达城市'}
-                />}
+                    <CitySelector
+                        cityCode={
+                            this.state.isDepartCity ? this.state.departCity.cityCode : this.state.arriveCity.cityCode
+                        }
+                        closeCitySelector={this.closeCitySelector} changeCity={this.changeCity}
+                        currentCityName={this.state.isDepartCity ?
+                            this.state.departCity.cityName : this.state.arriveCity.cityName}
+                        labelText={this.state.isDepartCity ? '出发城市' : '到达城市'}
+                    />}
                 {this.state.showDatePicker &&
-                <DatePicker closeDatePicker={this.closeDatePicker}
-                    selectDate = {this.selectDate}
-                    isDepartDate = {this.state.isDepartDate}
-                    departDateStr = {this.state.departDate}
-                    returnDateStr = {this.state.returnDate}
-                />}
+                    <DatePicker closeDatePicker={this.closeDatePicker}
+                        selectDate={this.selectDate}
+                        isDepartDate={this.state.isDepartDate}
+                        departDateStr={this.state.departDate}
+                        returnDateStr={this.state.returnDate}
+                    />}
             </div>
         );
     }

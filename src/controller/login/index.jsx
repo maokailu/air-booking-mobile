@@ -1,7 +1,7 @@
 import React from 'react';
 import './style.scss';
 import utils from '../../resources/utils';
-import { Toast, AppRoot } from '../../common/toast-portals';
+import { Toast } from '../../common/toast-portals';
 export default class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -72,8 +72,10 @@ export default class Login extends React.Component {
                 </div>
                 {/* <div className="fb-login">Sign in with Facebook</div> */}
                 {/* <div className="or">--- 登陆 ---</div> */}
-                <input className="username" onChange={this.inputUsername} placeholder={'姓名/邮箱/电话'} type="text" value={this.state.username}/>
-                <input className="password" onChange={this.inputPassword}  placeholder={'密码'} type="password" value={this.state.password}/>
+                <input className="username" onChange={this.inputUsername}
+                    placeholder={'姓名/邮箱/电话'} type="text" value={this.state.username}/>
+                <input className="password" onChange={this.inputPassword}
+                    placeholder={'密码'} type="password" value={this.state.password}/>
                 <div className="prompt">
                     <span>记住我</span>
                     <span>忘记密码</span>
