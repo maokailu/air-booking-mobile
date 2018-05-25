@@ -37,7 +37,7 @@ export default class addPassenger extends React.Component {
             passengerId: new Date().getTime(),
             name: this.state.lastName + this.state.firstName,
             ownership: 'ZH',
-            userId: 0,
+            userId: 1527264157474,
             cardNumber: this.state.cardNumber,
             birthday: new Date(),
             gender: this.state.gender
