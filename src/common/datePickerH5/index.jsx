@@ -25,6 +25,7 @@ export default class Pagination extends React.Component {
         let year = date.getFullYear();
         const grid = [];
         let count = 0;
+        let currentIndex = date.getDate();
         while (count < 12) {
             const days = [];
             const firstDay = new Date(year, month, 1);
@@ -53,7 +54,8 @@ export default class Pagination extends React.Component {
             count++;
         }
         this.setState({
-            grid: grid
+            grid: grid,
+            currentIndex: currentIndex
         });
     }
     getDays = () => {
@@ -136,26 +138,28 @@ export default class Pagination extends React.Component {
                     <span className="header-btn" onClick={() => this.props.closeDatePicker()}>确定</span>
                 </div>
                 <div className="grid">
-                    <div className="input-box">
-                        <div className="input-date">
-                            <div>出发</div>
-                            <div className={this.state.departDateStr ? 'blue' : 'gray'}>
-                                {this.state.departDateStr || '日期'}</div>
+                    <div className="fix-part">
+                        <div className="input-box">
+                            <div className="input-date">
+                                <div>出发</div>
+                                <div className={this.state.departDateStr ? 'blue' : 'gray'}>
+                                    {this.state.departDateStr || '日期'}</div>
+                            </div>
+                            <div className="input-date">
+                                <div>到达</div>
+                                <div className={this.state.returnDateStr ? 'blue' : 'gray'}>
+                                    {this.state.returnDateStr || '日期'}</div>
+                            </div>
                         </div>
-                        <div className="input-date">
-                            <div>到达</div>
-                            <div className={this.state.returnDateStr ? 'blue' : 'gray'}>
-                                {this.state.returnDateStr || '日期'}</div>
+                        <div className="calender-title">
+                            <span className="th">周日</span>
+                            <span className="th">周一</span>
+                            <span className="th">周二</span>
+                            <span className="th">周三</span>
+                            <span className="th">周四</span>
+                            <span className="th">周五</span>
+                            <span className="th">周六</span>
                         </div>
-                    </div>
-                    <div className="calender-title">
-                        <span className="th">周日</span>
-                        <span className="th">周一</span>
-                        <span className="th">周二</span>
-                        <span className="th">周三</span>
-                        <span className="th">周四</span>
-                        <span className="th">周五</span>
-                        <span className="th">周六</span>
                     </div>
                     {
                         this.state.grid.map((obj, monthIndex) => (
@@ -164,11 +168,13 @@ export default class Pagination extends React.Component {
                                 <div className="days">
                                     {obj.days.map((day, dayIndex) => (
                                         <div key={dayIndex} className="ceil"
-                                            onClick={() =>
-                                                this.clickDate(obj.year, obj.month, day, monthIndex * 100 + dayIndex)}>
+                                            onClick={
+                                                (monthIndex * 100 + dayIndex > this.state.currentIndex) ? (() =>
+                                                    this.clickDate(obj.year, obj.month, day, monthIndex * 100 + dayIndex)) : null}>
                                             <span className={'num' +
                                             (((monthIndex * 100 + dayIndex === this.state.start) ||
                                             (monthIndex * 100 + dayIndex === this.state.end)) ? ' black' : '')
+                                            + (monthIndex * 100 + dayIndex <= this.state.currentIndex ? ' past' : '')
                                             }>
                                                 {day !== 0 && day}
                                             </span>

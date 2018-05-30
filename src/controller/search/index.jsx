@@ -214,15 +214,9 @@ class Search extends React.Component {
         }));
     }
     toggleCity = () =>{
-        this.setState(prevState =>({ 
-            toggleCity: !prevState.toggleCity,
+        this.setState(prevState =>({
+            toggleCity: !prevState.toggleCity
         }));
-        // setTimeout(() => {
-        //     this.setState(prevState =>({ 
-        //         departCity: prevState.arriveCity,                
-        //         arriveCity: prevState.departCity
-        //     }))
-        // }, 300);
     }
     plus = () => {
         if (this.state.passenger === 9) {
@@ -257,7 +251,8 @@ class Search extends React.Component {
                             style={tripType === 0 ? { color: '#2681FF' } : { color: '#fff' }}>单程</div>
                     </div>
                     <div className="city">
-                        <div className="box dcity" onClick={this.state.toggleCity ? this.clickArriveCity : this.clickDepartCity}>
+                        <div className="box dcity" onClick={this.state.toggleCity ?
+                            this.clickArriveCity : this.clickDepartCity}>
                             <span className="tit">出发</span>
                             <div className={this.state.toggleCity ? 'dcity-move' : 'reduction'}>
                                 <div className={'content' + (this.state.departCity.cityName ? '' : ' gray')}>
@@ -265,7 +260,8 @@ class Search extends React.Component {
                                 <span className="code">{this.state.departCity.airportName || '所有机场'}</span>
                             </div>
                         </div>
-                        <div className="box" onClick={this.state.toggleCity ? this.clickDepartCity : this.clickArriveCity}>
+                        <div className="box" onClick={this.state.toggleCity ?
+                            this.clickDepartCity : this.clickArriveCity}>
                             <span className="tit">到达</span>
                             <div className={this.state.toggleCity ? 'acity-move' : 'reduction'}>
                                 <div className={'content' + (this.state.arriveCity.cityName ? '' : ' gray')}>
@@ -283,7 +279,8 @@ class Search extends React.Component {
                                 {this.state.departDate || '日期'}</span>
                             <span className="week">今天</span>
                         </div>
-                        <div onClick={this.clickReturnDate} className={this.state.tripType ? 'hideReturnDate' : 'showReturnDate'}>
+                        <div onClick={this.clickReturnDate} className={this.state.tripType ?
+                            'hideReturnDate' : 'showReturnDate'}>
                             <div className="tit rdate">到达</div>
                             <span className={'content' + (this.state.returnDate ? '' : ' gray')}>
                                 {this.state.returnDate || '日期'}</span>
