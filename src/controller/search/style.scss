@@ -14,6 +14,7 @@
     }
 }
 .search-box {
+    overflow: hidden;
     background: #fff;
     box-shadow: 0 2.5px 5px 0 rgba(212, 218, 226, 0.15);
     border-radius: 8px;
@@ -34,6 +35,7 @@
         .one_way {
             border-left: none;
             border-radius: 0 4px 4px 0;
+            margin-left: -1px;
         }
         .round_trip{
             border-radius: 4px 0 0 4px;
@@ -124,11 +126,45 @@
         }
             
     }
-    
+    .city{
+        position: relative;
+        .dcity-move{
+            transform: translateY(200%);
+            transition: transform .3s;
+        }
+        .acity-move{
+            transform: translateY(-200%);
+            transition: transform .3s;
+        }
+        .reduction{
+            transform: translateY(0);
+            transition: transform .3s;
+        }
+        .dcity{
+            width: 86.5%;
+        }
+        .toggle-btn{
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 32px;
+            color: #2681ff;
+            z-index: 2;
+        }
+    }
     .hascolumn {
         display: flex;
         justify-content: space-between;
         padding: 12px 0;
+        .hideReturnDate{
+            transform: translateX(calc(100% + 16px));
+            transition: transform 0.5s;
+        }
+        .showReturnDate{
+            transform: translateX(0);
+            transition: transform 0.5s;
+        }
     }
 
     .clearline{

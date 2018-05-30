@@ -23,13 +23,22 @@ export default class Book extends React.Component {
         showAddPassenger: false
     }
     componentDidMount() {
-        utils.getPromise('http://localhost:8080/getPassengers').then(json => {
-            this.setState({
-                passengers: json
+        const userId =  utils.getCookie('userId');
+        if (userId) {
+            const param = `userId=${userId}`;
+            utils.getPromise(`http://localhost:8080/getPassengers?${param}`).then(json => {
+                this.setState({
+                    passengers: json
+                });
+            }, error => {
+                console.error('出错了', error);
             });
-        }, error => {
-            console.error('出错了', error);
-        });
+        } else {
+            // const path = {
+            //     pathname: `/login`
+            // };
+            // this.props.history.push(path);
+        }
         const departAirportName = utils.getUrlParam('departAirportName');
         const arriveAirportName = utils.getUrlParam('arriveAirportName');
         const departAirportCode = utils.getUrlParam('departAirportCode');
@@ -53,7 +62,6 @@ export default class Book extends React.Component {
         const userId =  utils.getCookie('userId');
         if (userId) {
             const order = {
-            // orderId: 0,
             // 从cookie中取，如果没有，要求登陆
                 userId: userId,
                 contactName: this.state.contactName,
@@ -76,24 +84,29 @@ export default class Book extends React.Component {
             };
             const ticket = {
             // ticketId: 1,
-                flightId: utils.getUrlParam('flightId'),
+                flightId: utils.getUrlParam('departFlightId') + '-' + utils.getUrlParam('returnFlightId'),
                 cabinClassId: utils.getUrlParam('cabinClassId')
             };
-            let obj = {};
             let passengers = [];
             for (let i = 0; i < this.state.passengersId.length; i++) {
+                let obj = {};
                 obj = {
                     passengerId: this.state.passengersId[i]
                 };
                 passengers.push(obj);
             }
+            // const passengers = {
+            //     passengerId: this.state.passengersId.join('-')
+            // };
+            // const flightNo = utils.getUrlParam('flightId');
             const params = {
                 order: order,
                 orderItem: orderItem,
                 ticket: ticket,
                 passengers: passengers
+                // flightNo: flightNo
             };
-            utils.getPromise('http://localhost:8080/createOrder', params).then(json => {
+            utils.getPromise('http://localhost:8080/booking', params).then(json => {
                 console.log(json);
                 json = JSON.parse(json);
                 this.goToPay(json);
@@ -118,7 +131,13 @@ export default class Book extends React.Component {
         //     }
         // };
         // this.props.history.push(path);
-        const query = `resultInfo=${json.result}`;
+        let resultInfo;
+        if (json) {
+            resultInfo = '预定成功，可至我的订单查看！';
+        } else {
+            resultInfo = '预定失败，请重试！';
+        }
+        const query = `resultInfo=${resultInfo}`;
 
         const path = {
             pathname: `/result`,

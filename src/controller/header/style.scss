@@ -15,10 +15,11 @@
         }
         .logo {
             background: url('../../resources/img/triplogo.png') no-repeat scroll 0 0;
-            width: 70px;
-            height: 17px;
+            width: 85px;
+            height: 20px;
             background-size: 100% 100%;
             display: inline-block;
+            margin-right: 2px;
         }
         .arrow {
             vertical-align: top;
@@ -26,8 +27,9 @@
             color: #9b9b9b;
             border-right: 1px solid #ddd;
             margin-right: 4px;
-            transform: translateY(4px);
+            transform: translateY(-2px);
             display: inline-block;
+            height: 23px;
         }
         .book-title{
             display: inline-block;

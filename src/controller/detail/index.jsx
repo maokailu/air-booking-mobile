@@ -72,7 +72,8 @@ export default class Detail extends React.Component {
             + `&departAirportName=${utils.getUrlParam('departAirportName')}&arriveAirportName=${utils.getUrlParam('arriveAirportName')}`
             + `&departTimeStr=${params.departTimeStr}&departHMStr=${params.departHMStr}`
             + `&arriveHMStr=${params.arriveHMStr}&totalPrice=${params.totalPrice}`
-            + `&flightId=${params.flightId}&cabinClassId=${utils.getUrlParam('classType')}`;
+            + `&flightId=${params.flightId}&cabinClassId=${utils.getUrlParam('classType')}`
+            + `&returnFlightId=${utils.getUrlParam('returnFlightId')}&departFlightId=${utils.getUrlParam('departFlightId')}`;
 
         const path = {
             pathname: `/book`,
@@ -89,7 +90,7 @@ export default class Detail extends React.Component {
                     <i className="" />
                     已选航班！
                 </div>
-                <div className="box">
+                <div className="detail-box">
                     <span className="depart-text">出发</span>
                     <span className="title-text">{this.state.params.flightId}</span>
                     <span className="title-text">{this.state.params.classType}</span>
@@ -110,7 +111,7 @@ export default class Detail extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className="box">
+                <div className="detail-box">
                     <div className="row1">
                         <span className="policy">提示</span>
                         {/* <span className="details">详情</span> */}
@@ -123,7 +124,7 @@ export default class Detail extends React.Component {
                         <li>退票费用50元起</li>
                     </ul>
                 </div>
-                <div className="box">
+                <div className="detail-box">
                     <span>还没决定好？</span>
                     <div className="change-flight">更改航班</div>
                     <span className="remind">请注意，票价随时可能变动</span>
@@ -142,7 +143,7 @@ export default class Detail extends React.Component {
                         <i className="icon-check" />
                     </div>
                 </div> */}
-                <div className="box">
+                <div className="detail-box">
                     <div className="price-row style2">
                         <span>成人</span>
                         <span className="right">{'人民币 ' + this.state.params.totalPrice}</span>

@@ -8,7 +8,7 @@ let logoPic = ['hu', 'mf', 'ca', 'ho', 'mu'];
 let start = 0;
 let size  = 6;
 let hasToBottom = false;
-export default class List extends React.Component {
+export default class Next extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -30,8 +30,7 @@ export default class List extends React.Component {
             flightType: utils.getUrlParam('tripType'),
             departAirportCode: utils.getUrlParam('departAirportCode'),
             arriveAirportCode: utils.getUrlParam('arriveAirportCode'),
-            departTime: utils.getUrlParam('departDate'),
-            returnTime: utils.getUrlParam('returnDate'),
+            departTime: utils.getUrlParam('departTime'),
             classType: utils.getUrlParam('classType'),
             passenger: utils.getUrlParam('passenger')
         };
@@ -67,30 +66,22 @@ export default class List extends React.Component {
             }
         }
     }
-    goToNextPage = flight => {
+    goToDetail = flight => {
         console.log(flight);
         const query = `departCityName=${utils.getUrlParam('departCityName')}&arriveCityName=${utils.getUrlParam('arriveCityName')}`
             + `&departCityCode=${utils.getUrlParam('departCityCode')}&arriveCityCode=${utils.getUrlParam('arriveCityCode')}`
             + `&departAirportCode=${flight.departAirportCode}&arriveAirportCode=${flight.arriveAirportCode}`
             + `&departAirportName=${flight.departAirportName}&arriveAirportName=${flight.arriveAirportName}`
             + `&departTime=${flight.departTime}&returnTime=${flight.returnTime}`
-            + `&passenger=${utils.getUrlParam('passenger')}&departFlightId=${flight.flightId}`
+            + `&passenger=${utils.getUrlParam('passenger')}&returnFlightId=${flight.flightId}`
             + `&tripType=${flight.flightType}&classType=${utils.getUrlParam('classType')}`
             + `&airportTax=${flight.airportTax}`
             + `&ticketPrice=${flight.ticketPrice}`
-            + `&start=${utils.getUrlParam('start')}`;
-        let path;
-        if (flight.returnTime) {
-            path = {
-                pathname: `/next`,
-                search: query
-            };
-        } else {
-            path = {
-                pathname: `/detail`,
-                search: query
-            };
-        }
+            + `&departFlightId=${utils.getUrlParam('departFlightId')}`;
+        const path = {
+            pathname: `/detail`,
+            search: query
+        };
         this.props.history.push(path);
     }
     render() {
@@ -98,14 +89,12 @@ export default class List extends React.Component {
             <div>
                 <Header isBook/>
                 <div className="list">
-                    {this.state.flights && this.state.flights.map((flight, index) =>
-                        <div key={index} className="item"  onClick={()=>this.goToNextPage(flight)}>
+                    {this.state.flights && this.state.flights.length !== 0 && this.state.flights.map((flight, index) =>
+                        <div key={index} className="item"  onClick={()=>this.goToDetail(flight)}>
                             <div className="row1">
                                 <img className="logo"
                                     src={`http://pic.english.c-ctrip.com/airline_logo/32/
                                     ${logoPic[Math.round((index + 1) / 3)]}.png`}/>
-                                {/* <img className="logo" src={`../../resources/img/
-                            ${Math.round(index + 1 / 3)}.png`}/> */}
                                 <span className="airline">
                                     {['海南航空', '厦门航空', '中国国航', '东方航空', '吉祥航空'][(Math.round((index + 1) / 3))]}</span>
                                 <span>{' ' + flight.flightId}</span>

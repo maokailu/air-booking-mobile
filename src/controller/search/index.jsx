@@ -7,6 +7,7 @@ import {
     Switch
 } from 'react-router-dom';
 import List from '../list';
+import Next from '../list/next';
 import Detail from '../detail';
 import Book from '../book';
 import Login from '../login';
@@ -27,7 +28,7 @@ class Search extends React.Component {
         this.state = {
             departCity: JSON.parse(localStorage.getItem('departCity')) || {},
             arriveCity: JSON.parse(localStorage.getItem('arriveCity')) || {},
-            tripType: 1,
+            tripType: 0,
             showCitySelector: false,
             showDatePicker: false,
             isDepartCity: true,
@@ -39,7 +40,10 @@ class Search extends React.Component {
             passenger: 1,
             classType: ['头等舱', '商务舱', '经济舱'],
             start: localStorage.getItem('start') || -1,
-            end: localStorage.getItem('end') || -1
+            end: localStorage.getItem('end') || -1,
+            toggleCity: false,
+            departCityData: JSON.parse(localStorage.getItem('departCity')) || {},
+            arriveCityData: JSON.parse(localStorage.getItem('arriveCity')) || {}
         };
     }
     static contextTypes = {
@@ -99,12 +103,14 @@ class Search extends React.Component {
             showCitySelector: true,
             isDepartCity: true
         });
+        console.log('dep');
     }
     clickArriveCity = () => {
         this.setState({
             showCitySelector: true,
             isDepartCity: false
         });
+        console.log('arri');
     }
     changeCity = city => {
         if (this.state.isDepartCity) {
@@ -207,6 +213,17 @@ class Search extends React.Component {
             passenger: prevState.passenger - 1
         }));
     }
+    toggleCity = () =>{
+        this.setState(prevState =>({ 
+            toggleCity: !prevState.toggleCity,
+        }));
+        // setTimeout(() => {
+        //     this.setState(prevState =>({ 
+        //         departCity: prevState.arriveCity,                
+        //         arriveCity: prevState.departCity
+        //     }))
+        // }, 300);
+    }
     plus = () => {
         if (this.state.passenger === 9) {
             return;
@@ -227,9 +244,9 @@ class Search extends React.Component {
             <div className="search">
                 <Header isHome />
                 <div className="category">
-                    {/* <span>酒店</span> */}
-                    {/* <span className="tab-flights">机票</span> */}
-                    {/* <span>火车</span> */}
+                    <span>酒店</span>
+                    <span className="tab-flights">机票</span>
+                    <span>火车</span>
                 </div>
                 <div className="search-box">
                     <div className="tab" onClick={this.toggleTripType}>
@@ -239,17 +256,24 @@ class Search extends React.Component {
                         <div className="one_way"
                             style={tripType === 0 ? { color: '#2681FF' } : { color: '#fff' }}>单程</div>
                     </div>
-                    <div className="box" onClick={this.clickDepartCity}>
-                        <span className="tit">出发</span>
-                        <div className={'content' + (this.state.departCity.cityName ? '' : ' gray')}>
-                            {this.state.departCity.cityName || '城市或机场'}</div>
-                        <span className="code">{this.state.departCity.airportName || '所有机场'}</span>
-                    </div>
-                    <div className="box" onClick={this.clickArriveCity}>
-                        <span className="tit">到达</span>
-                        <div className={'content' + (this.state.arriveCity.cityName ? '' : ' gray')}>
-                            {this.state.arriveCity.cityName || '城市或机场'}</div>
-                        <span className="code">{this.state.arriveCity.airportName || '所有机场'}</span>
+                    <div className="city">
+                        <div className="box dcity" onClick={this.state.toggleCity ? this.clickArriveCity : this.clickDepartCity}>
+                            <span className="tit">出发</span>
+                            <div className={this.state.toggleCity ? 'dcity-move' : 'reduction'}>
+                                <div className={'content' + (this.state.departCity.cityName ? '' : ' gray')}>
+                                    {this.state.departCity.cityName || '城市或机场'}</div>
+                                <span className="code">{this.state.departCity.airportName || '所有机场'}</span>
+                            </div>
+                        </div>
+                        <div className="box" onClick={this.state.toggleCity ? this.clickDepartCity : this.clickArriveCity}>
+                            <span className="tit">到达</span>
+                            <div className={this.state.toggleCity ? 'acity-move' : 'reduction'}>
+                                <div className={'content' + (this.state.arriveCity.cityName ? '' : ' gray')}>
+                                    {this.state.arriveCity.cityName || '城市或机场'}</div>
+                                <span className="code">{this.state.arriveCity.airportName || '所有机场'}</span>
+                            </div>
+                        </div>
+                        <span className="icon-toggle toggle-btn" onClick={this.toggleCity}/>
                     </div>
 
                     <div className="box hascolumn">
@@ -259,7 +283,7 @@ class Search extends React.Component {
                                 {this.state.departDate || '日期'}</span>
                             <span className="week">今天</span>
                         </div>
-                        <div onClick={this.clickReturnDate}>
+                        <div onClick={this.clickReturnDate} className={this.state.tripType ? 'hideReturnDate' : 'showReturnDate'}>
                             <div className="tit rdate">到达</div>
                             <span className={'content' + (this.state.returnDate ? '' : ' gray')}>
                                 {this.state.returnDate || '日期'}</span>
@@ -328,6 +352,7 @@ const Home = () => (
         <Switch>
             <Route exact path="/" component={Search} />
             <Route path="/list" component={List} />
+            <Route path="/next" component={Next} />
             <Route path="/detail" component={Detail} />
             <Route path="/book" component={Book} />
             <Route path="/login" component={Login} />
