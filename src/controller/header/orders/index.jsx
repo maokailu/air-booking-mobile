@@ -17,9 +17,14 @@ export default class Orders extends React.Component {
     }
     componentDidMount() {
         let userId = utils.getCookie('userId');
+        const params = {
+            user: {
+                userId: userId
+            }
+        };
         if (userId) {
             userId = utils.getCookie('userId');
-            utils.getPromise(`http://localhost:8080/getOrdersByUserId?userId=${userId}`).then(json => {
+            utils.getPromise(`getOrders`, params).then(json => {
                 this.setState({
                     orders: json
                 });
@@ -34,99 +39,105 @@ export default class Orders extends React.Component {
             // this.props.history.push(path);
         }
     }
-    // goToDetail = order => {
-    // console.log(order);
-    // const query = `departCityName=
-    // ${utils.getUrlParam('departCityName')}&arriveCityName=${utils.getUrlParam('arriveCityName')}`
-    //     + `&departCityCode=
-    // ${utils.getUrlParam('departCityCode')}&arriveCityCode=${utils.getUrlParam('arriveCityCode')}`
-    //     + `&departAirportCode=${flight.departAirportCode}&arriveAirportCode=${flight.arriveAirportCode}`
-    //     + `&departAirportName=${flight.departAirportName}&arriveAirportName=${flight.arriveAirportName}`
-    //     + `&departTime=${flight.departTime}&returnTime=${flight.returnTime}`
-    //     + `&passenger=${utils.getUrlParam('passenger')}&flightId=${flight.flightId}`
-    //     + `&tripType=${flight.flightType}&classType=${utils.getUrlParam('classType')}`
-    //     + `&airportTax=${flight.airportTax}`
-    //     + `&ticketPrice=${flight.ticketPrice}`;
-    // const path = {
-    //     pathname: `/detail`,
-    //     search: query
-    // };
-    // this.props.history.push(path);
-    // }
+    goToDetail = orderId => {
+        const query = `orderId=${orderId}`;
+        const path = {
+            pathname: `/order-detail`,
+            search: query
+        };
+        this.props.history.push(path);
+    }
     render() {
         return (
+            // 取的每个主订单的第一张子订单信息 由于插入时先插入去程航班 所以取得的是去程航班信息 算了 不取航班
             <div>
                 <Header/>
                 <div className="order-list">
                     {this.state.orders && this.state.orders.map((order, index) =>
-                        <div key={index} className="item"  onClick={()=>this.goToDetail(order)}>
-                            {/* <div className="row1">
-                                <img className="logo" src={`http://pic.english.c-ctrip.com/airline_logo/32/${logoPic
-                                [Math.round(index + 1 / 3)]}.png`}/>
-                                <span className="airline">{['海南航空', '厦门航空', '中国国航', '东方航空', '吉祥航空']
-                                [(Math.round(index + 1 / 3))]}</span>
-                            </div> */}
-                            <div className="row2">
-                                <div className="left">
-                                    <div className="column1">
-                                        <div>
-                                            <div className="" style={{ color: 'rgb(32, 194, 145)',
+                        <div key={index} className="item"
+                            style= {order.orderState !== 1 ? { color: '#ccc' } : {} }
+                            onClick={()=>this.goToDetail(order.orderId)}>
+                            <div style={{     display: 'flex' }}>
+                                <div className="row2">
+                                    <div className="left">
+                                        <div className="column1">
+                                            <div>
+                                                <i className="icon-flight" />
+                                                <span className="order-state" style={order.orderState === 1  ?
+                                                    { color: '#1899F2' } : {}}>{(order.orderState === 1 ?
+                                                        '已完成' : '已取消')}</span>
+                                            </div>
+                                            <img className="logo" style={ order.orderState === 1 ? {} :
+                                                { filter: 'grayscale(100%)' }}
+                                            src={``}/>
+                                            <div className="" style={{ color: '',
                                                 display: 'inline-block' }}>
-                                                {'航班号：' + order.flight.flightId}</div>
+                                                {order.orderItems[0].ticket.flight.flightId}</div>
                                             <div className=""
-                                                style={{ color: 'rgb(32, 194, 145)' }}>{'订单状态：已完成'}</div>
-                                            <div className=""
-                                                style={{ color: 'rgb(32, 194, 145)' }}>
-                                                {'舱位类型：' + order.cabinClass.cabinClassName}</div>
-
-                                        </div>
-                                        {/* <div className="time">{(new Date(order.flight.departTime)).getHours()
+                                                style={{ color: '' }}>
+                                                {order.orderItems[0].ticket.cabinClass.cabinClassName}</div>
+                                            {/* <div className="time">{(new Date(order.flight.departTime)).getHours()
                                          + ':' + (new Date(order.flight.departTime)).getMinutes()}</div>
                                     <div className="time">{(new Date(order.flight.departTime)).getHours()
                                     + ':' + (new Date(order.flight.departTime)).getMinutes()}</div> */}
 
-                                        <div className="loc">
-                                            {order.flight.departCityName + order.flight.departAirportName}</div>
-                                    </div>
-                                    <span className="arrow"></span>
-                                    <div className="column2">
+                                            {/* <div style={{ textAlign: 'center' }}> */}
+
+                                            {/* </div> */}
+                                        </div>
+                                        {/* <span className="icon-arrow-thin-right"></span> */}
+                                        <div>
+                                            <span className="loc">
+                                                {order.orderItems[0].ticket.flight.departCityName}</span>
+                                            <span className="icon-long-arrow-right"></span>
+                                            <span className="loc">
+                                                {order.orderItems[0].ticket.flight.arriveCityName}</span>
+                                        </div>
+                                        {/* <div className="column2"> */}
                                         {/* <div className="time">
                                         {(new Date(order.flight.returnTime)).getHours() + ':'
                                         + (new Date(order.flight.returnTime)).getMinutes()}</div>
                                     <div className="time">
                                 {(new Date(order.flight.returnTime)).getHours() + ':'
                             + (new Date(order.flight.returnTime)).getMinutes()}</div> */}
+                                        {/* <div style={{ textAlign: 'center' }}> */}
 
-                                        <div className="loc">
-                                            {order.flight.arriveCityName  + order.flight.arriveAirportName}</div>
+                                        {/* </div> */}
+                                        {/* </div> */}
                                     </div>
-                                </div>
-                                {/* 总价 */}
-                                {/* <span className="price">{'人民币 ' +
+                                    {/* 总价 */}
+                                    {/* <span className="price">{'人民币 ' +
                             (parseInt(order.airportTax) + parseInt(order.ticketPrice)) + '元'}</span> */}
-                                <span className="price"
-                                    style={{ transform: 'translateY(10px)' }}>{order.passenger.name}</span>
 
-                            </div>
-                            <div className="row3">
-                                {/* { Math.round(((parseInt(order.flight.returnTime
+                                </div>
+                                <div className="column2">
+                                    <div className="row3">
+                                        {/* { Math.round(((parseInt(order.flight.returnTime
                                 - order.flight.departTime)) / 1000 / 60 / 60)) + '小时'}
                                 { Math.round(((parseInt(order.flight.returnTime
                                 - order.flight.departTime)) / 1000 / 60 % 60)) + '分'} */}
-                                <div className="time" style={{ display: 'inline-block',
-                                    marginRight: '10px' }}>
-                                    {(new Date(order.flight.departTime)).getFullYear() + '年' +
-                                    ((new Date(order.flight.departTime)).getMonth() + 1) + '月'
-                                    + (new Date(order.flight.departTime)).getDate() + '日，'}</div>
-                                <div className="time" style={{ display: 'inline-block' }}>
-                                    {(new Date(order.flight.departTime)).getHours() + ':'
-                                    + (new Date(order.flight.departTime)).getMinutes()}</div>
-                                <span style={{ margin: '0 5px' }}>-</span>
-                                <div className="time" style={{ display: 'inline-block' }}>
-                                    {(new Date(order.flight.returnTime)).getHours() + ':'
-                                    + (new Date(order.flight.returnTime)).getMinutes()}</div>
-
+                                        <div className="time" style={{ display: 'inline-block',
+                                            marginRight: '10px' }}>
+                                            {(new Date(order.orderItems[0].ticket.flight.departTime)).getFullYear() +
+                                            '年' +
+                                    ((new Date(order.orderItems[0].ticket.flight.departTime)).getMonth() + 1) + '月'
+                                    + (new Date(order.orderItems[0].ticket.flight.departTime)).getDate() + '日'}</div>
+                                    </div>
+                                    <span className="time" style={{ display: 'inline-block', marginRight: '10px' }}>
+                                        {(new Date(order.orderItems[0].ticket.flight.departTime)).getHours() + ':'
+                                    + (new Date(order.orderItems[0].ticket.flight.departTime)).getMinutes()}</span>
+                                    <span className="loc">{order.orderItems[0].ticket.flight.departAirportName}</span>
+                                    <br/>
+                                    <span className="time" style={{ display: 'inline-block', marginRight: '10px' }}>
+                                        {(new Date(order.orderItems[0].ticket.flight.returnTime)).getHours() + ':'
+                                    + (new Date(order.orderItems[0].ticket.flight.returnTime)).getMinutes()}</span>
+                                    <span className="loc">{order.orderItems[0].ticket.flight.arriveAirportName}</span>
+                                </div>
                             </div>
+                            <span className={'price'}
+                                style={order.orderState === 1 ? { transform: 'translateY(10px)' } :
+                                    { color: '#ccc', transform: 'translateY(10px)' }}>{order.totalPrice || 0}元</span>
+
                         </div>
                     )}
                 </div>

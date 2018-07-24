@@ -2,11 +2,10 @@ import React from 'react';
 import './style.scss';
 import PropTypes from 'prop-types';
 import {
-    BrowserRouter as Router,
     Route,
-    Switch
+    Switch, HashRouter, Redirect
 } from 'react-router-dom';
-import List from '../list';
+import List from '../list/first';
 import Next from '../list/next';
 import Detail from '../detail';
 import Book from '../book';
@@ -21,6 +20,7 @@ import Swiper from 'swiper';
 import Account from '../header/account';
 import Help from '../header/help';
 import Order from '../header/orders';
+import OrderDetail from '../header/orders/detail';
 let mySwiper;
 class Search extends React.Component {
     constructor() {
@@ -28,7 +28,7 @@ class Search extends React.Component {
         this.state = {
             departCity: JSON.parse(localStorage.getItem('departCity')) || {},
             arriveCity: JSON.parse(localStorage.getItem('arriveCity')) || {},
-            tripType: 0,
+            flightType: parseInt(localStorage.getItem('flightType')) || 0, // 0:往返 1：单程
             showCitySelector: false,
             showDatePicker: false,
             isDepartCity: true,
@@ -86,7 +86,7 @@ class Search extends React.Component {
     initDepartCity = cityNum => {
         if (!cityNum) cityNum = 316;
         const params = `cityNum=${cityNum}`;
-        utils.getPromise(`http://localhost:8080/getCurrentCityByCityNum?${params}`).then(json => {
+        utils.getPromise(`getCurrentCityByCityNum?${params}`).then(json => {
             if (json) {
                 this.setState({
                     departCity: json
@@ -167,20 +167,23 @@ class Search extends React.Component {
         const arriveCityCode = arriveCity.cityCode;
         const departAirportCode = departCity.airportCode || 'ALL';
         const arriveAirportCode = arriveCity.airportCode || 'ALL';
+        const departAirportName = departCity.airportName || '所有机场';
+        const arriveAirportName = arriveCity.airportName || '所有机场';
         const departDate = this.state.departDateObj.getTime();
-        const returnDate = this.state.returnDateObj.getTime();
+        const returnDate = this.state.returnDateObj.getTime(); // 返回日期
         const classType = mySwiper.realIndex;
         const passenger = this.state.passenger;
-        const tripType = this.state.tripType;
+        const flightType = this.state.flightType;
         if (this.state.departCity) {
-            const query = `departCityName=${departCityName}&arriveCityName=${arriveCityName}`
-                + `&departCityCode=${departCityCode}&arriveCityCode=${arriveCityCode}`
-                + `&departAirportCode=${departAirportCode}&arriveAirportCode=${arriveAirportCode}`
-                + `&departDate=${departDate}&returnDate=${returnDate}`
+            const query = `departCityNameSearch=${departCityName}&arriveCityNameSearch=${arriveCityName}`
+                + `&departCityCodeSearch=${departCityCode}&arriveCityCodeSearch=${arriveCityCode}`
+                + `&departAirportCodeSearch=${departAirportCode}&arriveAirportCodeSearch=${arriveAirportCode}`
+                + `&departAirportNameSearch=${departAirportName}&arriveAirportNameSearch=${arriveAirportName}`
+                + `&departTimeSearch=${departDate}&returnTimeSearch=${returnDate}`
                 + `&classType=${classType}&passenger=${passenger}`
-                + `&tripType=${tripType}&start=0`;
+                + `&flightType=${flightType}&start=0`;
             const path = {
-                pathname: `/list`,
+                pathname: `list`,
                 search: query
             };
             this.context.router.history.push(path);
@@ -195,10 +198,13 @@ class Search extends React.Component {
         };
         this.context.router.history.push(path);
     }
-    toggleTripType = () => {
+    toggleFlightType = () => {
         this.setState(prevState => ({
-            tripType: prevState.tripType === 0 ? 1 : 0
-        }));
+            flightType: prevState.flightType === 0 ? 1 : 0
+        }), ()=>{
+            console.log(this.state.flightType);
+            localStorage.setItem('flightType', this.state.flightType);
+        });
     }
     closeCitySelector = () => {
         this.setState({
@@ -233,22 +239,22 @@ class Search extends React.Component {
         this.context.router.history.push(path);
     }
     render() {
-        const tripType = this.state.tripType;
+        const flightType = this.state.flightType;
         return (
             <div className="search">
                 <Header isHome />
                 <div className="category">
-                    <span>酒店</span>
-                    <span className="tab-flights">机票</span>
-                    <span>火车</span>
+                    <span><i className="icon-hotel"/>酒店</span>
+                    <span className="tab-flights"><i className="icon-flight"/>机票</span>
+                    <span><i className="icon-train"/>火车</span>
                 </div>
                 <div className="search-box">
-                    <div className="tab" onClick={this.toggleTripType}>
-                        <i className={'toggle-bar ' + (tripType === 0 ? 'left-tab' : 'right-tab')} />
-                        <div className="round_trip"
-                            style={tripType === 0 ? { color: '#fff' } : { color: '#2681FF' }}>往返</div>
+                    <div className="tab" onClick={this.toggleFlightType}>
+                        <i className={'toggle-bar ' + (flightType === 0 ? 'left-tab' : 'right-tab')} />
+                        <div className="round"
+                            style={flightType === 0 ? { color: '#fff' } : { color: '#2681FF' }}>往返</div>
                         <div className="one_way"
-                            style={tripType === 0 ? { color: '#2681FF' } : { color: '#fff' }}>单程</div>
+                            style={flightType === 0 ? { color: '#2681FF' } : { color: '#fff' }}>单程</div>
                     </div>
                     <div className="city">
                         <div className="box dcity" onClick={this.state.toggleCity ?
@@ -277,14 +283,14 @@ class Search extends React.Component {
                             <div className="tit">出发</div>
                             <span className={'content' + (this.state.departDate ? '' : ' gray')}>
                                 {this.state.departDate || '日期'}</span>
-                            <span className="week">今天</span>
+                            {/* <span className="week">今天</span> */}
                         </div>
-                        <div onClick={this.clickReturnDate} className={this.state.tripType ?
+                        <div onClick={this.clickReturnDate} className={this.state.flightType ?
                             'hideReturnDate' : 'showReturnDate'}>
-                            <div className="tit rdate">到达</div>
+                            <div className="tit rdate">返回</div>
                             <span className={'content' + (this.state.returnDate ? '' : ' gray')}>
                                 {this.state.returnDate || '日期'}</span>
-                            <span className="week">今天</span>
+                            {/* <span className="week">今天</span> */}
                         </div>
                     </div>
 
@@ -319,7 +325,7 @@ class Search extends React.Component {
                     </div> */}
                     <div className="right">
                         <i className="icon-bookings" />
-                        <span onClick={this.clickOrders}>My Bookings</span>
+                        <span onClick={this.clickOrders}>我的订单</span>
                     </div>
                 </div>
                 <Footer />
@@ -345,9 +351,9 @@ class Search extends React.Component {
     }
 }
 const Home = () => (
-    <Router>
+    <HashRouter>
         <Switch>
-            <Route exact path="/" component={Search} />
+            <Route exact path="/home" component={Search} />
             <Route path="/list" component={List} />
             <Route path="/next" component={Next} />
             <Route path="/detail" component={Detail} />
@@ -357,8 +363,10 @@ const Home = () => (
             <Route path="/account" component={Account} />
             <Route path="/help" component={Help} />
             <Route path="/orders" component={Order} />
+            <Route path="/order-detail" component={OrderDetail} />
+            <Redirect path="/" to={{ pathname: '/home' }} />
         </Switch>
-    </Router>
+    </HashRouter>
 );
 
 export default Home

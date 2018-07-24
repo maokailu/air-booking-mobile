@@ -11,6 +11,11 @@
     span {
         flex: 1;
         text-align: center;
+        flex-direction: column;
+        display: flex;
+        i{
+            font-size: 24px;
+        }
     }
 }
 .search-box {
@@ -37,7 +42,7 @@
             border-radius: 0 4px 4px 0;
             margin-left: -1px;
         }
-        .round_trip{
+        .round{
             border-radius: 4px 0 0 4px;
         }
         .toggle-bar {

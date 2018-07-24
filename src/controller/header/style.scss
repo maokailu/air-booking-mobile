@@ -6,7 +6,7 @@
         color: #fff;
     }
     .blue{
-        color: #0288d1;
+        color: #2681FF;
     }
     .head {
         padding: 16px;
@@ -14,7 +14,20 @@
             font: 20px Helvetica Neue, Roboto, arial, sans-serif;
         }
         .logo {
-            background: url('../../resources/img/triplogo.png') no-repeat scroll 0 0;
+            width: 85px;
+            height: 20px;
+            background-size: 100% 100%;
+            display: inline-block;
+            margin-right: 2px;
+        }
+        .blue-logo{
+            width: 85px;
+            height: 20px;
+            background-size: 100% 100%;
+            display: inline-block;
+            margin-right: 2px;
+        }
+        .white-logo{    
             width: 85px;
             height: 20px;
             background-size: 100% 100%;
@@ -37,7 +50,11 @@
             margin-left: 10px;
             span{
                 margin-left: 10px;
+                :first-child{
+                    margin-left: 0;
+                }
             }
+            transform: translateY(-8px);font-size: 10px;
         }
     }
     .main {
@@ -68,3 +85,4 @@
 .white-back{
     background-color: #fff;
 }
+

@@ -3,14 +3,15 @@ import './style.scss';
 // const shortMonthNamesEn = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const shortMonthNames = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
 let selectCount = 0;
+let firstChoose = 0;
 export default class Pagination extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             grid: [],
             current: -1,
-            // start: -1,
-            // end: -1,
+            start: parseInt(localStorage.getItem('start')) || -1,
+            end: parseInt(localStorage.getItem('end')) || -1,
             departDateStr: this.props.departDateStr,
             returnDateStr: this.props.returnDateStr
         };
@@ -18,6 +19,10 @@ export default class Pagination extends React.Component {
 
     componentDidMount() {
         this.initGrid();
+        // 还没渲染完
+        // const s = this.state.start % 100 * 200;
+        // const e = this.state.end % 100 * 200;
+        // window.scrollTo(s, e);
     }
     initGrid = () => {
         const date = new Date();
@@ -39,7 +44,9 @@ export default class Pagination extends React.Component {
             }
             const obj = {};
             obj.month = month;
-            const shortMonthName = shortMonthNames[month];
+            console.log(month);
+            const monthIndex = month === 12 ? 0 : month;
+            const shortMonthName = shortMonthNames[monthIndex];
             if (month < 12) {
                 month++;
             } else {
@@ -80,6 +87,7 @@ export default class Pagination extends React.Component {
     clickDate = (year, month, day, index) => {
         console.log(month);
         selectCount++;
+        firstChoose++;
         const shortMonthName = shortMonthNames[month];
         const dateStr = `${shortMonthName}${day}日`;
         const date = new Date(year, month, day);
@@ -89,26 +97,27 @@ export default class Pagination extends React.Component {
             if (selectCount === 1) {
                 this.setState({
                     departDateStr: dateStr,
-                    start: index
+                    start: index,
+                    currentIndex: index
                 });
                 localStorage.setItem('departDateStr', dateStr);
+                localStorage.setItem('start', index);
                 this.props.selectDate(true, shortMonthName, day, dateStr, date);
             } else if (selectCount === 2) {
-                // 第二次点击选择到达日期
+                // 之后点击选择都是到达日期
                 this.setState({
                     returnDateStr: dateStr,
                     end: index
                 }, () => {
                     localStorage.setItem('returnDateStr', dateStr);
+                    localStorage.setItem('end', index);
                     this.props.selectDate(false, shortMonthName, day, dateStr, date);
                     setTimeout(() => {
-                        // this.props.closeDatePicker();
+                        this.props.closeDatePicker();
                     }, 500);
                     selectCount = 0;
                 });
             }
-            // localStorage.setItem('end', this.state.end);
-            // localStorage.setItem('start', this.state.start);
         } else {
             // 选择到达日期
             this.setState({
@@ -116,6 +125,7 @@ export default class Pagination extends React.Component {
                 end: index
             });
             localStorage.setItem('returnDateStr', dateStr);
+            localStorage.setItem('end', index);
             this.props.selectDate(false, shortMonthName, day, dateStr, date);
             setTimeout(() => {
                 // this.props.closeDatePicker();
@@ -146,7 +156,7 @@ export default class Pagination extends React.Component {
                                     {this.state.departDateStr || '日期'}</div>
                             </div>
                             <div className="input-date">
-                                <div>到达</div>
+                                <div>返回</div>
                                 <div className={this.state.returnDateStr ? 'blue' : 'gray'}>
                                     {this.state.returnDateStr || '日期'}</div>
                             </div>
@@ -170,7 +180,8 @@ export default class Pagination extends React.Component {
                                         <div key={dayIndex} className="ceil"
                                             onClick={
                                                 (monthIndex * 100 + dayIndex > this.state.currentIndex) ? (() =>
-                                                    this.clickDate(obj.year, obj.month, day, monthIndex * 100 + dayIndex)) : null}>
+                                                    this.clickDate(obj.year, obj.month, day, monthIndex * 100
+                                                    + dayIndex)) : null}>
                                             <span className={'num' +
                                             (((monthIndex * 100 + dayIndex === this.state.start) ||
                                             (monthIndex * 100 + dayIndex === this.state.end)) ? ' black' : '')
@@ -180,11 +191,15 @@ export default class Pagination extends React.Component {
                                             </span>
                                             <div
                                                 className={
-                                                    (this.state.start === monthIndex * 100 + dayIndex ?
+                                                    ((((this.state.start === monthIndex * 100 + dayIndex)
+                                                        && ((firstChoose !== 1) || this.state.start !== -1))) ?
                                                         'half start' : '')
-                                                    + (this.state.end === monthIndex * 100 + dayIndex ? 'half end' : '')
+                                                    + (((this.state.end === monthIndex * 100 + dayIndex)
+                                                    && (this.props.isDepartDate || this.state.end !== -1))
+                                                        ? 'half end' : '')
                                                     + (((monthIndex * 100 + dayIndex > this.state.start) &&
-                                                        (monthIndex * 100 + dayIndex < this.state.end)) ? 'slider' : '')
+                                                        (monthIndex * 100 + dayIndex < this.state.end)) &&
+                                                        day !== 0 ? 'slider' : '')
                                                 }>
                                             </div>
                                             <div className={((this.state.end === monthIndex * 100 + dayIndex) ||

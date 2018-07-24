@@ -18,7 +18,7 @@ export default class CitySelector extends React.Component {
         this.state.hotCity.length === 0 && this.initGrid();
     }
     initGrid = () => {
-        utils.getPromise('http://localhost:8080/getHotDestinations', null).then(json => {
+        utils.getPromise('getHotDestinations', null).then(json => {
             json = JSON.parse(json);
             if (!utils.isEmpty(json)) {
                 const hotCity = json['ZH'];
@@ -72,7 +72,7 @@ export default class CitySelector extends React.Component {
     searchGeo=event=>{
         if (event.target.value) {
             const param = `text=${event.target.value}`;
-            utils.getPromise(`http://localhost:8080/getCitys?${param}`).then(json => {
+            utils.getPromise(`getCitys?${param}`).then(json => {
                 console.log(json);
                 this.setState({
                     result: json

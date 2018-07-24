@@ -4,7 +4,6 @@ import utils from '../../resources/utils';
 import Footer from 'footer';
 import Header from 'header';
 import AddPassenger from './addPassenger';
-let params = {};
 export default class Book extends React.Component {
     constructor(props) {
         super(props);
@@ -19,14 +18,19 @@ export default class Book extends React.Component {
         showMaxPhoneTip: false,
         showMaxEmailTip: false,
         showNamePassTip: false,
+        showError: false,
         passengersId: [],
-        showAddPassenger: false
+        showAddPassenger: false,
+        ticketPrice: parseInt(utils.getUrlParam('ticketPrice')),
+        airportTax: parseInt(utils.getUrlParam('airportTax')),
+        totalPrice: parseInt(utils.getUrlParam('totalPrice'))
     }
     componentDidMount() {
+        window.scrollTo(0, 0);
         const userId =  utils.getCookie('userId');
         if (userId) {
             const param = `userId=${userId}`;
-            utils.getPromise(`http://localhost:8080/getPassengers?${param}`).then(json => {
+            utils.getPromise(`getPassengers?${param}`).then(json => {
                 this.setState({
                     passengers: json
                 });
@@ -39,24 +43,6 @@ export default class Book extends React.Component {
             // };
             // this.props.history.push(path);
         }
-        const departAirportName = utils.getUrlParam('departAirportName');
-        const arriveAirportName = utils.getUrlParam('arriveAirportName');
-        const departAirportCode = utils.getUrlParam('departAirportCode');
-        const arriveAirportCode = utils.getUrlParam('arriveAirportCode');
-        const departTimeStr = utils.getUrlParam('departTimeStr');
-        const departHMStr = utils.getUrlParam('departHMStr');
-        const arriveHMStr = utils.getUrlParam('arriveHMStr');
-        const totalPrice = utils.getUrlParam('totalPrice');
-        params = {
-            departAirportCode: departAirportCode,
-            arriveAirportCode: arriveAirportCode,
-            departAirportName: departAirportName,
-            arriveAirportName: arriveAirportName,
-            departTimeStr: departTimeStr,
-            departHMStr: departHMStr,
-            arriveHMStr: arriveHMStr,
-            totalPrice: totalPrice
-        };
     }
     createOrder = () => {
         const userId =  utils.getCookie('userId');
@@ -66,25 +52,19 @@ export default class Book extends React.Component {
                 userId: userId,
                 contactName: this.state.contactName,
                 orderDate: new Date(),
-                // orderState: 0,
-                // 通过flightId可得 在Mysql中将ticket中的价格移到flight中
-                // totalTicketPrice: 0,
+                orderState: 1,
+                totalTicketPrice: this.state.ticketPrice,
                 // totalFuelSurcharge: 0,
-                // totalAirportTax: 0,
-                // totalPrice: 0,
+                totalAirportTax: this.state.airportTax,
+                totalPrice: (this.state.totalPrice * this.state.passengersId.length) || this.state.totalPrice,
                 cellphone: this.state.contactPhone,
                 email: this.state.contactEmail
-            // zipCode: 0
             };
             const orderItem = {
-            // orderItemId: 2,
-            // orderId: 0,
-            // ticketId: 0,
                 seatRequire: 1
             };
             const ticket = {
-            // ticketId: 1,
-                flightId: utils.getUrlParam('departFlightId') + '-' + utils.getUrlParam('returnFlightId'),
+                flightId: utils.getUrlParam('flightId1') + '-' + utils.getUrlParam('flightId2'),
                 cabinClassId: utils.getUrlParam('cabinClassId')
             };
             let passengers = [];
@@ -95,10 +75,6 @@ export default class Book extends React.Component {
                 };
                 passengers.push(obj);
             }
-            // const passengers = {
-            //     passengerId: this.state.passengersId.join('-')
-            // };
-            // const flightNo = utils.getUrlParam('flightId');
             const params = {
                 order: order,
                 orderItem: orderItem,
@@ -106,7 +82,7 @@ export default class Book extends React.Component {
                 passengers: passengers
                 // flightNo: flightNo
             };
-            utils.getPromise('http://localhost:8080/booking', params).then(json => {
+            utils.getPromise('booking', params).then(json => {
                 console.log(json);
                 json = JSON.parse(json);
                 this.goToPay(json);
@@ -133,9 +109,9 @@ export default class Book extends React.Component {
         // this.props.history.push(path);
         let resultInfo;
         if (json) {
-            resultInfo = '预定成功，可至我的订单查看！';
+            resultInfo = '购票完成，可至我的订单查看！';
         } else {
-            resultInfo = '预定失败，请重试！';
+            resultInfo = '失败购票，请重试！';
         }
         const query = `resultInfo=${resultInfo}`;
 
@@ -173,7 +149,7 @@ export default class Book extends React.Component {
     }
     getContactEmail = event =>{
         console.log(event.target.value);
-        if (event.target.value.length >= 11) {
+        if (event.target.value.length >= 20) {
             this.setState({
                 showMaxEmailTip: true
             });
@@ -269,7 +245,7 @@ export default class Book extends React.Component {
         return (
             <div>
                 {!this.state.showAddPassenger && <div className="book">
-                    <Header params={params} isBook/>
+                    <Header isBook/>
                     <div className="person-title">选择/新增乘客</div>
                     <div className="person-list">
                         {this.state.passengers.map((passenger, index) =>
@@ -285,34 +261,35 @@ export default class Book extends React.Component {
                                     </div>}
                             </div>
                         )}
+                        <div className="add-passenger-btn" onClick={this.addPassenger}>
+                            <i className="icon-plus"></i><span>新增乘客</span>
+                        </div>
                         {/* <div className="more">更多...</div> */}
                     </div>
                     {/* <div className="passenger-list">
                         旅客1 成人
                     </div> */}
-                    <div className="add-passenger-btn" onClick={this.addPassenger}>
-                    新增乘客
-                    </div>
                     <div className="contact-person-txt"> 联络人信息</div>
                     <div className="txt">若您预定的行程有任何问题，我们会主动联系您。</div>
                     <div className="contact-person-form">
-                        <div className="input-item" style={{ border: '0' }}>
+                        <div className="input-item" style={{ border: 0 }}>
                             <input onChange={this.getContactName} onBlur={this.validateName} onFocus={this.focusName}
                                 value={this.state.contactName} type="text" placeholder="联系人姓名"/>
                             {this.state.showMaxNameTip && <div>姓名长度最大为10位</div>}
-                            {this.state.showNamePassTip && <div className="pass">验证通过</div>}
+                            {/* {this.state.showNamePassTip && <div className="pass">验证通过</div>} */}
                         </div>
                         <div className="input-item">
                             <input type="text"  onFocus={this.focusPhone} onBlur={this.validatePhone}
                                 onChange={this.getContactPhone} value={this.state.contactPhone} placeholder="联系电话"/>
                             {this.state.showMaxPhoneTip && <div>电话号码最多为11位</div>}
-                            {this.state.showPhonePassTip && <div className="pass">验证通过</div>}
+                            {/* {this.state.showPhonePassTip && <div className="pass">验证通过</div>} */}
                         </div>
                         <div className="input-item">
                             <input type="text"  onFocus={this.focusEmail} onBlur={this.validateEmail}
                                 onChange={this.getContactEmail}  value={this.state.contactEmail} placeholder="电子邮箱"/>
-                            {this.state.showMaxEmailTip && <div>邮箱格式不正确</div>}
-                            {this.state.showEmailPassTip && <div className="pass">验证通过</div>}
+                            {this.state.showMaxEmailTip && <div>邮箱最多为20位</div>}
+                            {this.state.showError && <div>邮箱格式不正确</div>}
+                            {/* {this.state.showEmailPassTip && <div className="pass">验证通过</div>} */}
                         </div>
                     </div>
                     <div className="service-phone">
@@ -328,10 +305,24 @@ export default class Book extends React.Component {
                     </div>
                     <div className="prompt">按下＂付款＂以确认同意
                     </div>
+                    <div className="price-row style2">
+                        <span>成人</span>
+                        <span className="right">{'人民币 ' + (this.state.totalPrice) + 'X'
+                        + (this.state.passengersId.length === 0 ? 1 : this.state.passengersId.length)}元</span>
+                    </div>
+                    <div className="price-row style1">
+                        <span>票价</span>
+                        <span className="right">{'人民币 ' + this.state.ticketPrice }元</span>
+                    </div>
+                    <div className="price-row style1">
+                        <span>{'税&服务费'}</span>
+                        <span className="right">{'人民币 ' + this.state.airportTax}元</span>
+                    </div>
                     <div className="price">
                         <div className="tit">总价</div>
-                        <div><span className="money-type">人名币</span>
-                            <span className="number">{params.totalPrice}</span></div>
+                        <div style={{ marginRight: '10px' }}><span className="money-type">人名币</span>
+                            <span className="number">{((this.state.totalPrice * this.state.passengersId.length)
+                                || this.state.totalPrice) + '元'}</span></div>
                     </div>
                     <div className="comfirm-btn" onClick={this.createOrder}>确认</div>
                     <div className="secured">祝您旅途愉快！</div>

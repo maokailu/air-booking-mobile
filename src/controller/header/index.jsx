@@ -3,6 +3,7 @@ import './style.scss';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import utils from '../../resources/utils.js';
+import date from '../../resources/date';
 export default class Header extends React.Component {
     constructor(props) {
         super(props);
@@ -47,7 +48,7 @@ export default class Header extends React.Component {
         this.context.router.history.push(path);
     }
     goHome = () => {
-        location.href = 'http://localhost:8082/';
+        this.context.router.history.push('/home');
     }
     clickLoginOut = () =>{
         const exp = new Date();
@@ -55,7 +56,10 @@ export default class Header extends React.Component {
         const name = 'userId';
         var cval = utils.getCookie(name);
         if (cval !== null)  document.cookie = name + '=;expires=' + exp.toGMTString();
-        location.href = 'http://localhost:8082/login';
+        const path = {
+            pathname: `/login`
+        };
+        this.context.router.history.push(path);
     }
     render() {
         const arrow = classNames({
@@ -63,19 +67,33 @@ export default class Header extends React.Component {
             'icon-up-arrow': this.state.showHeaderMenu,
             'icon-down-arrow': !this.state.showHeaderMenu
         });
+        // console.log(utils.getUrlParam('flightType'));
         return (
             <div className = "header">
                 <div className={'head' + (this.props.isHome ? ' white-back' : ' blue-back')}
                     onClick={this.expandHeader}>
-                    <i className="logo"></i>
+                    <i className={(this.props.isHome ? 'white-logo' : 'blue-logo')}
+                        style={this.props.isList ? { transform: 'translateY(-13px)' } : {}} ></i>
+
                     {/* <i className={'logo-text' + (this.props.isHome ? ' blue' : ' white')}>机票预定</i> */}
-                    <i className={arrow}>
+                    <i className={arrow} style={this.props.isHome ? { color: '' } : { color: '#fff' }}>
                     </i>
+                    {/* style={this.props.isList ? { transform: 'translateY(-25px)' } : {}} */}
                     {
-                        this.props.isBook && <div className="book-title">
-                            <span>{this.props.params && this.props.params.departAirportName}</span>
-                            <span>到</span>
-                            <span>{this.props.params && this.props.params.arriveAirportName}</span>
+                        (this.props.isList || this.props.isBook) && <div className="book-title">
+                            <span>{utils.getUrlParam('departCityCodeSearch')}</span>
+                            <span className={(parseInt(utils.getUrlParam('flightType')) === 0) ?
+                                'icon-arrow-two-way' : 'icon-arrow-one-way'}></span>
+                            <span>{utils.getUrlParam('arriveCityCodeSearch')}</span><br/>
+                            {this.props.isList && <span >
+                                <span>{date.format(new Date(parseInt(utils.getUrlParam('departTimeSearch'))),
+                                    'yyyy-MM-dd')}</span>
+                                {' -'}
+                                <span>{date.format(new Date(parseInt(utils.getUrlParam('returnTimeSearch'))),
+                                    'yyyy-MM-dd')}
+                                </span>
+                                <span>{['头等舱', '商务舱', '经济舱'][parseInt(utils.getUrlParam('classType'))]}</span>
+                                <span>{utils.getUrlParam('passenger')}人</span></span>}
                         </div>
                     }
                 </div>

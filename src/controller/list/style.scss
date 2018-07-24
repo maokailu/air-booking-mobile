@@ -22,15 +22,19 @@
             justify-content: space-between;
             margin: 3px 0;
             .column1, .column2 {
-                display: inline-block;
+                display: inline-block;                
+                float: left;
                 .time {
                     font-size: 20px;
                 }
                 .loc {
                     color: #999;
-                    text-align: center;
+                    // text-align: center;
                     margin-top: -2px;
                 }
+            }
+            .column1{
+                width: 72px;
             }
             .arrow {
                 border-bottom: 1px solid gray;
@@ -41,7 +45,7 @@
                 display: flex;
                 align-items: center;
                 color: #1899F2;
-                font-size: 20px;
+                font-size: 15px;
                 font-weight: 700;
             }
         }
@@ -50,3 +54,26 @@
         }
     }
 }
+
+// 向右半角箭头
+.arrow-right-semiangle {
+    width: 60px;
+    display: flex;
+    float: left;
+    margin-right: 20px;
+    transform: translateY(-3px);
+    
+  
+    &::before {
+      content: '';
+      width: 70px;
+      height: 20px;
+      border-bottom: 1px solid #ccc;
+    }
+  
+    &::after {
+      content: '';
+      border-bottom: 3px solid #ccc;
+      border-right: 3px solid transparent;
+    }
+  }

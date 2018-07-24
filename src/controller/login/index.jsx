@@ -33,7 +33,7 @@ export default class Login extends React.Component {
             userId: this.state.username,
             password: this.state.password
         };
-        utils.getPromise(`http://localhost:8080/login`, params).then(json => {
+        utils.getPromise(`login`, params).then(json => {
             if (json) {
                 json = JSON.parse(json);
                 // 已存进cookie，表示登陆成功或在线

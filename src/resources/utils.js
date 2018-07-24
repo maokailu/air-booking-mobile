@@ -9,7 +9,7 @@ let getUrlParam = (name, url) => {
     let reg = new RegExp('.*[&?]' + name + '=([^&]*)(&|$)');
     let r;
     if (!url) {
-        r = window.location.search.match(reg);
+        r = window.location.hash.match(reg);
     } else {
         r = url.match(reg);
     }
@@ -37,7 +37,14 @@ const getPromise = (url, params) => {
             }
         };
         const client = new XMLHttpRequest();
-        client.open('POST', url);
+        let host;
+        if (location.host.indexOf('localhost') !== -1) {
+            host = 'http://www.restart1025.com/booking/';
+        } else {
+            host = './';
+        }
+        let path = host + url;
+        client.open('POST', path);
         client.onreadystatechange = handler;
         client.responseType = 'json';
         client.setRequestHeader('Accept', 'application/json');

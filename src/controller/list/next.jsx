@@ -4,8 +4,6 @@ import utils from '../../resources/utils';
 import Header from '../header';
 import Footer from '../footer';
 let param = {};
-let logoPic = ['hu', 'mf', 'ca', 'ho', 'mu'];
-let start = 0;
 let size  = 6;
 let hasToBottom = false;
 export default class Next extends React.Component {
@@ -19,23 +17,24 @@ export default class Next extends React.Component {
         departCityCode: localStorage.getItem('departCityCode') || 'SHA'
     }
     componentDidMount() {
-        start = utils.getUrlParam('start');
+        window.scrollTo(0, 0);
         this.getFlights();
         window.addEventListener('scroll', this.getMore);
     }
     getFlights = () => {
         param = {
-            departCityCode: utils.getUrlParam('departCityCode'),
-            arriveCityCode: utils.getUrlParam('arriveCityCode'),
-            flightType: utils.getUrlParam('tripType'),
-            departAirportCode: utils.getUrlParam('departAirportCode'),
-            arriveAirportCode: utils.getUrlParam('arriveAirportCode'),
-            departTime: utils.getUrlParam('departTime'),
+            departCityCode: utils.getUrlParam('arriveCityCodeSearch'),
+            arriveCityCode: utils.getUrlParam('departCityCodeSearch'),
+            flightType: utils.getUrlParam('flightType'),
+            departAirportCode: utils.getUrlParam('arriveAirportCodeSearch'),
+            arriveAirportCode: utils.getUrlParam('departAirportCodeSearch'),
+            departTime: utils.getUrlParam('returnTimeSearch'),
             classType: utils.getUrlParam('classType'),
             passenger: utils.getUrlParam('passenger')
         };
+        const start = 0; // patch
         const str = `start=${start}&size=${size}`;
-        utils.getPromise(`http://localhost:8080/getFlights?${str}`, param).then(json => {
+        utils.getPromise(`getFlights?${str}`, param).then(json => {
             if (json.length === 0) {
                 hasToBottom = true;
             } else {
@@ -61,42 +60,49 @@ export default class Next extends React.Component {
             var windowHeight =  document.documentElement.clientHeight || document.body.clientHeight;
             if (scrollTop + windowHeight > scrollHeight) {
                 console.log('已经到最底部了！');
-                start++;
                 this.getFlights();
             }
         }
     }
     goToDetail = flight => {
         console.log(flight);
-        const query = `departCityName=${utils.getUrlParam('departCityName')}&arriveCityName=${utils.getUrlParam('arriveCityName')}`
-            + `&departCityCode=${utils.getUrlParam('departCityCode')}&arriveCityCode=${utils.getUrlParam('arriveCityCode')}`
-            + `&departAirportCode=${flight.departAirportCode}&arriveAirportCode=${flight.arriveAirportCode}`
-            + `&departAirportName=${flight.departAirportName}&arriveAirportName=${flight.arriveAirportName}`
-            + `&departTime=${flight.departTime}&returnTime=${flight.returnTime}`
-            + `&passenger=${utils.getUrlParam('passenger')}&returnFlightId=${flight.flightId}`
-            + `&tripType=${flight.flightType}&classType=${utils.getUrlParam('classType')}`
-            + `&airportTax=${flight.airportTax}`
-            + `&ticketPrice=${flight.ticketPrice}`
-            + `&departFlightId=${utils.getUrlParam('departFlightId')}`;
+        const query =   `departCityNameSearch=${utils.getUrlParam('departCityNameSearch')}&arriveCityNameSearch=${utils.getUrlParam('arriveCityNameSearch')}`
+            + `&departCityCodeSearch=${utils.getUrlParam('departCityCodeSearch')}&arriveCityCodeSearch=${utils.getUrlParam('arriveCityCodeSearch')}`
+            + `&departAirportCodeSearch=${utils.getUrlParam('departAirportCodeSearch')}&arriveAirportCodeSearch=${utils.getUrlParam('arriveAirportCodeSearch')}`
+            + `&departAirportNameSearch=${utils.getUrlParam('departAirportNameSearch')}&departAirportNameSearch=${utils.getUrlParam('departAirportNameSearch')}`
+            + `&departTimeSearch=${utils.getUrlParam('departTimeSearch')}&returnTimeSearch=${utils.getUrlParam('returnTimeSearch')}`
+            + `&passenger=${utils.getUrlParam('passenger')}`
+            + `&flightType=${utils.getUrlParam('flightType')}&classType=${utils.getUrlParam('classType')}`
+
+
+            + `&departAirportCode1=${utils.getUrlParam('departAirportCode1')}&arriveAirportCode1=${utils.getUrlParam('arriveAirportCode1')}`
+            + `&departAirportName1=${utils.getUrlParam('departAirportName1')}&arriveAirportName1=${utils.getUrlParam('arriveAirportName1')}`
+            + `&departTime1=${utils.getUrlParam('departTime1')}&arriveTime1=${utils.getUrlParam('arriveTime1')}`
+            + `&flightId1=${utils.getUrlParam('flightId1')}`
+            + `&airportTax1=${utils.getUrlParam('airportTax1')}`
+            + `&ticketPrice1=${utils.getUrlParam('ticketPrice1')}`
+            + `&departAirportCode2=${flight.departAirportCode}&arriveAirportCode2=${flight.arriveAirportCode}`
+            + `&departAirportName2=${flight.departAirportName}&arriveAirportName2=${flight.arriveAirportName}`
+            + `&departTime2=${flight.departTime}&arriveTime2=${flight.returnTime}`
+            + `&flightId2=${flight.flightId}`
+            + `&airportTax2=${flight.airportTax}`
+            + `&ticketPrice2=${flight.ticketPrice}`;
         const path = {
             pathname: `/detail`,
             search: query
         };
+        console.log('query' + query);
         this.props.history.push(path);
     }
     render() {
         return (
             <div>
-                <Header isBook/>
+                <Header isList/>
                 <div className="list">
                     {this.state.flights && this.state.flights.length !== 0 && this.state.flights.map((flight, index) =>
                         <div key={index} className="item"  onClick={()=>this.goToDetail(flight)}>
                             <div className="row1">
-                                <img className="logo"
-                                    src={`http://pic.english.c-ctrip.com/airline_logo/32/
-                                    ${logoPic[Math.round((index + 1) / 3)]}.png`}/>
-                                <span className="airline">
-                                    {['海南航空', '厦门航空', '中国国航', '东方航空', '吉祥航空'][(Math.round((index + 1) / 3))]}</span>
+                                <img className="logo" />
                                 <span>{' ' + flight.flightId}</span>
                             </div>
                             <div className="row2">
@@ -107,7 +113,7 @@ export default class Next extends React.Component {
                                             (new Date(flight.departTime)).getMinutes()}</div>
                                         <div className="loc">{flight.departAirportName}</div>
                                     </div>
-                                    <span className="arrow"></span>
+                                    <i className={'arrow-right-semiangle'}/>
                                     <div className="column2">
                                         <div className="time">{(new Date(flight.returnTime)).getHours() + ':' +
                                         (new Date(flight.returnTime)).getMinutes()}</div>
@@ -118,6 +124,7 @@ export default class Next extends React.Component {
                                 parseInt(flight.ticketPrice)) + '元'}</span>
                             </div>
                             <div className="row3">
+                                <i className="icon-clock" />
                                 { Math.round(((parseInt(flight.returnTime - flight.departTime))
                                     / 1000 / 60 / 60)) + '小时'}
                                 { Math.round(((parseInt(flight.returnTime - flight.departTime))

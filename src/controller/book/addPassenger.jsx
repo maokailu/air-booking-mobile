@@ -33,22 +33,32 @@ export default class addPassenger extends React.Component {
         });
     }
     confirm = () => {
+        const userId =  utils.getCookie('userId');
         const param = {
             passengerId: new Date().getTime(),
             name: this.state.lastName + this.state.firstName,
             ownership: 'ZH',
-            userId: 1527264157474,
+            userId: userId || 1527264157474 || 'user',
             cardNumber: this.state.cardNumber,
             birthday: new Date(),
             gender: this.state.gender
         };
-        utils.getPromise('http://localhost:8080/addPassengers', param).then(json => {
-            // debugger
+        utils.getPromise('addPassengers', param).then(json => {
             this.props.addPassengerCallBack(1, param);
             console.log(json);
         }, error => {
             this.props.addPassengerCallBack(1);
             console.log(error);
+        });
+    }
+    selectMale = () =>{
+        this.setState({
+            selectMale: true
+        });
+    }
+    selectFemale = () =>{
+        this.setState({
+            selectFemale: true
         });
     }
     render() {
@@ -70,14 +80,20 @@ export default class addPassenger extends React.Component {
                             value={this.state.firstName} type="text" placeholder="名" />
                     </div>
                     <div className="gender">
-                        <div>男</div>
-                        <div>女</div>
+                        <div onClick={this.selectMale}>
+                            <input type="radio" />男
+                            {/* {this.state.selectMale && <span className="icon-check">已选</span>} */}
+                        </div>
+                        <div onClick={this.selectFemale}>
+                            <input type="radio" />女
+                            {/* {this.state.selectFemale && <span className="icon-check">已选</span>} */}
+                        </div>
                     </div>
                     <div className="input-box">
                         <input onChange={this.inputCardNumber}
                             value={this.state.cardNumber} className="last-name" placeholder="身份证号" type="text" />
                         <input onChange={this.inputBirthday}
-                            value={this.state.birthday} type="text" placeholder="出发日期" />
+                            value={this.state.birthday} type="date" placeholder="出发日期" />
                     </div>
                 </div>
             </div>
