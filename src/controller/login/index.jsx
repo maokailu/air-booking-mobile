@@ -1,6 +1,7 @@
 import React from 'react';
 import './style.scss';
-import utils from '../../resources/utils';
+import { fetchData, isEmpty, getUrlParam, isMobile, getPromise, getCookie} from '../../resources/utils';
+
 import { Toast } from '../../common/toast-portals';
 export default class Login extends React.Component {
     constructor(props) {
@@ -33,7 +34,7 @@ export default class Login extends React.Component {
             userId: this.state.username,
             password: this.state.password
         };
-        utils.getPromise(`login`, params).then(json => {
+        fetchData(`login`, params).then(json => {
             if (json) {
                 json = JSON.parse(json);
                 // 已存进cookie，表示登陆成功或在线

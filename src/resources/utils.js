@@ -5,7 +5,7 @@
  * @param {string} [url] 被截取的url
  * @returns {string} 截取的val
  */
-let getUrlParam = (name, url) => {
+export const getUrlParam = (name, url) => {
     let reg = new RegExp('.*[&?]' + name + '=([^&]*)(&|$)');
     let r;
     if (!url) {
@@ -20,49 +20,46 @@ let getUrlParam = (name, url) => {
 * 判断是否是手机号
 * @param {string} val 传进来的字符串
 */
-let isMobile = (val) => {
+export const isMobile = (val) => {
     let reg = /^1[3|4|5|7|8][0-9]\d{8}$/;
     return reg.test(val);
 };
-const getPromise = (url, params) => {
-    const promise = new Promise(function(resolve, reject) {
-        const handler = function() {
-            if (this.readyState !== 4) {
+export const fetchData = (url, params, method = 'POST') => {
+    const requestPromise = new Promise((resolve, reject) => {
+        const handler = () => {
+            if (xhr.readyState !== 4) {
                 return;
             }
-            if (this.status === 200) {
-                resolve(this.response);
+            if (xhr.status === 200) {
+                resolve(xhr.response);
             } else {
-                reject(new Error(this.statusText));
+                reject(new Error(xhr.statusText));
             }
         };
-        const client = new XMLHttpRequest();
-        let host;
-        if (location.host.indexOf('localhost') !== -1) {
-            host = 'http://www.restart1025.com/booking/';
-        } else {
-            host = './';
-        }
-        let path = host + url;
-        client.open('POST', path);
-        client.onreadystatechange = handler;
-        client.responseType = 'json';
-        client.setRequestHeader('Accept', 'application/json');
-        client.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-        client.withCredentials = true;
+        const xhr = new XMLHttpRequest();
+        const host = './';
+        const path = host + url;
+        xhr.open(method, path);
+        xhr.onreadystatechange = handler;
+        xhr.responseType = 'json';
+        xhr.setRequestHeader('Accept', 'application/json');
+        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
         const json = JSON.stringify(params);
-        json ? client.send(json) : client.send();
+        json ? xhr.send(json) : xhr.send();
     });
-    return promise;
+    const timeoutPromise = new Promise((resolve, reject) => {
+        setTimeout(() => reject(new Error('request timeout')), 10000);
+    });
+    return Promise.race([requestPromise, timeoutPromise]);
 };
-const isEmpty = obj =>{
+export const isEmpty = obj =>{
     if (Object.keys(obj).length === 0) {
         return true;
     } else {
         return false;
     }
 };
-const getCookie = (name) =>{
+export const getCookie = (name) =>{
     const cookieName = encodeURIComponent(name) + '=';
     const cookieStart = document.cookie.indexOf(cookieName);
     let cookieValue = null;
@@ -75,12 +72,4 @@ const getCookie = (name) =>{
             'UTF-8');
     }
     return cookieValue;
-};
-
-export default {
-    'getUrlParam': getUrlParam,
-    'isMobile': isMobile,
-    'getPromise': getPromise,
-    'isEmpty': isEmpty,
-    'getCookie': getCookie
 };

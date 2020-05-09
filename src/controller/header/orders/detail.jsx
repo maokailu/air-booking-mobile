@@ -1,6 +1,6 @@
 import React from 'react';
 import './style.scss';
-import utils from '../../../resources/utils';
+import { getUrlParam, fetchData } from '../../../resources/utils';
 import Footer from 'footer';
 export default class Orders extends React.Component {
     constructor(props) {
@@ -11,11 +11,11 @@ export default class Orders extends React.Component {
         order: {}
     }
     componentDidMount() {
-        const orderId = utils.getUrlParam('orderId');
+        const orderId = getUrlParam('orderId');
         this.getOrderDetail(orderId);
     }
     getOrderDetail = orderId => {
-        utils.getPromise(`getOrderByOrderId?orderId=${orderId}`).then(json => {
+        fetchData(`getOrderByOrderId?orderId=${orderId}`).then(json => {
             this.setState({
                 order: json
             });
@@ -49,7 +49,7 @@ export default class Orders extends React.Component {
     changeState = orderState =>{
         if (orderState === 1) {
             // 取消订单
-            utils.getPromise(`cancelOrderByOrderId?orderId=${this.state.order.orderId}`).then(() => {
+            fetchData(`cancelOrderByOrderId?orderId=${this.state.order.orderId}`).then(() => {
                 const order = this.state.order;
                 order.orderState = 0;
                 this.setState({
@@ -77,7 +77,7 @@ export default class Orders extends React.Component {
                     <div className="section1">
                         <div className="order-detail-title">
                             <span onClick={this.closeOrderDetail}>关闭</span>
-                            <span>订单号： {utils.getUrlParam('orderId')}</span>
+                            <span>订单号： {getUrlParam('orderId')}</span>
                             <span onClick={this.goToHome} className="icon-home"/>
                         </div>
                         <div className="state-and-price">

@@ -1,6 +1,6 @@
 import React from 'react';
 import './style.scss';
-import utils from '../../resources/utils';
+import { fetchData, isEmpty } from '../../resources/utils';
 export default class CitySelector extends React.Component {
     constructor(props) {
         super(props);
@@ -18,9 +18,9 @@ export default class CitySelector extends React.Component {
         this.state.hotCity.length === 0 && this.initGrid();
     }
     initGrid = () => {
-        utils.getPromise('getHotDestinations', null).then(json => {
+        fetchData('getHotDestinations', null).then(json => {
             json = JSON.parse(json);
-            if (!utils.isEmpty(json)) {
+            if (!isEmpty(json)) {
                 const hotCity = json['ZH'];
                 const jp = json['JP'];
                 const us = json['US'];
@@ -72,7 +72,7 @@ export default class CitySelector extends React.Component {
     searchGeo=event=>{
         if (event.target.value) {
             const param = `text=${event.target.value}`;
-            utils.getPromise(`getCitys?${param}`).then(json => {
+            fetchData(`getCitys?${param}`).then(json => {
                 console.log(json);
                 this.setState({
                     result: json

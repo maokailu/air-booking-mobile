@@ -1,6 +1,6 @@
 import React from 'react';
 import './style.scss';
-import utils from '../../resources/utils';
+import { fetchData, getUrlParam } from '../../resources/utils';
 import Footer from 'footer';
 import Header from 'header';
 import AddPassenger from './addPassenger';
@@ -21,16 +21,16 @@ export default class Book extends React.Component {
         showError: false,
         passengersId: [],
         showAddPassenger: false,
-        ticketPrice: parseInt(utils.getUrlParam('ticketPrice')),
-        airportTax: parseInt(utils.getUrlParam('airportTax')),
-        totalPrice: parseInt(utils.getUrlParam('totalPrice'))
+        ticketPrice: parseInt(getUrlParam('ticketPrice')),
+        airportTax: parseInt(getUrlParam('airportTax')),
+        totalPrice: parseInt(getUrlParam('totalPrice'))
     }
     componentDidMount() {
         window.scrollTo(0, 0);
-        const userId =  utils.getCookie('userId');
+        const userId =  getCookie('userId');
         if (userId) {
             const param = `userId=${userId}`;
-            utils.getPromise(`getPassengers?${param}`).then(json => {
+            fetchData(`getPassengers?${param}`).then(json => {
                 this.setState({
                     passengers: json
                 });
@@ -45,7 +45,7 @@ export default class Book extends React.Component {
         }
     }
     createOrder = () => {
-        const userId =  utils.getCookie('userId');
+        const userId =  getCookie('userId');
         if (userId) {
             const order = {
             // 从cookie中取，如果没有，要求登陆
@@ -64,8 +64,8 @@ export default class Book extends React.Component {
                 seatRequire: 1
             };
             const ticket = {
-                flightId: utils.getUrlParam('flightId1') + '-' + utils.getUrlParam('flightId2'),
-                cabinClassId: utils.getUrlParam('cabinClassId')
+                flightId: getUrlParam('flightId1') + '-' + getUrlParam('flightId2'),
+                cabinClassId: getUrlParam('cabinClassId')
             };
             let passengers = [];
             for (let i = 0; i < this.state.passengersId.length; i++) {
@@ -82,7 +82,7 @@ export default class Book extends React.Component {
                 passengers: passengers
                 // flightNo: flightNo
             };
-            utils.getPromise('booking', params).then(json => {
+            fetchData('booking', params).then(json => {
                 console.log(json);
                 json = JSON.parse(json);
                 this.goToPay(json);

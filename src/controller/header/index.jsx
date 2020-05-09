@@ -2,7 +2,7 @@ import React from 'react';
 import './style.scss';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import utils from '../../resources/utils.js';
+import { getUrlParam } from '../../resources/utils';
 import date from '../../resources/date';
 export default class Header extends React.Component {
     constructor(props) {
@@ -25,7 +25,7 @@ export default class Header extends React.Component {
         if (document.cookie.indexOf('userId') !== -1) {
             this.setState({
                 checked: true,
-                userName: utils.getCookie('userId')
+                userName: getCookie('userId')
             });
         }
     }
@@ -54,7 +54,7 @@ export default class Header extends React.Component {
         const exp = new Date();
         exp.setTime(exp.getTime() - 1);
         const name = 'userId';
-        var cval = utils.getCookie(name);
+        var cval = getCookie(name);
         if (cval !== null)  document.cookie = name + '=;expires=' + exp.toGMTString();
         const path = {
             pathname: `/login`
@@ -67,7 +67,7 @@ export default class Header extends React.Component {
             'icon-up-arrow': this.state.showHeaderMenu,
             'icon-down-arrow': !this.state.showHeaderMenu
         });
-        // console.log(utils.getUrlParam('flightType'));
+        // console.log(getUrlParam('flightType'));
         return (
             <div className = "header">
                 <div className={'head' + (this.props.isHome ? ' white-back' : ' blue-back')}
@@ -81,19 +81,19 @@ export default class Header extends React.Component {
                     {/* style={this.props.isList ? { transform: 'translateY(-25px)' } : {}} */}
                     {
                         (this.props.isList || this.props.isBook) && <div className="book-title">
-                            <span>{utils.getUrlParam('departCityCodeSearch')}</span>
-                            <span className={(parseInt(utils.getUrlParam('flightType')) === 0) ?
+                            <span>{getUrlParam('departCityCodeSearch')}</span>
+                            <span className={(parseInt(getUrlParam('flightType')) === 0) ?
                                 'icon-arrow-two-way' : 'icon-arrow-one-way'}></span>
-                            <span>{utils.getUrlParam('arriveCityCodeSearch')}</span><br/>
+                            <span>{getUrlParam('arriveCityCodeSearch')}</span><br/>
                             {this.props.isList && <span >
-                                <span>{date.format(new Date(parseInt(utils.getUrlParam('departTimeSearch'))),
+                                <span>{date.format(new Date(parseInt(getUrlParam('departTimeSearch'))),
                                     'yyyy-MM-dd')}</span>
                                 {' -'}
-                                <span>{date.format(new Date(parseInt(utils.getUrlParam('returnTimeSearch'))),
+                                <span>{date.format(new Date(parseInt(getUrlParam('returnTimeSearch'))),
                                     'yyyy-MM-dd')}
                                 </span>
-                                <span>{['头等舱', '商务舱', '经济舱'][parseInt(utils.getUrlParam('classType'))]}</span>
-                                <span>{utils.getUrlParam('passenger')}人</span></span>}
+                                <span>{['头等舱', '商务舱', '经济舱'][parseInt(getUrlParam('classType'))]}</span>
+                                <span>{getUrlParam('passenger')}人</span></span>}
                         </div>
                     }
                 </div>

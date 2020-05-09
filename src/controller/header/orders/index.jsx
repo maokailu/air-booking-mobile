@@ -1,6 +1,6 @@
 import React from 'react';
 import './style.scss';
-import utils from '../../../resources/utils';
+import { getCookie, fetchData } from '../../../resources/utils';
 import Header from 'header';
 import Footer from 'footer';
 // let param = {};
@@ -16,15 +16,15 @@ export default class Orders extends React.Component {
         departCityCode: localStorage.getItem('departCityCode') || 'SHA'
     }
     componentDidMount() {
-        let userId = utils.getCookie('userId');
+        let userId = getCookie('userId');
         const params = {
             user: {
                 userId: userId
             }
         };
         if (userId) {
-            userId = utils.getCookie('userId');
-            utils.getPromise(`getOrders`, params).then(json => {
+            userId = getCookie('userId');
+            fetchData(`getOrders`, params).then(json => {
                 this.setState({
                     orders: json
                 });

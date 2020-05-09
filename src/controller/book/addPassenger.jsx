@@ -1,6 +1,6 @@
 import React from 'react';
 import './addPassenger.scss';
-import utils from '../../resources/utils';
+import { fetchData } from '../../resources/utils';
 export default class addPassenger extends React.Component {
     constructor(props) {
         super(props);
@@ -33,7 +33,7 @@ export default class addPassenger extends React.Component {
         });
     }
     confirm = () => {
-        const userId =  utils.getCookie('userId');
+        const userId =  getCookie('userId');
         const param = {
             passengerId: new Date().getTime(),
             name: this.state.lastName + this.state.firstName,
@@ -43,7 +43,7 @@ export default class addPassenger extends React.Component {
             birthday: new Date(),
             gender: this.state.gender
         };
-        utils.getPromise('addPassengers', param).then(json => {
+        fetchData('addPassengers', param).then(json => {
             this.props.addPassengerCallBack(1, param);
             console.log(json);
         }, error => {

@@ -1,6 +1,7 @@
 import React from 'react';
 import './style.scss';
-import utils from '../../resources/utils';
+import { fetchData, getUrlParam } from '../../resources/utils';
+
 import Header from '../header';
 import Footer from '../footer';
 let param = {};
@@ -19,24 +20,24 @@ export default class First extends React.Component {
     }
     componentDidMount() {
         window.scrollTo(0, 0);
-        start = utils.getUrlParam('start');
+        start = getUrlParam('start');
         this.getFlights();
         window.addEventListener('scroll', this.getMore);
     }
     getFlights = () => {
         param = {
-            departCityCode: utils.getUrlParam('departCityCodeSearch'),
-            arriveCityCode: utils.getUrlParam('arriveCityCodeSearch'),
-            flightType: utils.getUrlParam('flightType'),
-            departAirportCode: utils.getUrlParam('departAirportCodeSearch'),
-            arriveAirportCode: utils.getUrlParam('arriveAirportCodeSearch'),
-            departTime: utils.getUrlParam('departTimeSearch'),
-            returnTime: utils.getUrlParam('returnTimeSearch'),
-            classType: utils.getUrlParam('classType'),
-            passenger: utils.getUrlParam('passenger')
+            departCityCode: getUrlParam('departCityCodeSearch'),
+            arriveCityCode: getUrlParam('arriveCityCodeSearch'),
+            flightType: getUrlParam('flightType'),
+            departAirportCode: getUrlParam('departAirportCodeSearch'),
+            arriveAirportCode: getUrlParam('arriveAirportCodeSearch'),
+            departTime: getUrlParam('departTimeSearch'),
+            returnTime: getUrlParam('returnTimeSearch'),
+            classType: getUrlParam('classType'),
+            passenger: getUrlParam('passenger')
         };
         const str = `start=${start}&size=${size}`;
-        utils.getPromise(`getFlights?${str}`, param).then(json => {
+        fetchData(`getFlights?${str}`, param).then(json => {
             if (json.length === 0) {
                 hasToBottom = true;
             } else {
@@ -68,13 +69,13 @@ export default class First extends React.Component {
     }
     goToNextPage = flight => {
         console.log(flight);
-        const query = `departCityNameSearch=${utils.getUrlParam('departCityNameSearch')}&arriveCityNameSearch=${utils.getUrlParam('arriveCityNameSearch')}`
-            + `&departCityCodeSearch=${utils.getUrlParam('departCityCodeSearch')}&arriveCityCodeSearch=${utils.getUrlParam('arriveCityCodeSearch')}`
-            + `&departAirportCodeSearch=${utils.getUrlParam('departAirportCodeSearch')}&arriveAirportCodeSearch=${utils.getUrlParam('arriveAirportCodeSearch')}`
-            + `&departAirportNameSearch=${utils.getUrlParam('departAirportNameSearch')}&departAirportNameSearch=${utils.getUrlParam('departAirportNameSearch')}`
-            + `&departTimeSearch=${utils.getUrlParam('departTimeSearch')}&returnTimeSearch=${utils.getUrlParam('returnTimeSearch')}`
-            + `&passenger=${utils.getUrlParam('passenger')}`
-            + `&flightType=${utils.getUrlParam('flightType')}&classType=${utils.getUrlParam('classType')}`
+        const query = `departCityNameSearch=${getUrlParam('departCityNameSearch')}&arriveCityNameSearch=${getUrlParam('arriveCityNameSearch')}`
+            + `&departCityCodeSearch=${getUrlParam('departCityCodeSearch')}&arriveCityCodeSearch=${getUrlParam('arriveCityCodeSearch')}`
+            + `&departAirportCodeSearch=${getUrlParam('departAirportCodeSearch')}&arriveAirportCodeSearch=${getUrlParam('arriveAirportCodeSearch')}`
+            + `&departAirportNameSearch=${getUrlParam('departAirportNameSearch')}&departAirportNameSearch=${getUrlParam('departAirportNameSearch')}`
+            + `&departTimeSearch=${getUrlParam('departTimeSearch')}&returnTimeSearch=${getUrlParam('returnTimeSearch')}`
+            + `&passenger=${getUrlParam('passenger')}`
+            + `&flightType=${getUrlParam('flightType')}&classType=${getUrlParam('classType')}`
             // + `&start=${}` // 分页稍后 用于进来时从0开始 用react-router的钩子
             + `&departAirportCode1=${flight.departAirportCode}&arriveAirportCode1=${flight.arriveAirportCode}`
             + `&departAirportName1=${flight.departAirportName}&arriveAirportName1=${flight.arriveAirportName}`
@@ -83,7 +84,7 @@ export default class First extends React.Component {
             + `&airportTax1=${flight.airportTax}`
             + `&ticketPrice1=${flight.ticketPrice}`;
         let path;
-        if (parseInt(utils.getUrlParam('flightType'))) {
+        if (parseInt(getUrlParam('flightType'))) {
             path = {
                 pathname: `/detail`,
                 search: query

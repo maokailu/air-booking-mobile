@@ -1,17 +1,18 @@
 import React from 'react';
 import './style.scss';
 import Header from 'header';
-import utils from '../../resources/utils';
+import { getUrlParam } from '../../resources/utils';
+
 class Result extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            resultInfo: utils.getUrlParam('resultInfo')
+            resultInfo: getUrlParam('resultInfo')
         };
     }
     componentDidMount() {
         window.scrollTo(0, 0);
-        utils.getUrlParam('resultInfo');
+        getUrlParam('resultInfo');
         console.log(this.state.resultInfo);
     }
     goToOrders = () =>{

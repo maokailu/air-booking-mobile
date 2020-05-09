@@ -10,7 +10,7 @@ import Next from '../list/next';
 import Detail from '../detail';
 import Book from '../book';
 import Login from '../login';
-import utils from '../../resources/utils';
+import { isEmpty, fetchData } from '../../resources/utils';
 import Header from 'header';
 import Footer from 'footer';
 import Result from '../result';
@@ -23,8 +23,8 @@ import Order from '../header/orders';
 import OrderDetail from '../header/orders/detail';
 let mySwiper;
 class Search extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             departCity: JSON.parse(localStorage.getItem('departCity')) || {},
             arriveCity: JSON.parse(localStorage.getItem('arriveCity')) || {},
@@ -43,14 +43,15 @@ class Search extends React.Component {
             end: localStorage.getItem('end') || -1,
             toggleCity: false,
             departCityData: JSON.parse(localStorage.getItem('departCity')) || {},
-            arriveCityData: JSON.parse(localStorage.getItem('arriveCity')) || {}
+            arriveCityData: JSON.parse(localStorage.getItem('arriveCity')) || {},
+            test: { a: 1, b: { bb: 2 } }
         };
     }
     static contextTypes = {
         router: PropTypes.object.isRequired
     }
     componentDidMount() {
-        if (utils.isEmpty(this.state.departCity)) {
+        if (isEmpty(this.state.departCity)) {
             this.getCurrentCityNum();
         }
         mySwiper = new Swiper('#swiper', {
@@ -67,10 +68,11 @@ class Search extends React.Component {
                 }
             }
         });
-        console.log(this.state.departDateObj);
+    }
+    componentDidUpdate() {
     }
     getCurrentCityNum = () => {
-        // utils.getPromise('http://api.map.baidu.com/location/ip?ak=MTsoYO1kC64Gagtb9FdsXg2fbyyQvoTA').then(json => {
+        // fetchData('http://api.map.baidu.com/location/ip?ak=MTsoYO1kC64Gagtb9FdsXg2fbyyQvoTA').then(json => {
         //     if (json && json.content) {
         //         const city = json.content.address_detail;
         //         if (city) {
@@ -86,7 +88,7 @@ class Search extends React.Component {
     initDepartCity = cityNum => {
         if (!cityNum) cityNum = 316;
         const params = `cityNum=${cityNum}`;
-        utils.getPromise(`getCurrentCityByCityNum?${params}`).then(json => {
+        fetchData(`getCurrentCityByCityNum?${params}`).then(json => {
             if (json) {
                 this.setState({
                     departCity: json
