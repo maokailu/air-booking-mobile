@@ -5,16 +5,16 @@ const URL = {
     getFlights: ''
 };
 
-export const fetchData = (method, url, params) => {
-    const requestPromise = new Promise((resolve, reject) => {
+export const fetchData = (method, url, params) =>
+    new Promise((resolve, reject) => {
         const handler = () => {
-            if (xhr.readyState !== 4) {
+            if (this.readyState !== 4) {
                 return;
             }
-            if (xhr.status === 200) {
-                resolve(xhr.response);
+            if (this.status === 200) {
+                resolve(this.response);
             } else {
-                reject(new Error(xhr.statusText));
+                reject(new Error(this.statusText));
             }
         };
         const xhr = new XMLHttpRequest();
@@ -25,14 +25,11 @@ export const fetchData = (method, url, params) => {
         xhr.responseType = 'json';
         xhr.setRequestHeader('Accept', 'application/json');
         xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-        const json = JSON.stringify(params);
-        json ? xhr.send(json) : xhr.send();
+        // 超时处理
+        xhr.timeout = 1000;
+        xhr.ontimeout(reject(new Error('request timeout')));
+        xhr.send(JSON.stringify(params));
     });
-    const timeoutPromise = new Promise((resolve, reject) => {
-        setTimeout(reject(new Error('request timeout')), 10000);
-    });
-    return Promise.race([requestPromise, timeoutPromise]);
-};
 
 // export const getCitys = params =>
 //     getData(URL['getCity']);

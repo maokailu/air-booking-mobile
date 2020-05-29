@@ -1,26 +1,26 @@
 import React from 'react';
 import './style.scss';
 import PropTypes from 'prop-types';
-import {
-    Route,
-    Switch, HashRouter, Redirect
-} from 'react-router-dom';
-import List from '../list/first';
-import Next from '../list/next';
-import Detail from '../detail';
-import Book from '../book';
-import Login from '../login';
+// import {
+//     Route,
+//     Switch, HashRouter, Redirect
+// } from 'react-router-dom';
+// import List from '../list/first';
+// import Next from '../list/next';
+// import Detail from '../detail';
+// import Book from '../book';
+// import Login from '../login';
 import { isEmpty, fetchData } from '../../resources/utils';
 import Header from 'header';
 import Footer from 'footer';
-import Result from '../result';
+// import Result from '../result';
 import CitySelector from 'citySelector';
 import DatePicker from '../../common/datePickerH5';
 import Swiper from 'swiper';
-import Account from '../header/account';
-import Help from '../header/help';
-import Order from '../header/orders';
-import OrderDetail from '../header/orders/detail';
+// import Account from '../header/account';
+// import Help from '../header/help';
+// import Order from '../header/orders';
+// import OrderDetail from '../header/orders/detail';
 let mySwiper;
 class Search extends React.Component {
     constructor(props) {
@@ -161,34 +161,34 @@ class Search extends React.Component {
         });
     }
     search = () => {
-        const departCity = this.state.departCity;
-        const arriveCity = this.state.arriveCity;
-        const departCityName = departCity.cityName;
-        const arriveCityName = arriveCity.cityName;
-        const departCityCode = departCity.cityCode;
-        const arriveCityCode = arriveCity.cityCode;
-        const departAirportCode = departCity.airportCode || 'ALL';
-        const arriveAirportCode = arriveCity.airportCode || 'ALL';
-        const departAirportName = departCity.airportName || '所有机场';
-        const arriveAirportName = arriveCity.airportName || '所有机场';
-        const departDate = this.state.departDateObj.getTime();
-        const returnDate = this.state.returnDateObj.getTime(); // 返回日期
-        const classType = mySwiper.realIndex;
-        const passenger = this.state.passenger;
-        const flightType = this.state.flightType;
+        // const departCity = this.state.departCity;
+        // const arriveCity = this.state.arriveCity;
+        // const departCityName = departCity.cityName;
+        // const arriveCityName = arriveCity.cityName;
+        // const departCityCode = departCity.cityCode;
+        // const arriveCityCode = arriveCity.cityCode;
+        // const departAirportCode = departCity.airportCode || 'ALL';
+        // const arriveAirportCode = arriveCity.airportCode || 'ALL';
+        // const departAirportName = departCity.airportName || '所有机场';
+        // const arriveAirportName = arriveCity.airportName || '所有机场';
+        // const departDate = this.state.departDateObj.getTime();
+        // const returnDate = this.state.returnDateObj.getTime(); // 返回日期
+        // const classType = mySwiper.realIndex;
+        // const passenger = this.state.passenger;
+        // const flightType = this.state.flightType;
         if (this.state.departCity) {
-            const query = `departCityNameSearch=${departCityName}&arriveCityNameSearch=${arriveCityName}`
-                + `&departCityCodeSearch=${departCityCode}&arriveCityCodeSearch=${arriveCityCode}`
-                + `&departAirportCodeSearch=${departAirportCode}&arriveAirportCodeSearch=${arriveAirportCode}`
-                + `&departAirportNameSearch=${departAirportName}&arriveAirportNameSearch=${arriveAirportName}`
-                + `&departTimeSearch=${departDate}&returnTimeSearch=${returnDate}`
-                + `&classType=${classType}&passenger=${passenger}`
-                + `&flightType=${flightType}&start=0`;
-            const path = {
-                pathname: `list`,
-                search: query
-            };
-            this.context.router.history.push(path);
+            // const query = `departCityNameSearch=${departCityName}&arriveCityNameSearch=${arriveCityName}`
+            //     + `&departCityCodeSearch=${departCityCode}&arriveCityCodeSearch=${arriveCityCode}`
+            //     + `&departAirportCodeSearch=${departAirportCode}&arriveAirportCodeSearch=${arriveAirportCode}`
+            //     + `&departAirportNameSearch=${departAirportName}&arriveAirportNameSearch=${arriveAirportName}`
+            //     + `&departTimeSearch=${departDate}&returnTimeSearch=${returnDate}`
+            //     + `&classType=${classType}&passenger=${passenger}`
+            //     + `&flightType=${flightType}&start=0`;
+            // const path = {
+            //     pathname: `list`,
+            //     search: query
+            // };
+            // this.context.router.history.push(path);
         } else {
             console.log('please input departCity');
         }
@@ -353,22 +353,23 @@ class Search extends React.Component {
     }
 }
 const Home = () => (
-    <HashRouter>
-        <Switch>
-            <Route exact path="/home" component={Search} />
-            <Route path="/list" component={List} />
-            <Route path="/next" component={Next} />
-            <Route path="/detail" component={Detail} />
-            <Route path="/book" component={Book} />
-            <Route path="/login" component={Login} />
-            <Route path="/result" component={Result} />
-            <Route path="/account" component={Account} />
-            <Route path="/help" component={Help} />
-            <Route path="/orders" component={Order} />
-            <Route path="/order-detail" component={OrderDetail} />
-            <Redirect path="/" to={{ pathname: '/home' }} />
-        </Switch>
-    </HashRouter>
+    <Search />
+    // <HashRouter>
+    //     <Switch>
+    //         <Route exact path="/home" component={Search} />
+    //         <Route path="/list" component={List} />
+    //         <Route path="/next" component={Next} />
+    //         <Route path="/detail" component={Detail} />
+    //         <Route path="/book" component={Book} />
+    //         <Route path="/login" component={Login} />
+    //         <Route path="/result" component={Result} />
+    //         <Route path="/account" component={Account} />
+    //         <Route path="/help" component={Help} />
+    //         <Route path="/orders" component={Order} />
+    //         <Route path="/order-detail" component={OrderDetail} />
+    //         <Redirect path="/" to={{ pathname: '/home' }} />
+    //     </Switch>
+    // </HashRouter>
 );
 
 export default Home

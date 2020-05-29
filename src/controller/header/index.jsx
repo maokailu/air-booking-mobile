@@ -2,7 +2,7 @@ import React from 'react';
 import './style.scss';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { getUrlParam } from '../../resources/utils';
+import { getUrlParam, getCookie } from '../../resources/utils';
 import date from '../../resources/date';
 export default class Header extends React.Component {
     constructor(props) {

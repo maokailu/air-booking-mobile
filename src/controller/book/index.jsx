@@ -1,6 +1,6 @@
 import React from 'react';
 import './style.scss';
-import { fetchData, getUrlParam } from '../../resources/utils';
+import { fetchData, getUrlParam, getCookie } from '../../resources/utils';
 import Footer from 'footer';
 import Header from 'header';
 import AddPassenger from './addPassenger';

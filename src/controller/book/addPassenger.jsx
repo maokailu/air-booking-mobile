@@ -1,6 +1,6 @@
 import React from 'react';
 import './addPassenger.scss';
-import { fetchData } from '../../resources/utils';
+import { fetchData, getCookie } from '../../resources/utils';
 export default class addPassenger extends React.Component {
     constructor(props) {
         super(props);
