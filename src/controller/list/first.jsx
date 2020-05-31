@@ -1,27 +1,26 @@
+import { hot } from 'react-hot-loader/root';
 import React from 'react';
 import './style.scss';
-import { fetchData, getUrlParam } from '../../resources/utils';
+import { fetchData, getUrlParam } from '../../lib/utils';
 
-import Header from '../header';
-import Footer from '../footer';
 let param = {};
 let start = 0;
 let size  = 6;
 let hasToBottom = false;
-export default class First extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+const flight =
+{ flightId: 'HK123', departTime: 1590807959568, returnTime: 1590807959568, airportTax: 1, ticketPrice: 111 };
 
+class First extends React.Component {
     state = {
-        flights: [],
+        flights: new Array(100).fill(flight),
         test: null,
+        isShowBtn: false,
         departCityCode: localStorage.getItem('departCityCode') || 'SHA'
     }
     componentDidMount() {
         window.scrollTo(0, 0);
         start = getUrlParam('start');
-        this.getFlights();
+        // this.getFlights();
         window.addEventListener('scroll', this.getMore);
     }
     getFlights = () => {
@@ -97,13 +96,18 @@ export default class First extends React.Component {
         }
         this.props.history.push(path);
     }
+    changeStatus = () => {
+        this.setState({
+            isShowBtn: true
+        });
+    }
     render() {
         return (
             <div>
-                <Header isList/>
-                <div className="list">
+                <div className="list" onClick={this.changeStatus}>
                     {this.state.flights && this.state.flights.map((flight, index) =>
-                        <div key={index} className="item"  onClick={()=>this.goToNextPage(flight)}>
+                        <div key={index} className="item">
+                            {this.state.isShowBtn && <div>BTN</div>}ddddddff
                             <div className="row1">
                                 <img className="logo"
                                     src={``}/>
@@ -142,8 +146,8 @@ export default class First extends React.Component {
                         </div>
                     )}
                 </div>
-                <Footer style={{ backgroundColor: '#EFEFF4' }}/>
             </div>
         );
     }
 }
+export default hot(First);

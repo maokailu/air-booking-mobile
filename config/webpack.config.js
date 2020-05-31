@@ -1,44 +1,25 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-
 var path = require('path');
 const { IS_PRODUCTION } = require('./config');
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
     context: path.resolve(__dirname, '../src'),
     entry: {
-        home: 'main.jsx',
-        list: 'controller/list/first.jsx',
-        detail: 'controller/detail/index.jsx',
-        book: 'controller/book/index.jsx'
+        home: 'main.jsx'
     },
-    // stats: {
-    //     performance: true,
-    //     chunks: true,
-    // },
     module: {
         rules: [
             {
-                test: /\.(jsx|\.js|\.tsx)$/,
-                loader: IS_PRODUCTION ? 'babel-loader' : 'babel-loader?cacheDirectory',
-                exclude: /node_modules/
-            },
-            {
                 test: /\.(scss|.css)$/,
                 use: [
-                    {
-                        loader: 'style-loader'
-                    },
-                    {
-                        loader: 'css-loader'
-                    }, {
-                        loader: 'sass-loader'
-                    }
+                    'style-loader', 'css-loader', 'sass-loader'
                 ]
             },
             {
                 test: /\.(png|jpg|gif|eot|woff|woff2|svg|ttf)$/,
-                loader: 'file-loader'
+                loader: 'file-loader',
+                include: path.resolve('src/assets')
             }, {
                 test: /\.tsx?$/,
                 use: [
@@ -50,17 +31,25 @@ module.exports = {
                         }
                     }
                 ]
+            },
+            {
+                test: /\.(jsx|\.js|\.tsx)$/,
+                use: [
+                    // 'thread-loader',
+                    IS_PRODUCTION ? 'babel-loader' : 'babel-loader?cacheDirectory'
+                ],
+                exclude: /node_modules/
             }
         ]
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, '../src/index.tmpl.html')
-        }),
-        new BundleAnalyzerPlugin({
-            analyzerPort: 8083
+            template: path.resolve('src/index.tmpl.html')
         })
 
+        // new BundleAnalyzerPlugin({
+        //     analyzerPort: 8083
+        // })
     ],
     optimization: {
         splitChunks: {
@@ -81,23 +70,15 @@ module.exports = {
             }
         }
     },
-    externals: [ // todo
-        // {
-        //     'react': true,
-        //     'react-dom': true
-        // },
-        // 'react',
-        // 'react-dom',
-        // 'swiper'
-    ],
+    externals: {
+        'react': 'React',
+        'react-dom': 'ReactDOM'
+    },
     resolve: {
-        modules: [path.resolve(__dirname, '../src'), 'node_modules'],
+        modules: [path.resolve('src'), 'node_modules'],
         extensions: ['.js', '.jsx', '.json', 'ts', 'tsx'],
         alias: {
-            header: path.resolve(__dirname, '../src/controller/header'),
-            footer: path.resolve(__dirname, '../src/controller/footer'),
-            citySelector: path.resolve(__dirname, '../src/common/citySelector'),
-            datePicker: path.resolve(__dirname, '../src/common/datePicker')
+            lib: path.resolve('src/lib')
         }
     }
 };

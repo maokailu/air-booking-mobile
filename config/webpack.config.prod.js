@@ -1,23 +1,28 @@
-//  webpack.production.config.js
-const ExtractCssPlugin = require('mini-css-extract-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
+const PurgecssPlugin = require('purgecss-webpack-plugin');
+const MiniCssPlugin = require('mini-css-extract-plugin');
+
 const base = require('./webpack.config.js');
 const merge = require('webpack-merge');
 const smp = new SpeedMeasurePlugin();
 var path = require('path');
 
+const glob = require('glob');
+const PATHS = {
+    src: path.join(__dirname, 'src')
+};
+
 module.exports = smp.wrap(merge(base, {
     devtool: 'none',
     mode: 'production',
     output: {
-        path: path.resolve(__dirname, '../dist'),
+        path: path.resolve('dist'),
         filename: '[name].[contenthash].js' // 更新长缓存
     },
     plugins: [
-        new ExtractCssPlugin(),
-        new TerserPlugin({
-            cache: true
+        new MiniCssPlugin(),
+        new PurgecssPlugin({
+            paths: glob.sync(`${PATHS.src}/**/*`,  { nodir: true })
         })
     ]
 }));
