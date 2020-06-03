@@ -1,18 +1,18 @@
 import React from 'react';
 import { render } from 'react-dom';
-import App from './controller/list/first';
+import Test from './components/test.jsx';
 import 'assets/fonts/global.scss';
 import './main.scss';
 
 if (module.hot) {
-    module.hot.accept('./controller/list/first', function() {
+    module.hot.accept('./components/test.jsx', function() {
         render(
-            <App />,
+            <Test />,
             document.body
         );
     });
 }
 render(
-    <App />,
+    <Test />,
     document.body
 );

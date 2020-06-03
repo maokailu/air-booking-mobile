@@ -1,8 +1,4 @@
-const IS_PRODUCTION = process.env.NODE_ENV === 'development';
-// const RELEASE_DIR = 'build';
-// const DEST_DIR = 'build';
-//  const RELEASE_DIR = 'build';
-//  const DEST_DIR = 'build';
+const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
 module.exports = {
     IS_PRODUCTION

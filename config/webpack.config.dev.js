@@ -8,23 +8,23 @@ module.exports = smp.wrap(merge(base, {
     // devtool: 'eval-source-map',
     mode: 'development',
     module: {
-        rules: [
-            {
-                enforce: 'pre',
-                test: /\.(jsx|\.js|\.tsx)$/,
-                use: [
-                    // { loader: 'thread-loader' },
-                    { loader: 'eslint-loader',
-                        options: {
-                        // cache: true, // todo
-                            emitError: true,
-                            emitWarning: true
-                        }
-                    }
-                ],
-                exclude: /node_modules/
-            }
-        ]
+        // rules: [
+        //     {
+        //         enforce: 'pre',
+        //         test: /\.(jsx|\.js|\.tsx)$/,
+        //         use: [
+        //             // { loader: 'thread-loader' },
+        //             { loader: 'eslint-loader',
+        //                 options: {
+        //                     // cache: true,
+        //                     emitError: true,
+        //                     emitWarning: true
+        //                 }
+        //             }
+        //         ],
+        //         exclude: /node_modules/
+        //     }
+        // ]
     },
     devServer: {
         contentBase: path.resolve('src/assets'),

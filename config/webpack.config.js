@@ -1,6 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
-const { IS_PRODUCTION } = require('./config');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
@@ -35,8 +34,8 @@ module.exports = {
             {
                 test: /\.(jsx|\.js|\.tsx)$/,
                 use: [
-                    // 'thread-loader',
-                    IS_PRODUCTION ? 'babel-loader' : 'babel-loader?cacheDirectory'
+                    'thread-loader',
+                    'babel-loader?cacheDirectory'
                 ],
                 exclude: /node_modules/
             }

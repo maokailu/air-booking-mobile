@@ -1,12 +1,29 @@
 
+    
+    @keyframes move {
+        0% {
+            transform: translateX(0px);
+        }
+        50% {
+            transform: translateX(10px);
+        }
+        100% {
+            transform: translateX(0px);
+        }
+    }
+    .animiation{
+        animation: move 1s linear infinite;
+    }
 .list{
     background-color: #EFEFF4;
     min-height: calc(100vh - 150px);
     padding-top: 5px;
+
+    height: 100%;
+    overflow: scroll;
     .item {
         background: #fff;
-        margin: 0 5px 5px 5px;
-        padding: 5px 12px;
+        margin: 10px 0;
         .row1 {
             .logo {
                 background: #fff;

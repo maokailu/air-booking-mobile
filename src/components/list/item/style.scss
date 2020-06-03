@@ -1,0 +1,28 @@
+
+.ul{
+    width:100vw;
+    overflow: hidden;
+    background: white;
+    height:40px;
+    // testitem
+    .item-box{
+        width:120vw;
+        height:40px;
+        color:white;
+        display: flex;
+        .item-left{
+            width:100vw;
+            color: black;
+            display: flex;
+            align-items: center;
+            justify-content : center;
+        }
+        .item-right{
+            width:20vw;
+            background:orange;
+            display: flex;
+            align-items: center;
+            justify-content : center;
+        }
+    }
+}
