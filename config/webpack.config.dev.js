@@ -5,7 +5,7 @@ const smp = new SpeedMeasurePlugin();
 var path = require('path');
 
 module.exports = smp.wrap(merge(base, {
-    // devtool: 'eval-source-map',
+    devtool: 'eval-source-map',
     mode: 'development',
     module: {
         // rules: [
