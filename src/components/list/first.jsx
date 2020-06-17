@@ -1,29 +1,26 @@
 import { hot } from 'react-hot-loader/root';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './style.scss';
 import Item from './item';
 
-const flight = { flightNo: 'HK123', des: '航班信息' };
 
-class First extends React.Component {
-    state = {
-        flights: new Array(1000).fill(flight),
-        test: null,
-        isShowBtn: false,
-        departCityCode: localStorage.getItem('departCityCode') || 'SHA'
-    }
-    render() {
-        return (
-            <div>
-                <div className="list" onClick={this.changeStatus} onScroll={this.getMore}>
-                    {this.state.flights && this.state.flights.map((flight, index) =>
-                        <div key={index} className="item">
-                            <Item {...flight}/>
-                        </div>
-                    )}
-                </div>
+function First(props) {
+    const flight = { flightNo: 'HK123', des: '航班信息' };
+    const [flights, setFlights] = useState([]);
+    console.log(new Array(1000).fill(flight), flights);
+    useEffect(() => {
+        setFlights(new Array(1000).fill(flight));
+    }, []);
+    return (
+        <div>
+            <div className="list">
+                {flights.map((item, index) =>
+                    <div key={index} className="item">
+                        <Item {...item}/>
+                    </div>
+                )}
             </div>
-        );
-    }
+        </div>
+    );
 }
 export default hot(First);
