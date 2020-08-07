@@ -1,6 +1,7 @@
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 const PurgecssPlugin = require('purgecss-webpack-plugin');
 const MiniCssPlugin = require('mini-css-extract-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const base = require('./webpack.config.js');
 const merge = require('webpack-merge');
@@ -23,6 +24,9 @@ module.exports = smp.wrap(merge(base, {
         new MiniCssPlugin(),
         new PurgecssPlugin({
             paths: glob.sync(`${PATHS.src}/**/*`,  { nodir: true })
+        }),
+        new BundleAnalyzerPlugin({
+            analyzerPort: 8083
         })
     ]
 }));

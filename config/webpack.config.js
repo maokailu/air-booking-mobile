@@ -1,6 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
     context: path.resolve(__dirname, '../src'),
@@ -45,11 +44,8 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: path.resolve('src/index.tmpl.html')
         })
-
-        // new BundleAnalyzerPlugin({
-        //     analyzerPort: 8083
-        // })
     ],
+
     optimization: {
         splitChunks: {
             minSize: 0,
@@ -69,10 +65,10 @@ module.exports = {
             }
         }
     },
-    externals: {
-        'react': 'React',
-        'react-dom': 'ReactDOM'
-    },
+    // externals: {
+    //     'react': 'React',
+    //     'react-dom': 'ReactDOM'
+    // },
     resolve: {
         modules: [path.resolve('src'), 'node_modules'],
         extensions: ['.js', '.jsx', '.json', 'ts', 'tsx'],
